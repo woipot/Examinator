@@ -38,5 +38,20 @@ namespace Examinator.mvvm.models.subModels
 
             return element;
         }
+
+        public static QuestionModel FromXML(XElement questElement, string answerName)
+        {
+            var text = questElement.FirstAttribute.Value;
+            var result = new QuestionModel(text);
+
+            var answers = questElement.Elements(answerName);
+
+            foreach (var answerElement in answers)
+            {
+                var answer = Answer.FromXML(answerElement);
+                result.Answers.Add(answer);
+            }
+            return result;
+        }
     }
 }

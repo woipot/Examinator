@@ -1,5 +1,7 @@
-﻿using System.Xml.Linq;
+﻿using System;
+using System.Xml.Linq;
 using DevExpress.Mvvm;
+using Examinator.other;
 
 namespace Examinator.mvvm.models.subModels
 {
@@ -28,6 +30,20 @@ namespace Examinator.mvvm.models.subModels
             element.Add(rightAttr);
 
             return element;
+        }
+
+        public static Answer FromXML(XElement element)
+        {
+            var textAttr = element.Attribute("AnswerText");
+            if(textAttr == null)
+                throw new TestException("Фаил поврежден: отсутствует текст ответа");
+
+            var isRightAttr = element.Attribute("IsRight");
+            var isRight = false;
+            if (isRightAttr != null)
+                isRight = bool.Parse(isRightAttr.Value);
+
+            return new Answer(textAttr.Value, isRight);
         }
     }
 }
