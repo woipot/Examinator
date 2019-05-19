@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Xml.Linq;
 using DevExpress.Mvvm;
 using Examinator.mvvm.models.subModels;
@@ -18,6 +20,8 @@ namespace Examinator.mvvm.models
 
         private const string TestDirectoryName = "Tests";
         private const string ResultDirectoryName = "Results";
+        private static string DeffaultPass = "19voenkr";
+
 
         private readonly string _baseDir;
 
@@ -109,7 +113,8 @@ namespace Examinator.mvvm.models
 
         static TestModel LoadTest(string path)
         {
-            var xdoc = XDocument.Load(path);
+            var text = DecryptFile(path);
+            var xdoc = XDocument.Parse(text);
 
             return TestModel.FromXMl(xdoc, TestModel.DeffaultBlockName, QuestionModel.DeffaultBlockName, Answer.DeffaultBlockName);
         }
@@ -118,7 +123,59 @@ namespace Examinator.mvvm.models
         {
             var xdoc = model.ToXML(TestModel.DeffaultBlockName, QuestionModel.DeffaultBlockName, Answer.DeffaultBlockName);
 
-            xdoc.Save(path);
+            EncryptToFile(xdoc.ToString(), path);
+            
+            //xdoc.Save(path);
+        }
+
+        private static void EncryptToFile(string input, string outputFile)
+        {
+            var ue = new UnicodeEncoding();
+            var key = ue.GetBytes(DeffaultPass);
+
+            var cryptFile = outputFile;
+            var fsCrypt = new FileStream(cryptFile, FileMode.Create);
+
+            var rmCrypto = new RijndaelManaged();
+
+            var cs = new CryptoStream(fsCrypt,
+                rmCrypto.CreateEncryptor(key, key),
+                CryptoStreamMode.Write);
+
+            var m = new MemoryStream(Encoding.Default.GetBytes(input));
+            int data;
+            while ((data = m.ReadByte()) != -1)
+                cs.WriteByte((byte)data);
+
+
+            m.Close();
+            cs.Close();
+            fsCrypt.Close();
+        }
+
+        private static string DecryptFile(string inputFile)
+        {
+            var ue = new UnicodeEncoding();
+            var key = ue.GetBytes(DeffaultPass);
+
+            var fsCrypt = new FileStream(inputFile, FileMode.Open);
+
+            var rmCrypto = new RijndaelManaged();
+
+            var cs = new CryptoStream(fsCrypt,
+                rmCrypto.CreateDecryptor(key, key),
+                CryptoStreamMode.Read);
+
+            var bytes = new List<byte>(); 
+
+            int data;
+            while ((data = cs.ReadByte()) != -1)
+                bytes.Add((byte)data);
+
+            cs.Close();
+            fsCrypt.Close();
+
+            return Encoding.Default.GetString(bytes.ToArray());
         }
     }
 }
