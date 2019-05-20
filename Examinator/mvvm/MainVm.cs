@@ -53,5 +53,7 @@ namespace Examinator.mvvm
 
         }
 
+        public DelegateCommand<object> ViewTestCommand { get; set; }
+
     }
 }
