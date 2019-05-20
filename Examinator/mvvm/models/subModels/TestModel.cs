@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text;
 using System.Xml.Linq;
 using DevExpress.Mvvm;
 using Examinator.other;
@@ -22,6 +23,7 @@ namespace Examinator.mvvm.models.subModels
             Questions = new ObservableCollection<QuestionModel>();
             CreatedDate = createdDate;
         }
+
         public TestModel(DateTime createdDate, string datePattern = "MM/dd/yyyy")
         {
             Questions = new ObservableCollection<QuestionModel>();
@@ -79,7 +81,8 @@ namespace Examinator.mvvm.models.subModels
             return xdoc;
         }
 
-        public static TestModel FromXMl(XDocument xdoc, string documentName, string questionName, string answerName, bool needToParseQuestions = true)
+        public static TestModel FromXMl(XDocument xdoc, string documentName, string questionName, string answerName,
+            bool needToParseQuestions = true)
         {
             var result = new TestModel();
 
@@ -94,7 +97,8 @@ namespace Examinator.mvvm.models.subModels
             var skipableAttr = testElement.Attribute("Skipable");
             var authorAttr = testElement.Attribute("Author");
 
-            result.TestName = nameAttr?.Value ?? throw new TestException("Фаил испорчен: невозможно прочитать название теста");
+            result.TestName = nameAttr?.Value ??
+                              throw new TestException("Фаил испорчен: невозможно прочитать название теста");
 
             if (timeAttr == null)
                 throw new TestException("Фаил испорчен: невозможно определить время на прохождение теста");
@@ -133,7 +137,8 @@ namespace Examinator.mvvm.models.subModels
             return result;
         }
 
-        public static IEnumerable<QuestionModel> QuestionsFromXElement(IEnumerable<XElement> elements, string answerName)
+        public static IEnumerable<QuestionModel> QuestionsFromXElement(IEnumerable<XElement> elements,
+            string answerName)
         {
             var result = new List<QuestionModel>();
 
@@ -145,5 +150,27 @@ namespace Examinator.mvvm.models.subModels
 
             return result;
         }
-    }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"TestName = {TestName}");
+            if(!string.IsNullOrEmpty(Author))
+                sb.AppendLine($"Author = {Author}");
+
+            sb.AppendLine($"Date = {CreatedDate}");
+
+            sb.AppendLine($"Time = {MinutsToTest}");
+            sb.AppendLine($"QuestionCount = {QuestionsInTest}");
+            sb.AppendLine($"Skipable = {Skipable}\n");
+
+            foreach (var questionModel in Questions)
+            {
+                sb.AppendLine(questionModel.ToString());
+            }
+
+            return sb.ToString();
+        }
+}
 }

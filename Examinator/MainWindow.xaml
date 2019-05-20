@@ -61,7 +61,7 @@
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" Grid.Column="0" Text="{Binding Path=TestName}" HorizontalAlignment="Center"/>
-                                <Button Grid.Column="1" CommandParameter="" Content="Смотреть" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
+                                <Button Grid.Column="1" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.ViewTestCommand}" Content="Смотреть" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
                                 <Button Grid.Column="2" Content="Редактировать" Margin="10, 0" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
                                 <Button Grid.Column="3" Content="Пройти"/>
                             </Grid>

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Text;
 using System.Xml.Linq;
 using DevExpress.Mvvm;
 
@@ -52,6 +53,20 @@ namespace Examinator.mvvm.models.subModels
                 result.Answers.Add(answer);
             }
             return result;
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            sb.AppendLine($"={QuestionText}");
+
+            foreach (var answerModel in Answers)
+            {
+                sb.AppendLine(answerModel.ToString());
+            }
+
+            return sb.ToString();
         }
     }
 }

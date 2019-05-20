@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Xml.Linq;
 using DevExpress.Mvvm;
 using Examinator.other;
@@ -44,6 +45,16 @@ namespace Examinator.mvvm.models.subModels
                 isRight = bool.Parse(isRightAttr.Value);
 
             return new AnswerModel(textAttr.Value, isRight);
+        }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            var first = IsRight ? "+" : "-";
+            sb.Append($"{first}{AnswerText}");
+
+            return sb.ToString();
         }
     }
 }

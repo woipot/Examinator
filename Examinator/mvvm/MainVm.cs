@@ -1,10 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using DevExpress.Mvvm;
 using Examinator.mvvm.models;
 using Examinator.mvvm.models.subModels;
+using Examinator.other;
 using Examinator.Views;
 
 namespace Examinator.mvvm
@@ -27,6 +29,7 @@ namespace Examinator.mvvm
             }
 
             SwitchModeCommand = new DelegateCommand(SwitchMode);
+            ViewTestCommand = new DelegateCommand<object>(OpenViewWindow);
         }
 
 
@@ -53,7 +56,36 @@ namespace Examinator.mvvm
 
         }
 
-        public DelegateCommand<object> ViewTestCommand { get; set; }
+        public DelegateCommand<object> ViewTestCommand { get; }
+
+        public void OpenViewWindow(object param)
+        {
+            var preloadedInfo = param as PreloadedTestInfo;
+
+            if (preloadedInfo == null)
+            {
+                MessageBox.Show("Внутреняя ошибка: Невозможно открыть данный тест");
+                return;
+            }
+
+            try
+            {
+                var testModel = Loader.LoadTest(preloadedInfo.AssociatedPath);
+                var viewWindow = new TestViewWindow(testModel);
+
+                viewWindow.Show();
+            }
+            catch (TestException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: невозможно загрузить файл");
+            }
+
+
+        }
 
     }
 }
