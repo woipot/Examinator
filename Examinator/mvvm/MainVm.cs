@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using DevExpress.Mvvm;
 using Examinator.mvvm.models;
 using Examinator.mvvm.models.subModels;
@@ -21,6 +20,10 @@ namespace Examinator.mvvm
 
         public MainVm()
         {
+            #if DEBUG
+                TeacherMode = true;
+            #endif
+
             _loader = new Loader();
 
             if (_loader.LoadExceptions.Any())
@@ -30,6 +33,7 @@ namespace Examinator.mvvm
 
             SwitchModeCommand = new DelegateCommand(SwitchMode);
             ViewTestCommand = new DelegateCommand<object>(OpenViewWindow);
+            EditTestCommand = new DelegateCommand<object>(OpenEditWindow);
         }
 
 
@@ -58,11 +62,9 @@ namespace Examinator.mvvm
 
         public DelegateCommand<object> ViewTestCommand { get; }
 
-        public void OpenViewWindow(object param)
+        private static void OpenViewWindow(object param)
         {
-            var preloadedInfo = param as PreloadedTestInfo;
-
-            if (preloadedInfo == null)
+            if (!(param is PreloadedTestInfo preloadedInfo))
             {
                 MessageBox.Show("Внутреняя ошибка: Невозможно открыть данный тест");
                 return;
@@ -83,8 +85,35 @@ namespace Examinator.mvvm
             {
                 MessageBox.Show("Что-то пошло не так: невозможно загрузить файл");
             }
+        }
 
 
+        public DelegateCommand<object> EditTestCommand { get; }
+
+        private static void OpenEditWindow(object param)
+        {
+            if (!(param is PreloadedTestInfo preloadedInfo))
+            {
+                MessageBox.Show("Внутреняя ошибка: Невозможно открыть данный тест");
+                return;
+            }
+
+            try
+            {
+                var testModel = Loader.LoadTest(preloadedInfo.AssociatedPath);
+
+                var editWindow = new EditTestWindow(testModel, preloadedInfo);
+                editWindow.Show();
+                
+            }
+            catch (TestException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: невозможно загрузить файл");
+            }
         }
 
     }
