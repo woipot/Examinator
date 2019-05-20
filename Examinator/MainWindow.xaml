@@ -8,6 +8,7 @@
         xmlns:mvvm="clr-namespace:Examinator.mvvm"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:converters="clr-namespace:Examinator.converters"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -20,7 +21,11 @@
     <Window.DataContext>
         <mvvm:MainVm/>
     </Window.DataContext>
-    
+
+    <Window.Resources>
+        <converters:BoolToHidenConverter x:Key="VisibilityConverter"/>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -29,7 +34,7 @@
         <Menu Grid.Row="0">
             
             <MenuItem Header="Фаил">
-                <MenuItem Header="Режим преподавателя" IsCheckable="True"/>
+                <MenuItem Header="Режим преподавателя" IsCheckable="True" IsChecked="{Binding TeacherMode, Mode=OneWay, UpdateSourceTrigger=LostFocus}" Command="{Binding SwitchModeCommand}"/>
                 <Separator/>
                 <MenuItem Header="Выход"/>
             </MenuItem>
@@ -39,8 +44,31 @@
         </Menu>
         
         <Grid Grid.Row="1">
-            <ListView ItemsSource="{Binding PreloadedTests}">
-            </ListView>
+            <materialDesign:Card Margin="10" Padding="10">
+                <ListView ItemsSource="{Binding PreloadedTests}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem">
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                        </Style>
+                    </ListView.ItemContainerStyle>
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="5">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                    <ColumnDefinition Width="auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" Grid.Column="0" Text="{Binding Path=TestName}" HorizontalAlignment="Center"/>
+                                <Button Grid.Column="1" Content="Смотреть" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
+                                <Button Grid.Column="2" Content="Редактировать" Margin="10, 0" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
+                                <Button Grid.Column="3" Content="Пройти"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+            </materialDesign:Card>
         </Grid>
     </Grid>
 </Window>

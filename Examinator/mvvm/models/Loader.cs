@@ -32,22 +32,22 @@ namespace Examinator.mvvm.models
         {
             _baseDir = AppDomain.CurrentDomain.BaseDirectory;
 
-            //var test = new TestModel(DateTime.Now);
-            //test.TestName = "cats are best";
-            //test.Author = "ivanov ivan";
-            //test.MinutsToTest = 1;
-            //test.QuestionsInTest = 10;
-            //var t = new QuestionModel("Кто такой мяуске");
-            //t.Answers.Add(new AnswerModel("кот", true));
-            //t.Answers.Add(new AnswerModel("медведь", false));
-            //t.Answers.Add(new AnswerModel("лошадь", false));
-            //test.Questions.Add(t);
-            //var r = new QuestionModel("Почему мяуске");
-            //r.Answers.Add(new AnswerModel("мясо", false));
-            //r.Answers.Add(new AnswerModel("шерсть", true));
-            //r.Answers.Add(new AnswerModel("ценная пушнина", false));
-            //test.Questions.Add(r);
-            //SaveTest(PathToTests + "\\tessssss.xml", test);
+            var test = new TestModel(DateTime.Now);
+            test.TestName = "cats are best to use they such as toilet";
+            test.Author = "ivanov ivan";
+            test.MinutsToTest = 1;
+            test.QuestionsInTest = 10;
+            var t = new QuestionModel("Кто такой мяуске");
+            t.Answers.Add(new AnswerModel("кот", true));
+            t.Answers.Add(new AnswerModel("медведь", false));
+            t.Answers.Add(new AnswerModel("лошадь", false));
+            test.Questions.Add(t);
+            var r = new QuestionModel("Почему мяуске");
+            r.Answers.Add(new AnswerModel("мясо", false));
+            r.Answers.Add(new AnswerModel("шерсть", true));
+            r.Answers.Add(new AnswerModel("ценная пушнина", false));
+            test.Questions.Add(r);
+            SaveTest(PathToTests + "\\tessssss.xml", test);
             //var res = LoadTest(PathToTests + "\\tessssss.xml");
 
 
