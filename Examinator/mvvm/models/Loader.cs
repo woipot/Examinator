@@ -99,16 +99,8 @@ namespace Examinator.mvvm.models
 
         static string GetTestName(string path)
         {
-            string name;
-            using (var sr = new StreamReader(path, System.Text.Encoding.Default))
-            {
-                name = sr.ReadLine();
-            }
-
-            if (string.IsNullOrEmpty(name))
-                throw new TestException("Файл поврежден : Невозможно прочитать название теста", path);
-
-            return name;
+            var test = LoadTest(path);
+            return test.TestName;
         }
 
         static TestModel LoadTest(string path)

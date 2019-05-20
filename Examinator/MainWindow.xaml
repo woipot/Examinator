@@ -1,4 +1,5 @@
-﻿<Window x:Class="Examinator.MainWindow"
+﻿
+<Window x:Class="Examinator.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,8 +7,41 @@
         xmlns:local="clr-namespace:Examinator"
         xmlns:mvvm="clr-namespace:Examinator.mvvm"
         mc:Ignorable="d"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Экзаминатор" Height="450" Width="800">
    
+    <Window.DataContext>
+        <mvvm:MainVm/>
+    </Window.DataContext>
+    
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            
+            <MenuItem Header="Фаил">
+                <MenuItem Header="Режим преподавателя" IsCheckable="True"/>
+                <Separator/>
+                <MenuItem Header="Выход"/>
+            </MenuItem>
+            
+            <MenuItem Header="Результаты">
+            </MenuItem>
+        </Menu>
+        
+        <Grid Grid.Row="1">
+            <ListView ItemsSource="{Binding PreloadedTests}">
+            </ListView>
+        </Grid>
     </Grid>
 </Window>
+

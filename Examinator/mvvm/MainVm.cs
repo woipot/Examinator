@@ -9,7 +9,7 @@ namespace Examinator.mvvm
 {
     public class MainVm : BindableBase
     {
-        private Loader _loader;
+        private readonly Loader _loader;
 
         public ObservableCollection<PreloadedTestInfo> PreloadedTests => _loader.PreloadedTests;
 
