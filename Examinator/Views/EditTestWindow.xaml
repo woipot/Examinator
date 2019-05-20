@@ -11,7 +11,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Background="{DynamicResource MaterialDesignPaper}"
+        Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Редактирование теста" Height="450" Width="800">
     <Window.DataContext>
@@ -23,7 +23,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <materialDesign:Card Margin="20" Padding="10">
+       
             <ScrollViewer VerticalScrollBarVisibility="Visible">
                 <ListView ItemsSource="{Binding Questions}">
                     <ListView.ItemContainerStyle>
@@ -33,6 +33,7 @@
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
                         <DataTemplate>
+                            <materialDesign:Card Padding="5" Margin="10,0">
                             <Grid Margin="5">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="*"/>
@@ -74,11 +75,11 @@
                                     </StackPanel>
                                 </Expander>
                             </Grid>
+                            </materialDesign:Card>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
             </ScrollViewer>
-        </materialDesign:Card>
         <Grid Grid.Row="1"  Margin="10">
             <Button Content="Добавить вопрос" HorizontalAlignment="Left" Margin="20, 0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
