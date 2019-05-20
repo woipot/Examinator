@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Xml.Linq;
 using DevExpress.Mvvm;
 using Examinator.other;
@@ -36,6 +38,8 @@ namespace Examinator.mvvm.models.subModels
 
         public int MinutsToTest { get; set; }
 
+        public int QuestionsInTest { get; set; }
+
         public ObservableCollection<QuestionModel> Questions { get; }
 
         public XDocument ToXML(string documentName, string questionName, string answerName)
@@ -45,9 +49,11 @@ namespace Examinator.mvvm.models.subModels
             var test = new XElement(documentName);
             var testNameAttr = new XAttribute("Name", TestName);
             var testTimeAttr = new XAttribute("Time", MinutsToTest);
+            var testCountAttr = new XAttribute("Count", QuestionsInTest);
             var testSkipableAttr = new XAttribute("Skipable", Skipable);
             test.Add(testNameAttr);
             test.Add(testTimeAttr);
+            test.Add(testCountAttr);
             test.Add(testSkipableAttr);
 
             if (!string.IsNullOrEmpty(CreatedDate))
@@ -73,17 +79,18 @@ namespace Examinator.mvvm.models.subModels
             return xdoc;
         }
 
-        public static TestModel FromXMl(XDocument xdoc, string documentName, string questionName, string answerName)
+        public static TestModel FromXMl(XDocument xdoc, string documentName, string questionName, string answerName, bool needToParseQuestions = true)
         {
             var result = new TestModel();
 
             var testElement = xdoc.Element(documentName);
-            if(testElement == null)
+            if (testElement == null)
                 throw new TestException("Фаил испорчен: невозможно прочитать заголовок");
 
             var nameAttr = testElement.Attribute("Name");
             var dateAttr = testElement.Attribute("Date");
             var timeAttr = testElement.Attribute("Time");
+            var countAttr = testElement.Attribute("Count");
             var skipableAttr = testElement.Attribute("Skipable");
             var authorAttr = testElement.Attribute("Author");
 
@@ -92,6 +99,10 @@ namespace Examinator.mvvm.models.subModels
             if (timeAttr == null)
                 throw new TestException("Фаил испорчен: невозможно определить время на прохождение теста");
             result.MinutsToTest = int.Parse(timeAttr.Value);
+
+            if (countAttr == null)
+                throw new TestException("Фаил испорчен: невозможно определить кол-во вопросов на тест");
+            result.QuestionsInTest = int.Parse(countAttr.Value);
 
             if (skipableAttr != null)
             {
@@ -110,10 +121,26 @@ namespace Examinator.mvvm.models.subModels
 
             var xquestions = testElement.Elements(questionName);
 
-            foreach (var questionElemnt in xquestions)
+            if (needToParseQuestions)
+            {
+                var questions = QuestionsFromXElement(xquestions, answerName);
+                foreach (var questionModel in questions)
+                {
+                    result.Questions.Add(questionModel);
+                }
+            }
+
+            return result;
+        }
+
+        public static IEnumerable<QuestionModel> QuestionsFromXElement(IEnumerable<XElement> elements, string answerName)
+        {
+            var result = new List<QuestionModel>();
+
+            foreach (var questionElemnt in elements)
             {
                 var question = QuestionModel.FromXML(questionElemnt, answerName);
-                result.Questions.Add(question);
+                result.Add(question);
             }
 
             return result;

@@ -36,15 +36,16 @@ namespace Examinator.mvvm.models
             //test.TestName = "cats are best";
             //test.Author = "ivanov ivan";
             //test.MinutsToTest = 1;
+            //test.QuestionsInTest = 10;
             //var t = new QuestionModel("Кто такой мяуске");
-            //t.Answers.Add(new Answer("кот", true));
-            //t.Answers.Add(new Answer("медведь", false));
-            //t.Answers.Add(new Answer("лошадь", false));
+            //t.Answers.Add(new AnswerModel("кот", true));
+            //t.Answers.Add(new AnswerModel("медведь", false));
+            //t.Answers.Add(new AnswerModel("лошадь", false));
             //test.Questions.Add(t);
             //var r = new QuestionModel("Почему мяуске");
-            //r.Answers.Add(new Answer("мясо", false));
-            //r.Answers.Add(new Answer("шерсть", true));
-            //r.Answers.Add(new Answer("ценная пушнина", false));
+            //r.Answers.Add(new AnswerModel("мясо", false));
+            //r.Answers.Add(new AnswerModel("шерсть", true));
+            //r.Answers.Add(new AnswerModel("ценная пушнина", false));
             //test.Questions.Add(r);
             //SaveTest(PathToTests + "\\tessssss.xml", test);
             //var res = LoadTest(PathToTests + "\\tessssss.xml");
@@ -99,16 +100,16 @@ namespace Examinator.mvvm.models
 
         static string GetTestName(string path)
         {
-            var test = LoadTest(path);
+            var test = LoadTest(path, true);
             return test.TestName;
         }
 
-        static TestModel LoadTest(string path)
+        static TestModel LoadTest(string path, bool loadOnlyHeader = false)
         {
             var text = DecryptFile(path);
             var xdoc = XDocument.Parse(text);
 
-            return TestModel.FromXMl(xdoc, TestModel.DeffaultBlockName, QuestionModel.DeffaultBlockName, AnswerModel.DeffaultBlockName);
+            return TestModel.FromXMl(xdoc, TestModel.DeffaultBlockName, QuestionModel.DeffaultBlockName, AnswerModel.DeffaultBlockName, !loadOnlyHeader);
         }
 
         static void SaveTest(string path, TestModel model)
