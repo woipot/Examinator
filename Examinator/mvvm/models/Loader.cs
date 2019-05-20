@@ -12,7 +12,7 @@ using Examinator.other;
 
 namespace Examinator.mvvm.models
 {
-    class Loader : BindableBase
+    internal class Loader : BindableBase
     {
         public ObservableCollection<PreloadedTestInfo> PreloadedTests { get; }
 
@@ -116,12 +116,12 @@ namespace Examinator.mvvm.models
             var text = DecryptFile(path);
             var xdoc = XDocument.Parse(text);
 
-            return TestModel.FromXMl(xdoc, TestModel.DeffaultBlockName, QuestionModel.DeffaultBlockName, Answer.DeffaultBlockName);
+            return TestModel.FromXMl(xdoc, TestModel.DeffaultBlockName, QuestionModel.DeffaultBlockName, AnswerModel.DeffaultBlockName);
         }
 
         static void SaveTest(string path, TestModel model)
         {
-            var xdoc = model.ToXML(TestModel.DeffaultBlockName, QuestionModel.DeffaultBlockName, Answer.DeffaultBlockName);
+            var xdoc = model.ToXML(TestModel.DeffaultBlockName, QuestionModel.DeffaultBlockName, AnswerModel.DeffaultBlockName);
 
             EncryptToFile(xdoc.ToString(), path);
             

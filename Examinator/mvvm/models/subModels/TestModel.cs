@@ -6,7 +6,7 @@ using Examinator.other;
 
 namespace Examinator.mvvm.models.subModels
 {
-    class TestModel : BindableBase
+    public class TestModel : BindableBase
     {
         public static string DeffaultBlockName = "Test";
 

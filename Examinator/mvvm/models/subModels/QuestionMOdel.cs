@@ -4,21 +4,21 @@ using DevExpress.Mvvm;
 
 namespace Examinator.mvvm.models.subModels
 {
-    class QuestionModel : BindableBase
+    public class QuestionModel : BindableBase
     {
         public static string DeffaultBlockName = "Question";   
 
         public string QuestionText { get; set; }
 
-        public ObservableCollection<Answer> Answers { get; }
+        public ObservableCollection<AnswerModel> Answers { get; }
 
         public QuestionModel(string questionText)
         {
             QuestionText = questionText;
-            Answers = new ObservableCollection<Answer>();
+            Answers = new ObservableCollection<AnswerModel>();
         }
 
-        public QuestionModel(string questionText, ObservableCollection<Answer> answers)
+        public QuestionModel(string questionText, ObservableCollection<AnswerModel> answers)
         {
             QuestionText = questionText;
             Answers = answers;
@@ -48,7 +48,7 @@ namespace Examinator.mvvm.models.subModels
 
             foreach (var answerElement in answers)
             {
-                var answer = Answer.FromXML(answerElement);
+                var answer = AnswerModel.FromXML(answerElement);
                 result.Answers.Add(answer);
             }
             return result;

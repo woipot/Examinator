@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.IO;
-using DevExpress.Mvvm;
-using Examinator.mvvm.models.subModels;
+﻿using DevExpress.Mvvm;
 
 namespace Examinator.mvvm.models
 {

@@ -5,7 +5,7 @@ using Examinator.other;
 
 namespace Examinator.mvvm.models.subModels
 {
-    class Answer : BindableBase
+    public class AnswerModel : BindableBase
     {
         public static string DeffaultBlockName = "Answer";
 
@@ -13,7 +13,7 @@ namespace Examinator.mvvm.models.subModels
         public bool IsSelected { get; set; }
         public bool IsRight { get; set;  }
 
-        public Answer(string answerText, bool isRight)
+        public AnswerModel(string answerText, bool isRight)
         {
             AnswerText = answerText;
             IsRight = isRight;
@@ -32,7 +32,7 @@ namespace Examinator.mvvm.models.subModels
             return element;
         }
 
-        public static Answer FromXML(XElement element)
+        public static AnswerModel FromXML(XElement element)
         {
             var textAttr = element.Attribute("AnswerText");
             if(textAttr == null)
@@ -43,7 +43,7 @@ namespace Examinator.mvvm.models.subModels
             if (isRightAttr != null)
                 isRight = bool.Parse(isRightAttr.Value);
 
-            return new Answer(textAttr.Value, isRight);
+            return new AnswerModel(textAttr.Value, isRight);
         }
     }
 }
