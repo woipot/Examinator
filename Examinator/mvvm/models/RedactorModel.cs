@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Text;
 using System.Windows;
 using System.Windows.Forms;
 using DevExpress.Mvvm;
@@ -21,6 +22,7 @@ namespace Examinator.mvvm.models
         public RedactorModel()
         {
             CloseWindowCommand = new DelegateCommand<Window>(CloseWindow);
+            SaveCommand = new DelegateCommand(Save);
         }
 
 
@@ -85,12 +87,25 @@ namespace Examinator.mvvm.models
         }
 
 
-
         public DelegateCommand<Window> CloseWindowCommand { get; }
 
         public void CloseWindow(Window window)
         {
             window?.Close();
+        }
+
+        public DelegateCommand SaveCommand { get; }
+
+        public void Save()
+        {
+            var result = TestModel.CheckToCorrect();
+            if (result.Item2)
+            {
+                MessageBox.Show("<Критическая ошибка>\n" + result.Item1);
+                return;
+            }
+         
+            
         }
 
     }

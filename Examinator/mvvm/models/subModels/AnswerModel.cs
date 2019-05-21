@@ -67,5 +67,10 @@ namespace Examinator.mvvm.models.subModels
         {
             return new AnswerModel(this);
         }
+
+        public bool IsCorrect()
+        {
+            return !string.IsNullOrEmpty(AnswerText);
+        }
     }
 }

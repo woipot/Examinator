@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Text;
 using System.Xml.Linq;
@@ -19,6 +20,7 @@ namespace Examinator.mvvm.models.subModels
             AddEmptyQuestionCommand = new DelegateCommand(AddEmptyQuestion);
         }
 
+
         public bool Skipable { get; set; } = true;
 
         public string TestName { get; set; }
@@ -32,6 +34,7 @@ namespace Examinator.mvvm.models.subModels
         public int QuestionsInTest { get; set; }
 
         public ObservableCollection<QuestionModel> Questions { get; }
+
 
         public XDocument ToXML(string documentName, string questionName, string answerName)
         {
@@ -162,12 +165,14 @@ namespace Examinator.mvvm.models.subModels
             return sb.ToString();
         }
 
+
         public DelegateCommand<QuestionModel> DeleteCommand { get; }
 
         public void Delete(QuestionModel question)
         {
             Questions.Remove(question);
         }
+
 
         public DelegateCommand AddEmptyQuestionCommand { get; }
 
@@ -176,11 +181,56 @@ namespace Examinator.mvvm.models.subModels
             Questions.Add(new QuestionModel(""));
         }
 
+
         public DelegateCommand<QuestionModel> CopyCommand { get; }
 
         public void AddCopy(QuestionModel question)
         {
             Questions.Add(new QuestionModel(question));
+        }
+
+        public Tuple<string, bool> CheckToCorrect()
+        {
+            var sb = new StringBuilder();
+            if (string.IsNullOrEmpty(TestName))
+            {
+                return new Tuple<string, bool>("<Отсутствует название теста>", true);
+            }
+
+            if (string.IsNullOrEmpty(Author))
+            {
+                sb.AppendLine("<Отсутствует Автор>");
+            }
+
+            if (MinutsToTest < 10)
+            {
+                sb.AppendLine("<Время на вопрос < 10 сек>");
+            }
+
+            if (QuestionsInTest < 1)
+            {
+                sb.AppendLine("<Кол-во вопросов для теста < 1 >");
+            }
+
+            var correctCounter = 0;
+            foreach (var questionModel in Questions)
+            {
+                var res = questionModel.CheckToCorrect();
+                if (res.Item2 == false)
+                    correctCounter++;
+                else if (string.IsNullOrEmpty(res.Item1))
+                {
+                    sb.AppendLine(res.Item1);
+                }
+            }
+
+            if (correctCounter == 0)
+            {
+                sb.AppendLine("<Отсутствуют корректные вопросы>");
+                return new Tuple<string, bool>(sb.ToString(), true);
+            }
+
+            return new Tuple<string, bool>(sb.ToString(), false);
         }
     }        
 }

@@ -14,6 +14,7 @@ namespace Examinator.mvvm.models.subModels
 
         public ObservableCollection<AnswerModel> Answers { get; }
 
+
         public QuestionModel(string questionText)
         {
             QuestionText = questionText;
@@ -30,6 +31,7 @@ namespace Examinator.mvvm.models.subModels
             DeleteCommand = new DelegateCommand<AnswerModel>(Delete);
             AddEmptyCommand = new DelegateCommand(AddEmpty);
         }
+
 
         public XElement ToXML(string blockName, string answersBlockName)
         {
@@ -75,10 +77,12 @@ namespace Examinator.mvvm.models.subModels
             return sb.ToString();
         }
 
+
         public object Clone()
         {
             return new QuestionModel(this);
         }
+
 
         public DelegateCommand<AnswerModel> DeleteCommand { get; }
 
@@ -87,11 +91,41 @@ namespace Examinator.mvvm.models.subModels
             Answers.Remove(answer);
         }
 
+
         public DelegateCommand AddEmptyCommand { get; }
 
         public void AddEmpty()
         {
             Answers.Add(new AnswerModel("", false));
+        }
+
+
+        public Tuple<string, bool> CheckToCorrect()
+        {
+            var sb = new StringBuilder();
+
+            if (string.IsNullOrEmpty(QuestionText))
+            {
+                sb.AppendLine("<Отсутствует текст вопроса>");
+                sb.AppendLine(ToString());
+
+                return new Tuple<string, bool>(sb.ToString(), true);
+            }
+
+            var counter = 0;
+            foreach (var answerModel in Answers)
+            {
+                var isCorrect = answerModel.IsCorrect();
+                if (isCorrect)
+                    counter++;
+            }
+            if (counter == 0)
+            {
+                sb.AppendLine("<Отсутствуют ответы> " + QuestionText);
+                return new Tuple<string, bool>(sb.ToString(), true);
+            }
+
+            return new Tuple<string, bool>(sb.ToString(), false);
         }
     }
 }
