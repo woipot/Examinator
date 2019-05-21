@@ -34,6 +34,7 @@ namespace Examinator.mvvm
             SwitchModeCommand = new DelegateCommand(SwitchMode);
             ViewTestCommand = new DelegateCommand<object>(OpenViewWindow);
             EditTestCommand = new DelegateCommand<object>(OpenEditWindow);
+            SolveTestCommand = new DelegateCommand<object>(OpenSolveWindow);
         }
 
 
@@ -90,6 +91,8 @@ namespace Examinator.mvvm
 
         public DelegateCommand<object> EditTestCommand { get; }
 
+        public DelegateCommand<object> SolveTestCommand { get; }
+
         private static void OpenEditWindow(object param)
         {
             if (!(param is PreloadedTestInfo preloadedInfo))
@@ -116,5 +119,30 @@ namespace Examinator.mvvm
             }
         }
 
+        private static void OpenSolveWindow(object param)
+        {
+            if (!(param is PreloadedTestInfo preloadedInfo))
+            {
+                MessageBox.Show("Внутреняя ошибка: Невозможно открыть данный тест");
+                return;
+            }
+
+            try
+            {
+                var testModel = Loader.LoadTest(preloadedInfo.AssociatedPath);
+
+                var solveWindow = new SolveTestWindow(testModel, preloadedInfo);
+                solveWindow.ShowDialog();
+
+            }
+            catch (TestException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: невозможно загрузить файл");
+            }
+        }
     }
 }
