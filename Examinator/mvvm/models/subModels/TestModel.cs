@@ -192,9 +192,13 @@ namespace Examinator.mvvm.models.subModels
         public Tuple<string, bool> CheckToCorrect()
         {
             var sb = new StringBuilder();
+
+            var critical = false;
+
             if (string.IsNullOrEmpty(TestName))
             {
-                return new Tuple<string, bool>("<Отсутствует название теста>", true);
+                sb.AppendLine("*<Отсутствует название теста>");
+                critical = true;
             }
 
             if (string.IsNullOrEmpty(Author))
@@ -216,21 +220,25 @@ namespace Examinator.mvvm.models.subModels
             foreach (var questionModel in Questions)
             {
                 var res = questionModel.CheckToCorrect();
+
                 if (res.Item2 == false)
                     correctCounter++;
-                else if (string.IsNullOrEmpty(res.Item1))
+                else if (!string.IsNullOrEmpty(res.Item1))
                 {
                     sb.AppendLine(res.Item1);
+
+                    if (res.Item2)
+                        critical = true;
                 }
             }
 
             if (correctCounter == 0)
             {
-                sb.AppendLine("<Отсутствуют корректные вопросы>");
-                return new Tuple<string, bool>(sb.ToString(), true);
+                sb.AppendLine("*<Отсутствуют корректные вопросы>");
+                critical = true;
             }
 
-            return new Tuple<string, bool>(sb.ToString(), false);
+            return new Tuple<string, bool>(sb.ToString(), critical);
         }
     }        
 }

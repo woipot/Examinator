@@ -104,12 +104,12 @@ namespace Examinator.mvvm.models.subModels
         {
             var sb = new StringBuilder();
 
+            var critical = false;
             if (string.IsNullOrEmpty(QuestionText))
             {
-                sb.AppendLine("<Отсутствует текст вопроса>");
+                sb.AppendLine("*<Отсутствует текст вопроса>");
                 sb.AppendLine(ToString());
-
-                return new Tuple<string, bool>(sb.ToString(), true);
+                critical = true;
             }
 
             var counter = 0;
@@ -121,11 +121,11 @@ namespace Examinator.mvvm.models.subModels
             }
             if (counter == 0)
             {
-                sb.AppendLine("<Отсутствуют ответы> " + QuestionText);
-                return new Tuple<string, bool>(sb.ToString(), true);
+                sb.AppendLine("*<Отсутствуют ответы> : " + QuestionText);
+                critical = true;
             }
 
-            return new Tuple<string, bool>(sb.ToString(), false);
+            return new Tuple<string, bool>(sb.ToString(), critical);
         }
     }
 }

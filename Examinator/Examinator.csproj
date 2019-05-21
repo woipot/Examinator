@@ -92,6 +92,9 @@
     <Compile Include="Views\EditTestWindow.xaml.cs">
       <DependentUpon>EditTestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ErrorWindow.xaml.cs">
+      <DependentUpon>ErrorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PasswordDialog.xaml.cs">
       <DependentUpon>PasswordDialog.xaml</DependentUpon>
     </Compile>
@@ -112,6 +115,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\EditTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ErrorWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

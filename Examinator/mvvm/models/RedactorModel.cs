@@ -101,7 +101,8 @@ namespace Examinator.mvvm.models
             var result = TestModel.CheckToCorrect();
             if (result.Item2)
             {
-                MessageBox.Show("<Критическая ошибка>\n" + result.Item1);
+                var errorWindow = new ErrorWindow("<Критическая ошибка = *>\n" + result.Item1);
+                errorWindow.ShowDialog();
                 return;
             }
          
