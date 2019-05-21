@@ -113,12 +113,25 @@ namespace Examinator.mvvm.models.subModels
             }
 
             var counter = 0;
+            var isRightAnswers = 0;
+
             foreach (var answerModel in Answers)
             {
                 var isCorrect = answerModel.IsCorrect();
                 if (isCorrect)
+                {
                     counter++;
+                    if (answerModel.IsRight)
+                        isRightAnswers++;
+                }
             }
+
+            if (isRightAnswers == 0)
+            {
+                sb.AppendLine("*<Не отмечен Верный ответ> : " + QuestionText);
+                critical = true;
+            }
+
             if (counter == 0)
             {
                 sb.AppendLine("*<Отсутствуют ответы> : " + QuestionText);
@@ -126,6 +139,21 @@ namespace Examinator.mvvm.models.subModels
             }
 
             return new Tuple<string, bool>(sb.ToString(), critical);
+        }
+
+        public void Clean()
+        {
+            if (string.IsNullOrEmpty(QuestionText))
+                QuestionText = "Заголовок вопроса";
+
+            for (var i = 0; i < Answers.Count; i++)
+            {
+                var answerModel = Answers[i];
+
+                if (!answerModel.IsCorrect())
+                    Answers.Remove(answerModel);
+            }
+
         }
     }
 }

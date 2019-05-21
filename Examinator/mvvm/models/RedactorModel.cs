@@ -105,8 +105,20 @@ namespace Examinator.mvvm.models
                 errorWindow.ShowDialog();
                 return;
             }
-         
-            
+
+            try
+            {
+                TestModel.Clean();
+
+                Loader.SaveTest(_info.AssociatedPath, TestModel);
+
+                _info.TestName = TestModel.TestName;
+                MessageBox.Show("Успешно сохранено!", "Результат");
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не по плану, непредвиденная ошибка");
+            }
         }
 
     }

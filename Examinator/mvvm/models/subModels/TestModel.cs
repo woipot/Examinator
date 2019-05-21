@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using DevExpress.Mvvm;
@@ -239,6 +240,39 @@ namespace Examinator.mvvm.models.subModels
             }
 
             return new Tuple<string, bool>(sb.ToString(), critical);
+        }
+
+        public void Clean()
+        {
+            if (string.IsNullOrEmpty(TestName))
+            {
+                TestName = "Загаловок теста";
+            }
+
+            if (string.IsNullOrEmpty(Author))
+            {
+                Author = "";
+            }
+
+            if (MinutsToTest < 10)
+            {
+                MinutsToTest = 10;
+            }
+
+            if (QuestionsInTest < 1)
+            {
+                QuestionsInTest = 20;
+            }
+
+            for (var i = 0; i < Questions.Count; i++)
+            {
+                var questionModel = Questions[i];
+                questionModel.Clean();
+
+                if(!questionModel.Answers.Any())
+                    Questions.Remove(questionModel);
+            }
+
         }
     }        
 }
