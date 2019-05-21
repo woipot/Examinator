@@ -123,15 +123,19 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
+
                                     <Expander Grid.Column="0">
                                         <Expander.Header>
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
-                                                <TextBox Grid.Column="0" Margin="20,0" Text="{Binding QuestionText}"/>
-                                                <Button Grid.Column="1" Margin="20,0" Content="Удалить вопрос"/>
+
+                                                <Ellipse  Grid.Column="0" Width="10"  Height="10"  Fill="Black"  Stroke="Black"  StrokeThickness="1" VerticalAlignment="Top"/>
+                                                <TextBox Grid.Column="1" Margin="20,0" Text="{Binding QuestionText}"/>
+                                                <Button Grid.Column="2" Margin="20,0" Content="Удалить вопрос"/>
                                             </Grid>
                                         </Expander.Header>
                                         <StackPanel Orientation="Vertical">
