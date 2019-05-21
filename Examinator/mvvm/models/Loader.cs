@@ -80,14 +80,15 @@ namespace Examinator.mvvm.models
         private IEnumerable<TestException> PreloadTests()
         {
             var errorsList = new List<TestException>();
-            var files = Directory.GetFiles(PathToTests);
+            var info = new DirectoryInfo(PathToTests);
+            var files = info.GetFiles().OrderBy(p=>p.CreationTime);
             foreach (var file in files)
             {
                 try
                 {
-                    var testName = GetTestName(file);
+                    var testName = GetTestName(file.FullName);
 
-                    PreloadedTests.Add(new PreloadedTestInfo(testName, file));
+                    PreloadedTests.Add(new PreloadedTestInfo(testName, file.FullName));
                 }
                 catch (TestException e)
                 {

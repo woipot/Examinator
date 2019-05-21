@@ -109,6 +109,7 @@ namespace Examinator.mvvm.models
             try
             {
                 TestModel.Clean();
+                TestModel.CreatedDate = DateTime.Now.ToString("MM/dd/yyyy");
 
                 Loader.SaveTest(_info.AssociatedPath, TestModel);
 
