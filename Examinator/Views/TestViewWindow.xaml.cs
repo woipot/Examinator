@@ -1,8 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Documents;
-using System.Windows.Markup;
-using System.Windows.Xps.Packaging;
-using System.Xml;
 using Examinator.mvvm.models.subModels;
 
 namespace Examinator.Views

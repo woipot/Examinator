@@ -6,7 +6,7 @@ using Examinator.other;
 
 namespace Examinator.mvvm.models.subModels
 {
-    public class AnswerModel : BindableBase
+    public class AnswerModel : BindableBase, ICloneable
     {
         public static string DeffaultBlockName = "Answer";
 
@@ -18,6 +18,12 @@ namespace Examinator.mvvm.models.subModels
         {
             AnswerText = answerText;
             IsRight = isRight;
+        }
+
+        public AnswerModel(AnswerModel answerModel)
+        {
+            AnswerText = answerModel.AnswerText;
+            IsRight = answerModel.IsRight;
         }
 
         public XElement ToXML(string elementName)
@@ -55,6 +61,11 @@ namespace Examinator.mvvm.models.subModels
             sb.Append($"{first}{AnswerText}");
 
             return sb.ToString();
+        }
+
+        public object Clone()
+        {
+            return new AnswerModel(this);
         }
     }
 }

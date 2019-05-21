@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using DevExpress.Mvvm;
@@ -16,18 +14,9 @@ namespace Examinator.mvvm.models.subModels
         public TestModel()
         {
             Questions = new ObservableCollection<QuestionModel>();
-        }
-
-        public TestModel(string createdDate)
-        {
-            Questions = new ObservableCollection<QuestionModel>();
-            CreatedDate = createdDate;
-        }
-
-        public TestModel(DateTime createdDate, string datePattern = "MM/dd/yyyy")
-        {
-            Questions = new ObservableCollection<QuestionModel>();
-            CreatedDate = createdDate.ToString(datePattern);
+            DeleteCommand = new DelegateCommand<QuestionModel>(Delete);
+            CopyCommand = new DelegateCommand<QuestionModel>(AddCopy);
+            AddEmptyQuestionCommand = new DelegateCommand(AddEmptyQuestion);
         }
 
         public bool Skipable { get; set; } = true;
@@ -172,5 +161,26 @@ namespace Examinator.mvvm.models.subModels
 
             return sb.ToString();
         }
-}
+
+        public DelegateCommand<QuestionModel> DeleteCommand { get; }
+
+        public void Delete(QuestionModel question)
+        {
+            Questions.Remove(question);
+        }
+
+        public DelegateCommand AddEmptyQuestionCommand { get; }
+
+        public void AddEmptyQuestion()
+        {
+            Questions.Add(new QuestionModel(""));
+        }
+
+        public DelegateCommand<QuestionModel> CopyCommand { get; }
+
+        public void AddCopy(QuestionModel question)
+        {
+            Questions.Add(new QuestionModel(question));
+        }
+    }        
 }

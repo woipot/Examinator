@@ -1,11 +1,12 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.Text;
 using System.Xml.Linq;
 using DevExpress.Mvvm;
 
 namespace Examinator.mvvm.models.subModels
 {
-    public class QuestionModel : BindableBase
+    public class QuestionModel : BindableBase, ICloneable
     {
         public static string DeffaultBlockName = "Question";   
 
@@ -17,12 +18,17 @@ namespace Examinator.mvvm.models.subModels
         {
             QuestionText = questionText;
             Answers = new ObservableCollection<AnswerModel>();
+            DeleteCommand = new DelegateCommand<AnswerModel>(Delete);
+            AddEmptyCommand = new DelegateCommand(AddEmpty);
         }
 
-        public QuestionModel(string questionText, ObservableCollection<AnswerModel> answers)
+        public QuestionModel(QuestionModel question)
         {
-            QuestionText = questionText;
-            Answers = answers;
+            QuestionText = question.QuestionText;
+            Answers = new ObservableCollection<AnswerModel>(question.Answers);
+
+            DeleteCommand = new DelegateCommand<AnswerModel>(Delete);
+            AddEmptyCommand = new DelegateCommand(AddEmpty);
         }
 
         public XElement ToXML(string blockName, string answersBlockName)
@@ -67,6 +73,25 @@ namespace Examinator.mvvm.models.subModels
             }
 
             return sb.ToString();
+        }
+
+        public object Clone()
+        {
+            return new QuestionModel(this);
+        }
+
+        public DelegateCommand<AnswerModel> DeleteCommand { get; }
+
+        public void Delete(AnswerModel answer)
+        {
+            Answers.Remove(answer);
+        }
+
+        public DelegateCommand AddEmptyCommand { get; }
+
+        public void AddEmpty()
+        {
+            Answers.Add(new AnswerModel("", false));
         }
     }
 }

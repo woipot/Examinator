@@ -14,7 +14,10 @@
         TextOptions.TextRenderingMode="Auto"
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="Редактирование теста" Height="450" Width="800">
+        Title="Редактирование теста" Height="450" Width="800"
+        x:Name ="Window"
+        Closing="EditTestWindow_OnClosing">
+    
     <Window.DataContext>
         <models:RedactorModel/>
     </Window.DataContext>
@@ -89,15 +92,6 @@
                         </StackPanel>
                         
                         <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-                            <StackPanel.ToolTip>
-                                <ToolTip>
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content="Кол-во вопросов, которые будут случайно выбраны" Foreground="Beige"/>
-                                        <Label Content="из общего списка вопросов, если это значение больше общего" Foreground="Beige"/>
-                                        <Label Content="кол-ва вопросов, будет задействованы все вопросы" Foreground="Beige"/>
-                                    </StackPanel>
-                                </ToolTip>
-                            </StackPanel.ToolTip>
                             <Label Content="Секунд на вопрос:"/>
                             <xctk:IntegerUpDown MinWidth="100" FormatString="N0" Value="{Binding MinutToTest}" Increment="1" Minimum="10"/>
                         </StackPanel>
@@ -131,11 +125,13 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="Auto"/>
+                                                    <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
 
                                                 <Ellipse  Grid.Column="0" Width="10"  Height="10"  Fill="Black"  Stroke="Black"  StrokeThickness="1" VerticalAlignment="Top"/>
                                                 <TextBox Grid.Column="1" Margin="20,0" Text="{Binding QuestionText}"/>
-                                                <Button Grid.Column="2" Margin="20,0" Content="Удалить вопрос"/>
+                                                <Button Grid.Column="2" FontSize="10" Content="Удалить вопрос"  Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}"/>
+                                                <Button Grid.Column="3" FontSize="10" Margin="20,0" Content="Копировать"  Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.CopyCommand}" CommandParameter="{Binding}"/>
                                             </Grid>
                                         </Expander.Header>
                                         <StackPanel Orientation="Vertical">
@@ -153,14 +149,14 @@
                                                                 <ColumnDefinition Width="Auto"/>
                                                                 <ColumnDefinition Width="Auto"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <Button Grid.Column="2" Content="Удалить"/>
+                                                            <Button Grid.Column="2" Content="Удалить" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" CommandParameter="{Binding}"/>
                                                             <CheckBox Margin="20,0" Grid.Column="1" IsChecked="{Binding IsRight, UpdateSourceTrigger=LostFocus}"/>
                                                             <TextBox Margin="20,0" Grid.Column="0" Text="{Binding AnswerText, UpdateSourceTrigger=LostFocus}"/>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </ListView>
-                                            <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"  HorizontalAlignment="Left" Content="Добавить ответ" Margin="40,20"/>
+                                            <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Command="{Binding AddEmptyCommand}" HorizontalAlignment="Left" Content="Добавить ответ" Margin="40,20"/>
                                         </StackPanel>
                                     </Expander>
                                 </Grid>
@@ -171,10 +167,10 @@
             </StackPanel>
         </ScrollViewer>
         <Grid Grid.Row="1"  Margin="10">
-            <Button Content="Добавить вопрос" HorizontalAlignment="Left" Margin="20, 0"/>
+            <Button Content="Добавить вопрос" Command="{Binding TestModel.AddEmptyQuestionCommand}" HorizontalAlignment="Left" Margin="20, 0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Content="Сохранить изменения" HorizontalAlignment="Right" Margin="20, 0"/>
-                <Button Content="Выйти" HorizontalAlignment="Right" Margin="20, 0"/>
+                <Button Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=Window}" Content="Выйти" HorizontalAlignment="Right" Margin="20, 0"/>
             </StackPanel>
         </Grid>
     </Grid>

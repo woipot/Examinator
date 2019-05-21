@@ -1,7 +1,13 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Forms;
 using DevExpress.Mvvm;
 using Examinator.mvvm.models.subModels;
+using Examinator.Views;
+using Button = System.Windows.Controls.Button;
+using MessageBox = System.Windows.MessageBox;
 
 namespace Examinator.mvvm.models
 {
@@ -11,6 +17,12 @@ namespace Examinator.mvvm.models
         private PreloadedTestInfo _info;
 
         public ObservableCollection<QuestionModel> Questions => _testModel?.Questions;
+
+        public RedactorModel()
+        {
+            CloseWindowCommand = new DelegateCommand<Window>(CloseWindow);
+        }
+
 
         public TestModel TestModel => _testModel;
 
@@ -72,6 +84,14 @@ namespace Examinator.mvvm.models
             RaisePropertiesChanged("QuestionsInTestCount");
         }
 
+
+
+        public DelegateCommand<Window> CloseWindowCommand { get; }
+
+        public void CloseWindow(Window window)
+        {
+            window?.Close();
+        }
 
     }
 }
