@@ -1,13 +1,9 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Text;
 using System.Windows;
-using System.Windows.Forms;
 using DevExpress.Mvvm;
 using Examinator.mvvm.models.subModels;
 using Examinator.Views;
-using Button = System.Windows.Controls.Button;
 using MessageBox = System.Windows.MessageBox;
 
 namespace Examinator.mvvm.models
