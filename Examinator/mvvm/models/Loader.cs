@@ -32,23 +32,53 @@ namespace Examinator.mvvm.models
         {
             _baseDir = AppDomain.CurrentDomain.BaseDirectory;
 
-            //var test = new TestModel(DateTime.Now);
-            //test.TestName = "cats are best to use they such as toilet";
-            //test.Author = "ivanov ivan";
-            //test.MinutsToTest = 1;
-            //test.QuestionsInTest = 10;
-            //var t = new QuestionModel("Кто такой мяуске");
-            //t.Answers.Add(new AnswerModel("кот", true));
-            //t.Answers.Add(new AnswerModel("медведь", false));
-            //t.Answers.Add(new AnswerModel("лошадь", false));
-            //test.Questions.Add(t);
-            //var r = new QuestionModel("Почему мяуске");
-            //r.Answers.Add(new AnswerModel("мясо", false));
-            //r.Answers.Add(new AnswerModel("шерсть", true));
-            //r.Answers.Add(new AnswerModel("ценная пушнина", false));
-            //test.Questions.Add(r);
-            //SaveTest(PathToTests + "\\tessssss.xml", test);
-            //var res = LoadTest(PathToTests + "\\tessssss.xml");
+            var test = new TestModel(DateTime.Now);
+            //test.Skipable = false;
+            test.TestName = "Как хорошо ты знаешь мяуске?";
+            test.Author = "ivanov ivan";
+            test.MinutsToTest = 1;
+            test.QuestionsInTest = 10;
+            var t = new QuestionModel("Кто такой мяуске");
+            t.Answers.Add(new AnswerModel("кот", true));
+            t.Answers.Add(new AnswerModel("медведь", false));
+            t.Answers.Add(new AnswerModel("лошадь", false));
+            test.Questions.Add(t);
+            var r = new QuestionModel("Почему мяуске");
+            r.Answers.Add(new AnswerModel("мясо", false));
+            r.Answers.Add(new AnswerModel("шерсть", true));
+            r.Answers.Add(new AnswerModel("ценная пушнина", false));
+            test.Questions.Add(r);
+
+            r = new QuestionModel("Зачем нужен мяуске");
+            r.Answers.Add(new AnswerModel("почувствовать себя рабом", true));
+            r.Answers.Add(new AnswerModel("купить пылесос", false));
+            r.Answers.Add(new AnswerModel("чтобы лежать с ним", false));
+            test.Questions.Add(r);
+
+            r = new QuestionModel("Какого цвета бывает мяуске");
+            r.Answers.Add(new AnswerModel("Красный", false));
+            r.Answers.Add(new AnswerModel("Белый", true));
+            r.Answers.Add(new AnswerModel("Синий", false));
+            r.Answers.Add(new AnswerModel("Зеленый", false));
+            r.Answers.Add(new AnswerModel("Желтый", false));
+            test.Questions.Add(r);
+            test.Questions.Add(r);
+            test.Questions.Add(r);
+            test.Questions.Add(r);
+            test.Questions.Add(r);
+            test.Questions.Add(r);
+            test.Questions.Add(r);
+            test.Questions.Add(r);
+            r = new QuestionModel("Где найти мяуске");
+            r.Answers.Add(new AnswerModel("В лесу", false));
+            r.Answers.Add(new AnswerModel("Под кроватью", true));
+            r.Answers.Add(new AnswerModel("На люстре", false));
+            r.Answers.Add(new AnswerModel("В космосе ", false));
+            r.Answers.Add(new AnswerModel("В вузе", false));
+            test.Questions.Add(r);
+
+            SaveTest(PathToTests + "\\tessssss.xml", test);
+            var res = LoadTest(PathToTests + "\\tessssss.xml");
 
 
             if (!StructureIsReady())
@@ -140,8 +170,7 @@ namespace Examinator.mvvm.models
             int data;
             while ((data = m.ReadByte()) != -1)
                 cs.WriteByte((byte)data);
-
-
+            
             m.Close();
             cs.Close();
             fsCrypt.Close();

@@ -12,6 +12,8 @@ namespace Examinator.mvvm.models.subModels
 
         public string QuestionText { get; set; }
 
+        public int Number { get; set; }
+
         public ObservableCollection<AnswerModel> Answers { get; }
 
 

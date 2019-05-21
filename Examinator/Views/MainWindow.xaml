@@ -33,7 +33,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0">
             
-            <MenuItem Header="Фаил">
+            <MenuItem Header="Файл">
                 <MenuItem Header="Режим преподавателя" IsCheckable="True" IsChecked="{Binding TeacherMode, Mode=OneWay, UpdateSourceTrigger=LostFocus}" Command="{Binding SwitchModeCommand}"/>
                 <Separator/>
                 <MenuItem Header="Выход"/>
@@ -63,7 +63,7 @@
                                 <TextBlock Style="{DynamicResource MaterialDesignTitleTextBlock}" Grid.Column="0" Text="{Binding Path=TestName}" HorizontalAlignment="Center"/>
                                 <Button Grid.Column="1" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.ViewTestCommand}" Content="Смотреть" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
                                 <Button Grid.Column="2" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.EditTestCommand}" Content="Редактировать" Margin="10, 0" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
-                                <Button Grid.Column="3" Content="Пройти"/>
+                                <Button Grid.Column="3" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.SolveTestCommand}" Content="Пройти" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
