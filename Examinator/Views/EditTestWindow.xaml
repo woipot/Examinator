@@ -6,6 +6,7 @@
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:models="clr-namespace:Examinator.mvvm.models"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
@@ -23,8 +24,92 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-       
-            <ScrollViewer VerticalScrollBarVisibility="Visible">
+        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,15,0,0">
+            <StackPanel Orientation="Vertical">
+                <materialDesign:Card Padding="5" Margin="15">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                    
+                        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
+                            <Label Content="Название теста:"/>
+                            <TextBox Text="{Binding TestModel.TestName}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
+                            <Label Content="Автор:"/>
+                            <TextBox Text="{Binding TestModel.Author}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
+                            <Label Content="Послледнее изменение:"/>
+                            <Label Content="{Binding TestModel.CreatedDate}"/>
+                        </StackPanel>
+
+                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
+                            <StackPanel.ToolTip>
+                                <ToolTip>
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content="Если данное поле выбрано, при прохождении теста," Foreground="Beige"/>
+                                        <Label Content="будет возможность отвечать на вопросы в любом порядке," Foreground="Beige"/>
+                                        <Label Content="а суммарное время теста будет высчитано на основе:" Foreground="Beige"/>
+                                        <Label Content="Кол-во вопросов в тесте * время на один вопрос" Foreground="Beige"/>
+                                    </StackPanel>
+                                </ToolTip>
+                            </StackPanel.ToolTip>
+                            <Label Content="Можно пропускать вопросы:"/>
+                            <CheckBox IsChecked="{Binding TestModel.Skipable}"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+                            <StackPanel.ToolTip>
+                                <ToolTip>
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content="Кол-во вопросов, которые будут случайно выбраны" Foreground="Beige"/>
+                                        <Label Content="из общего списка вопросов, если это значение больше общего" Foreground="Beige"/>
+                                        <Label Content="кол-ва вопросов, будет задействованы все вопросы" Foreground="Beige"/>
+                                    </StackPanel>
+                                </ToolTip>
+                            </StackPanel.ToolTip>
+                            <Label Content="Вопросов в тесте:"/>
+                            <xctk:IntegerUpDown MinWidth="100" FormatString="N0" Value="{Binding QuestionsInTestCount}" Increment="1" Minimum="1"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal">
+                            <Label Content="Всего вопросов: "/>                            
+                            <Label Content="{Binding Questions.Count}"/>
+                        </StackPanel>
+                        
+                        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
+                            <StackPanel.ToolTip>
+                                <ToolTip>
+                                    <StackPanel Orientation="Vertical">
+                                        <Label Content="Кол-во вопросов, которые будут случайно выбраны" Foreground="Beige"/>
+                                        <Label Content="из общего списка вопросов, если это значение больше общего" Foreground="Beige"/>
+                                        <Label Content="кол-ва вопросов, будет задействованы все вопросы" Foreground="Beige"/>
+                                    </StackPanel>
+                                </ToolTip>
+                            </StackPanel.ToolTip>
+                            <Label Content="Секунд на вопрос:"/>
+                            <xctk:IntegerUpDown MinWidth="100" FormatString="N0" Value="{Binding MinutToTest}" Increment="1" Minimum="10"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
+                            <Label Content="Общее время теста: "/>
+                            <Label Content="{Binding FullTime}"/>
+                        </StackPanel>
+
+                    </Grid>
+                </materialDesign:Card>
+                
                 <ListView ItemsSource="{Binding Questions}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
@@ -34,57 +119,58 @@
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <materialDesign:Card Padding="5" Margin="10,0">
-                            <Grid Margin="5">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Expander Grid.Column="0">
-                                    <Expander.Header>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*"/>
-                                                <ColumnDefinition Width="Auto"/>
-                                            </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" Margin="20,0" Text="{Binding QuestionText}"/>
-                                            <Button Grid.Column="1" Margin="20,0" Content="Удалить вопрос"/>
-                                        </Grid>
-                                    </Expander.Header>
-                                    <StackPanel Orientation="Vertical">
-                                        <ListView ItemsSource="{Binding Answers}">
-                                            <ListView.ItemContainerStyle>
-                                                <Style TargetType="ListViewItem">
-                                                    <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-                                                </Style>
-                                            </ListView.ItemContainerStyle>
-                                            <ListView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Grid>
-                                                        <Grid.ColumnDefinitions>
-                                                            <ColumnDefinition Width="*"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                            <ColumnDefinition Width="Auto"/>
-                                                        </Grid.ColumnDefinitions>
-                                                        <Button Grid.Column="2" Content="Удалить"/>
-                                                        <CheckBox Margin="20,0" Grid.Column="1" IsChecked="{Binding IsRight, UpdateSourceTrigger=LostFocus}"/>
-                                                        <TextBox Margin="20,0" Grid.Column="0" Text="{Binding AnswerText, UpdateSourceTrigger=LostFocus}"/>
-                                                    </Grid>
-                                                </DataTemplate>
-                                            </ListView.ItemTemplate>
-                                        </ListView>
-                                        <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"  HorizontalAlignment="Left" Content="Добавить ответ" Margin="40,20"/>
-                                    </StackPanel>
-                                </Expander>
-                            </Grid>
+                                <Grid Margin="5">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Expander Grid.Column="0">
+                                        <Expander.Header>
+                                            <Grid>
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <TextBox Grid.Column="0" Margin="20,0" Text="{Binding QuestionText}"/>
+                                                <Button Grid.Column="1" Margin="20,0" Content="Удалить вопрос"/>
+                                            </Grid>
+                                        </Expander.Header>
+                                        <StackPanel Orientation="Vertical">
+                                            <ListView ItemsSource="{Binding Answers}">
+                                                <ListView.ItemContainerStyle>
+                                                    <Style TargetType="ListViewItem">
+                                                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                    </Style>
+                                                </ListView.ItemContainerStyle>
+                                                <ListView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Grid>
+                                                            <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="*"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                            </Grid.ColumnDefinitions>
+                                                            <Button Grid.Column="2" Content="Удалить"/>
+                                                            <CheckBox Margin="20,0" Grid.Column="1" IsChecked="{Binding IsRight, UpdateSourceTrigger=LostFocus}"/>
+                                                            <TextBox Margin="20,0" Grid.Column="0" Text="{Binding AnswerText, UpdateSourceTrigger=LostFocus}"/>
+                                                        </Grid>
+                                                    </DataTemplate>
+                                                </ListView.ItemTemplate>
+                                            </ListView>
+                                            <Button Style="{StaticResource MaterialDesignRaisedAccentButton}"  HorizontalAlignment="Left" Content="Добавить ответ" Margin="40,20"/>
+                                        </StackPanel>
+                                    </Expander>
+                                </Grid>
                             </materialDesign:Card>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-            </ScrollViewer>
+            </StackPanel>
+        </ScrollViewer>
         <Grid Grid.Row="1"  Margin="10">
             <Button Content="Добавить вопрос" HorizontalAlignment="Left" Margin="20, 0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Content="Выйти" HorizontalAlignment="Right" Margin="20, 0"/>
                 <Button Style="{StaticResource MaterialDesignRaisedAccentButton}" Content="Сохранить изменения" HorizontalAlignment="Right" Margin="20, 0"/>
+                <Button Content="Выйти" HorizontalAlignment="Right" Margin="20, 0"/>
             </StackPanel>
         </Grid>
     </Grid>
