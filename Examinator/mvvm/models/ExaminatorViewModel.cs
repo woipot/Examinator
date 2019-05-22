@@ -14,7 +14,6 @@ namespace Examinator.mvvm.models
 {
     class ExaminatorViewModel : BindableBase
     {
-
         private PreloadedTestInfo _info;
         private DispatcherTimer Timer;
         public DelegateCommand<int> ChangeQuestionCommand { get; set; }
@@ -67,7 +66,8 @@ namespace Examinator.mvvm.models
 
             if (TimeLeft < 0 && TestModel.Skipable)
             {
-                CalculateResults();
+                var results = CalculateResults(Questions);
+                MessageBox.Show($"{results}/{TestModel.QuestionsInTest}");
                 Timer?.Stop();
                 return;
             }
@@ -77,7 +77,8 @@ namespace Examinator.mvvm.models
                 SwitchQuestion(SelectedQuestion.Number+1);
                 if (SelectedQuestion.Number >= TestModel.QuestionsInTest)
                 {
-                    CalculateResults();
+                    var results = CalculateResults(Questions);
+                    MessageBox.Show($"{results}/{TestModel.QuestionsInTest}");
                     Timer?.Stop();
                     return;
                 }
@@ -88,9 +89,23 @@ namespace Examinator.mvvm.models
             TimeLeftStr = timespan.ToString(@"mm\:ss");
         }
 
-        private void CalculateResults()
+        private int CalculateResults(IEnumerable<QuestionModel> Questions)
         {
-            MessageBox.Show("GG");
+            var rightAnswers = 0;
+            foreach (var question in Questions)
+            {
+                bool questionResult = true;
+                foreach (var answer in question.Answers)
+                {
+                    if (answer.IsSelected != answer.IsRight)
+                        questionResult = false;
+                }
+
+                if (questionResult)
+                    rightAnswers++;
+            }
+
+            return rightAnswers;
         }
 
 
@@ -135,7 +150,8 @@ namespace Examinator.mvvm.models
         private void EndTest()
         {
             Timer.Stop();
-            CalculateResults();
+            var results = CalculateResults(Questions);
+            MessageBox.Show($"{results}/{TestModel.QuestionsInTest}");
         }
 
 
@@ -144,7 +160,16 @@ namespace Examinator.mvvm.models
             SwitchQuestion(SelectedQuestion.Number + 1);
             if (!TestModel.Skipable)
             {
-                TimeLeft = TestModel.MinutsToTest;
+                if (SelectedQuestion.Number >= TestModel.QuestionsInTest)
+                {
+                    Timer.Stop();
+                    var results = CalculateResults(Questions);
+                    MessageBox.Show($"{results}/{TestModel.QuestionsInTest}");
+                }
+                else
+                {
+                    TimeLeft = TestModel.MinutsToTest;
+                }
             }
         }
 
