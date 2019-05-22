@@ -13,29 +13,37 @@ namespace Examinator.mvvm.models
 {
     class ExaminatorViewModel : BindableBase
     {
-        
+
         private PreloadedTestInfo _info;
 
         public DelegateCommand<int> ChangeQuestionCommand { get; set; }
+        public DelegateCommand EndTestCommand { get; set; }
+        public DelegateCommand NextQuestionCommand { get; set; }
+        public DelegateCommand PreviousQuestionCommand { get; set; }
 
         public long TimeLeft { get; set; }
 
         public String TimeLeftStr { get; set; }
-        
+
 
         public QuestionModel SelectedQuestion { get; set; }
 
         public TestModel TestModel { get; set; }
 
-        public ObservableCollection<QuestionModel> Questions => TestModel?.Questions;
+        public ObservableCollection<QuestionModel> Questions { get; set; }
 
         public void SetData(TestModel testModel, PreloadedTestInfo preloadedInfo)
         {
             TestModel = testModel;
             _info = preloadedInfo;
+            Questions = TestModel?.Questions;
             RandomizeQuestions();
             SelectedQuestion = Questions.FirstOrDefault();
-            ChangeQuestionCommand= new DelegateCommand<int>(ChangeQuestion);
+            EndTestCommand = new DelegateCommand(EndTest);
+            NextQuestionCommand = new DelegateCommand(NextQuestion);
+            ChangeQuestionCommand = new DelegateCommand<int>(ChangeQuestion);
+            PreviousQuestionCommand = new DelegateCommand(PreviousQuestion);
+            Questions = new ObservableCollection<QuestionModel>(Questions.ToList().GetRange(0, testModel.QuestionsInTest));
             RaisePropertiesChanged("Questions");
 
             TimeLeft = testModel.MinutsToTest * 60;
@@ -49,13 +57,13 @@ namespace Examinator.mvvm.models
         void timer_Tick(object sender, EventArgs e)
         {
             TimeLeft--;
-            
+
             var timespan = TimeSpan.FromSeconds(TimeLeft);
-            
+
             TimeLeftStr = timespan.ToString(@"mm\:ss");
         }
 
-    
+
 
         public void RandomizeQuestions()
         {
@@ -70,9 +78,13 @@ namespace Examinator.mvvm.models
 
         private void ChangeQuestion(int num)
         {
-            if (Questions != null && Questions.Count > num - 1)
+            SwitchQuestion(num);
+        }
+
+        private void SwitchQuestion(int num)
+        {
+            if (Questions != null && num > 0 && Questions.Count > num - 1)
             {
-                
                 SelectedQuestion.IsSolved = false;
                 foreach (var answer in SelectedQuestion.Answers)
                 {
@@ -81,8 +93,8 @@ namespace Examinator.mvvm.models
                         SelectedQuestion.IsSolved = true;
                         break;
                     }
-
                 }
+
                 SelectedQuestion.IsCurrent = false;
                 SelectedQuestion = Questions[num - 1];
                 SelectedQuestion.IsCurrent = true;
@@ -90,7 +102,25 @@ namespace Examinator.mvvm.models
             }
         }
 
-       
+        private void EndTest()
+        {
+
+        }
+
+
+        private void NextQuestion()
+        {
+            SwitchQuestion(SelectedQuestion.Number + 1);
+        }
+
+
+
+
+        private void PreviousQuestion()
+        {
+            SwitchQuestion(SelectedQuestion.Number - 1);
+        }
+
 
     }
 }
