@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using Examinator.mvvm.models.subModels;
 
 namespace Examinator.converters
 {
@@ -23,6 +24,9 @@ namespace Examinator.converters
         {
             bool listBoxValue = (bool)values[0];
             bool initializedValue = (bool)values[1];
+            ((AnswerModel) values[2]).IsSelected = listBoxValue || initializedValue;
+
+
             return listBoxValue || initializedValue;
         }
         /// <summary>

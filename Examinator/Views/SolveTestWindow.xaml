@@ -20,6 +20,7 @@
 <Window.Resources>
     <converters:CollectionToBoolConverter x:Key="CollectionToBoolConverter" />
     <converters:BoolToHidenConverter x:Key="VisibilityConverter"/>
+    <converters:SelectionConverter x:Key="SelectionConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -68,8 +69,17 @@
                                     </ItemsControl.ItemsPanel>
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
-                                                        <Button Command="{Binding RelativeSource={RelativeSource AncestorType = ItemsControl}, Path=DataContext.ChangeQuestionCommand}" CommandParameter="{Binding Number}" IsEnabled="{Binding RelativeSource={RelativeSource AncestorType = ItemsControl}, Path=DataContext.TestModel.Skipable}" Margin="2">
+                                                        <Button Command="{Binding RelativeSource={RelativeSource AncestorType = ItemsControl}, Path=DataContext.ChangeQuestionCommand}"
+                                                                CommandParameter="{Binding Number}" 
+                                                                IsEnabled="{Binding RelativeSource={RelativeSource AncestorType = ItemsControl}, Path=DataContext.TestModel.Skipable}"
+                                                                Margin="2">
                                                 <TextBlock Text="{Binding Number}"/>
+                                                            <Button.Background>
+                                                                <MultiBinding Converter="{StaticResource SelectionConverter}" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" ConverterParameter="Node">
+                                                                    <Binding Path="IsSolved" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                                                    <Binding Path="IsCurrent" UpdateSourceTrigger="PropertyChanged"></Binding>
+                                                                </MultiBinding>
+                                                            </Button.Background>
                                             </Button>
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
@@ -103,12 +113,14 @@
                                         </ListBox.ItemsPanel>
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <CheckBox Content="{Binding AnswerText}" HorizontalAlignment="Left">
+                                                <CheckBox Name="CheckBox" Content="{Binding AnswerText}" HorizontalAlignment="Left">
                                                     <CheckBox.IsChecked>
                                                         <MultiBinding Converter="{StaticResource CollectionToBoolConverter}" Mode="TwoWay">
                                                             <Binding Path="IsSelected" RelativeSource="{RelativeSource AncestorType=ListBoxItem}" />
                                                             <Binding Path="IsSelected" />
-                                                        </MultiBinding>
+                                                            <Binding ElementName="CheckBox" Path="DataContext"></Binding>
+
+                                                            </MultiBinding>
                                                     </CheckBox.IsChecked>
                                                 </CheckBox>
                                             </DataTemplate>

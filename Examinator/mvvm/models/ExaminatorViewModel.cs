@@ -70,8 +70,24 @@ namespace Examinator.mvvm.models
 
         private void ChangeQuestion(int num)
         {
-            if(Questions!=null&&Questions.Count>num-1)
-            SelectedQuestion = Questions[num-1];
+            if (Questions != null && Questions.Count > num - 1)
+            {
+                
+                SelectedQuestion.IsSolved = false;
+                foreach (var answer in SelectedQuestion.Answers)
+                {
+                    if (answer.IsSelected)
+                    {
+                        SelectedQuestion.IsSolved = true;
+                        break;
+                    }
+
+                }
+                SelectedQuestion.IsCurrent = false;
+                SelectedQuestion = Questions[num - 1];
+                SelectedQuestion.IsCurrent = true;
+                RaisePropertyChanged("Questions");
+            }
         }
 
        

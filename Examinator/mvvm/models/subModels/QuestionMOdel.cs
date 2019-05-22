@@ -16,6 +16,10 @@ namespace Examinator.mvvm.models.subModels
 
         public ObservableCollection<AnswerModel> Answers { get; }
 
+        public bool IsCurrent { get; set; }
+
+        public bool IsSolved { get; set; }
+
 
         public QuestionModel(string questionText)
         {
