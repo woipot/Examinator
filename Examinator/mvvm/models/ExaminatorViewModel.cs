@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
@@ -15,13 +16,13 @@ namespace Examinator.mvvm.models
     {
 
         private PreloadedTestInfo _info;
-
+        private DispatcherTimer Timer;
         public DelegateCommand<int> ChangeQuestionCommand { get; set; }
         public DelegateCommand EndTestCommand { get; set; }
         public DelegateCommand NextQuestionCommand { get; set; }
         public DelegateCommand PreviousQuestionCommand { get; set; }
 
-        public long TimeLeft { get; set; }
+        public int TimeLeft { get; set; }
 
         public String TimeLeftStr { get; set; }
 
@@ -38,20 +39,24 @@ namespace Examinator.mvvm.models
             _info = preloadedInfo;
             Questions = TestModel?.Questions;
             RandomizeQuestions();
-            SelectedQuestion = Questions.FirstOrDefault();
             EndTestCommand = new DelegateCommand(EndTest);
             NextQuestionCommand = new DelegateCommand(NextQuestion);
             ChangeQuestionCommand = new DelegateCommand<int>(ChangeQuestion);
             PreviousQuestionCommand = new DelegateCommand(PreviousQuestion);
             Questions = new ObservableCollection<QuestionModel>(Questions.ToList().GetRange(0, testModel.QuestionsInTest));
+            SelectedQuestion = Questions.FirstOrDefault();
+            SelectedQuestion.IsCurrent = true;
             RaisePropertiesChanged("Questions");
 
-            TimeLeft = testModel.MinutsToTest * 60;
 
-            DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += timer_Tick;
-            timer.Start();
+            TimeLeft = TestModel.Skipable
+                ? TestModel.MinutsToTest * TestModel.QuestionsInTest
+                : TestModel.MinutsToTest;
+
+            Timer = new DispatcherTimer();
+            Timer.Interval = TimeSpan.FromSeconds(1);
+            Timer.Tick += timer_Tick;
+            Timer.Start();
         }
 
         void timer_Tick(object sender, EventArgs e)
@@ -60,7 +65,32 @@ namespace Examinator.mvvm.models
 
             var timespan = TimeSpan.FromSeconds(TimeLeft);
 
+            if (TimeLeft < 0 && TestModel.Skipable)
+            {
+                CalculateResults();
+                Timer?.Stop();
+                return;
+            }
+
+            if (TimeLeft < 0 && !TestModel.Skipable)
+            {
+                SwitchQuestion(SelectedQuestion.Number+1);
+                if (SelectedQuestion.Number >= TestModel.QuestionsInTest)
+                {
+                    CalculateResults();
+                    Timer?.Stop();
+                    return;
+                }
+
+                TimeLeft = TestModel.MinutsToTest;
+            }
+
             TimeLeftStr = timespan.ToString(@"mm\:ss");
+        }
+
+        private void CalculateResults()
+        {
+            MessageBox.Show("GG");
         }
 
 
@@ -104,13 +134,18 @@ namespace Examinator.mvvm.models
 
         private void EndTest()
         {
-
+            Timer.Stop();
+            CalculateResults();
         }
 
 
         private void NextQuestion()
         {
             SwitchQuestion(SelectedQuestion.Number + 1);
+            if (!TestModel.Skipable)
+            {
+                TimeLeft = TestModel.MinutsToTest;
+            }
         }
 
 
