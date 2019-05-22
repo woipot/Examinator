@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Threading;
 using DevExpress.Mvvm;
 using Examinator.Extensions;
@@ -39,12 +37,12 @@ namespace Examinator.mvvm.models
             _info = preloadedInfo;
             Questions = TestModel?.Questions;
             RandomizeQuestions();
-            EndTestCommand = new DelegateCommand(EndTest);
+            EndTestCommand = new DelegateCommand(EndTestByCommand);
             NextQuestionCommand = new DelegateCommand(NextQuestion);
             ChangeQuestionCommand = new DelegateCommand<int>(ChangeQuestion);
             PreviousQuestionCommand = new DelegateCommand(PreviousQuestion);
             Questions = new ObservableCollection<QuestionModel>(Questions.ToList()
-                .GetRange(0, testModel.QuestionsInTest));
+                .GetRange(0, Math.Min(testModel.QuestionsInTest, testModel.Questions.Count)));
             SelectedQuestion = Questions.FirstOrDefault();
             SelectedQuestion.IsCurrent = true;
             RaisePropertiesChanged("Questions");
@@ -106,8 +104,6 @@ namespace Examinator.mvvm.models
             return rightAnswers;
         }
 
-
-
         public void RandomizeQuestions()
         {
             Questions.Shuffle();
@@ -145,11 +141,22 @@ namespace Examinator.mvvm.models
             }
         }
 
+        private void EndTestByCommand()
+        {
+            var result =  MessageBox.Show("Завершить тест и получить результат?", "Вы уверены?", MessageBoxButton.OKCancel,
+                MessageBoxImage.Question);
+
+            if (result == MessageBoxResult.OK)
+            {
+                EndTest();
+            }
+        }
+
         private void EndTest()
         {
             Timer.Stop();
             var results = CalculateResults(Questions);
-            MessageBox.Show($"{results}/{TestModel.QuestionsInTest}");
+            MessageBox.Show($"{results}/{Math.Min(TestModel.QuestionsInTest, TestModel.Questions.Count)}");
             var windows = App.Current.Windows;
             foreach (var window in windows)
             {
@@ -159,6 +166,7 @@ namespace Examinator.mvvm.models
                 }
             }
         }
+
 
 
         private void NextQuestion()
@@ -176,9 +184,6 @@ namespace Examinator.mvvm.models
                 }
             }
         }
-
-
-
 
         private void PreviousQuestion()
         {

@@ -7,8 +7,6 @@
         xmlns:local="clr-namespace:Examinator.Views"
 
         xmlns:models="clr-namespace:Examinator.mvvm.models"
-        xmlns:cmd="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Platform"
-        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         xmlns:converters="clr-namespace:Examinator.converters"
         mc:Ignorable="d"
         Title="{Binding TestModel.TestName}" Height="450" Width="800">
