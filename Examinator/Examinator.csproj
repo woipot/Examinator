@@ -106,6 +106,7 @@
     <Compile Include="converters\CollectionToBoolConverter.cs" />
     <Compile Include="converters\SelectionConverter.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="other\ResulyInfo.cs" />
     <Compile Include="Views\EditTestWindow.xaml.cs">
       <DependentUpon>EditTestWindow.xaml</DependentUpon>
     </Compile>
@@ -114,6 +115,9 @@
     </Compile>
     <Compile Include="Views\PasswordDialog.xaml.cs">
       <DependentUpon>PasswordDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ResultWindow.xaml.cs">
+      <DependentUpon>ResultWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\SolveTestWindow.xaml.cs">
       <DependentUpon>SolveTestWindow.xaml</DependentUpon>
@@ -143,6 +147,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\PasswordDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ResultWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -154,19 +154,25 @@ namespace Examinator.mvvm.models
 
         private void EndTest()
         {
-            Timer.Stop();
-            var results = CalculateResults(Questions);
-            MessageBox.Show($"{results}/{Math.Min(TestModel.QuestionsInTest, TestModel.Questions.Count)}");
-            var windows = App.Current.Windows;
-            foreach (var window in windows)
+            try
             {
-                if (window is SolveTestWindow thisWindow)
+                Timer.Stop();
+                var results = CalculateResults(Questions);
+                MessageBox.Show($"{results}/{Math.Min(TestModel.QuestionsInTest, TestModel.Questions.Count)}");
+                var windows = App.Current.Windows;
+                foreach (var window in windows)
                 {
-                    thisWindow.Close();
+                    if (window is SolveTestWindow thisWindow)
+                    {
+                        thisWindow.Close();
+                    }
                 }
             }
+            catch (Exception e)
+            {
+            }
+           
         }
-
 
 
         private void NextQuestion()
