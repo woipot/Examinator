@@ -9,6 +9,7 @@ using System.Windows.Threading;
 using DevExpress.Mvvm;
 using Examinator.Extensions;
 using Examinator.mvvm.models.subModels;
+using Examinator.Views;
 
 namespace Examinator.mvvm.models
 {
@@ -42,7 +43,8 @@ namespace Examinator.mvvm.models
             NextQuestionCommand = new DelegateCommand(NextQuestion);
             ChangeQuestionCommand = new DelegateCommand<int>(ChangeQuestion);
             PreviousQuestionCommand = new DelegateCommand(PreviousQuestion);
-            Questions = new ObservableCollection<QuestionModel>(Questions.ToList().GetRange(0, testModel.QuestionsInTest));
+            Questions = new ObservableCollection<QuestionModel>(Questions.ToList()
+                .GetRange(0, testModel.QuestionsInTest));
             SelectedQuestion = Questions.FirstOrDefault();
             SelectedQuestion.IsCurrent = true;
             RaisePropertiesChanged("Questions");
@@ -66,20 +68,16 @@ namespace Examinator.mvvm.models
 
             if (TimeLeft < 0 && TestModel.Skipable)
             {
-                var results = CalculateResults(Questions);
-                MessageBox.Show($"{results}/{TestModel.QuestionsInTest}");
-                Timer?.Stop();
+                EndTest();
                 return;
             }
 
             if (TimeLeft < 0 && !TestModel.Skipable)
             {
-                SwitchQuestion(SelectedQuestion.Number+1);
+                SwitchQuestion(SelectedQuestion.Number + 1);
                 if (SelectedQuestion.Number >= TestModel.QuestionsInTest)
                 {
-                    var results = CalculateResults(Questions);
-                    MessageBox.Show($"{results}/{TestModel.QuestionsInTest}");
-                    Timer?.Stop();
+                    EndTest();
                     return;
                 }
 
@@ -152,6 +150,14 @@ namespace Examinator.mvvm.models
             Timer.Stop();
             var results = CalculateResults(Questions);
             MessageBox.Show($"{results}/{TestModel.QuestionsInTest}");
+            var windows = App.Current.Windows;
+            foreach (var window in windows)
+            {
+                if (window is SolveTestWindow thisWindow)
+                {
+                    thisWindow.Close();
+                }
+            }
         }
 
 
@@ -162,9 +168,7 @@ namespace Examinator.mvvm.models
             {
                 if (SelectedQuestion.Number >= TestModel.QuestionsInTest)
                 {
-                    Timer.Stop();
-                    var results = CalculateResults(Questions);
-                    MessageBox.Show($"{results}/{TestModel.QuestionsInTest}");
+                    EndTest();
                 }
                 else
                 {
