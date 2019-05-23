@@ -14,6 +14,7 @@ namespace Examinator.mvvm.models
 {
     internal class Loader : BindableBase
     {
+
         public ObservableCollection<PreloadedTestInfo> PreloadedTests { get; }
 
         public List<TestException> LoadExceptions { get; }
@@ -22,6 +23,15 @@ namespace Examinator.mvvm.models
         private const string ResultDirectoryName = "Results";
         private static string DeffaultPass = "19voenkr";
 
+        struct TestModelFlags
+        {
+            public bool TestName;
+            public bool Author;
+            public bool Date;
+            public bool Time;
+            public bool QuestionCount;
+            public bool Skipable;
+        }
 
         private readonly string _baseDir;
 
@@ -37,12 +47,160 @@ namespace Examinator.mvvm.models
                 RecreateStructure();
             }
 
+            LoadFromFile("G:\\Progects\\VS17\\C#\\Examinator\\Examinator\\test.txt");
+
             PreloadedTests = new ObservableCollection<PreloadedTestInfo>();
 
             LoadExceptions = PreloadTests().ToList();
 
 
         }
+
+        private static string GetSubStringBeforeEqually(string line) {
+            var pos_eq = line.IndexOf("=");
+            if (pos_eq != -1)
+            {
+
+                line.Trim(' ');
+                if ((!string.IsNullOrWhiteSpace(line)) && (!string.IsNullOrEmpty(line)))
+                    return line;
+            }
+            return null;
+        }
+
+        private static TestModel LoadFromFile(string filename)
+        {
+            if (File.Exists(filename.ToString()))
+            {
+                TestModelFlags flags; 
+                flags.TestName = false;
+                flags.Author = false;
+                flags.Date = false;
+                flags.Time = false;
+                flags.QuestionCount = false;
+                flags.Skipable = false;
+
+                StreamReader sr = new StreamReader(filename, Encoding.Default);
+                var test = new TestModel();
+
+                bool[] flags_readed_arr = new bool[6];
+                
+                string line;
+                QuestionModel tmpuestion = null;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    //var line_copy = "awdfesgrd";
+                    //var kek = line_copy.Split('=');
+
+                    line = line.Trim();
+                    if (string.IsNullOrEmpty(line)) continue;
+                    var first = line.First();
+                    switch(first)
+                    {
+                        case '-':
+                        case '+':
+                            if(tmpuestion == null)
+                            {
+                                tmpuestion = new QuestionModel("");
+                                test.Questions.Add(tmpuestion);
+                            }
+                                                    
+                            if (first == '+')
+                            {
+                                line.Remove(0);
+                                line.Trim();
+                                tmpuestion.Answers.Add(new AnswerModel(line, true));
+                            }
+                            else
+                            {
+                                line.Remove(0);
+                                line.Trim();
+                                tmpuestion.Answers.Add(new AnswerModel(line, false));
+                            }
+                            break;
+                        case '=':
+                            line.Remove(0);
+                            line.Trim();
+
+                            tmpuestion = new QuestionModel(line);
+                            test.Questions.Add(tmpuestion);
+                            break;
+                        default:
+                            var line_split = line.Split('=');
+                            if (line_split.Length == 2)
+                            {
+                                var variant = line_split[0].Trim();
+                                var data = line_split[1].Trim();
+                                if (string.IsNullOrEmpty(data))
+                                {
+                                    switch (variant)
+                                    {
+                                        case "TestName":
+                                            test.TestName = data;
+                                            break;
+                                        case "Author":
+                                            test.Author = data;
+                                            break;
+                                        case "Date":
+                                            test.CreatedDate = data;
+                                            break;
+                                        case "Time":
+                                            try
+                                            {
+                                                var time = Int32.Parse(data);
+                                                test.MinutsToTest = time;
+                                            } catch (FormatException) {
+                                                test.MinutsToTest = 0;
+                                            }
+                                            break;
+                                        case "QuestionCount":
+                                            try
+                                            {
+                                                var count = Int32.Parse(data);
+                                                test.QuestionsInTest = count;
+                                            }
+                                            catch (FormatException) {
+                                                test.QuestionsInTest = 0;
+                                            }
+                                            break;
+                                        case "Skipable":
+                                            if (data.Contains("Не") || data.Contains("False"))
+                                            {
+                                                test.Skipable = false;
+                                            }
+                                            else if (data.Contains("Да") || data.Contains("True"))
+                                            {
+                                                test.Skipable = true;
+                                            }
+                                            else
+                                            {
+                                                test.Skipable = true;
+                                            }
+                                            //test.Skipable = 
+                                            break;
+                                        default:
+                                            break;
+                                    }
+                                }
+                            }
+                            break;
+                    }
+                }
+
+                var check = test.CheckToCorrect();
+                if(check.Item2)
+                {
+                    throw new TestException("В файле обнаружены крит ошибки", check.Item1);
+                }
+
+                test.Clean();
+
+                return test;
+                
+            }
+            
+            
+        } 
 
         private void RecreateStructure()
         {
