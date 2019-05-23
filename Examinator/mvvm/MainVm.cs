@@ -35,8 +35,8 @@ namespace Examinator.mvvm
             ViewTestCommand = new DelegateCommand<object>(OpenViewWindow);
             EditTestCommand = new DelegateCommand<object>(OpenEditWindow);
             SolveTestCommand = new DelegateCommand<object>(OpenSolveWindow);
+            CreateNewTestCommand = new DelegateCommand(CreateNewTest);
         }
-
 
         public DelegateCommand SwitchModeCommand { get; }
 
@@ -91,8 +91,6 @@ namespace Examinator.mvvm
 
         public DelegateCommand<object> EditTestCommand { get; }
 
-        public DelegateCommand<object> SolveTestCommand { get; }
-
         private static void OpenEditWindow(object param)
         {
             if (!(param is PreloadedTestInfo preloadedInfo))
@@ -107,7 +105,7 @@ namespace Examinator.mvvm
 
                 var editWindow = new EditTestWindow(testModel, preloadedInfo);
                 editWindow.Show();
-                
+
             }
             catch (TestException e)
             {
@@ -119,6 +117,9 @@ namespace Examinator.mvvm
             }
         }
 
+
+        public DelegateCommand<object> SolveTestCommand { get; }
+        
         private static void OpenSolveWindow(object param)
         {
             if (!(param is PreloadedTestInfo preloadedInfo))
@@ -142,6 +143,33 @@ namespace Examinator.mvvm
             catch (Exception e)
             {
                 MessageBox.Show("Что-то пошло не так: невозможно загрузить файл");
+            }
+        }
+
+
+        public DelegateCommand CreateNewTestCommand { get; }
+
+        private void CreateNewTest()
+        {
+            try
+            {
+                var testModel = new TestModel();
+
+                var editWindow = new EditTestWindow(testModel, new PreloadedTestInfo(null, _loader.PathToTests));
+                
+                if (editWindow.ShowDialog() == true)
+                {
+                    _loader.PreloadedTests.Insert(0, ((RedactorModel)editWindow.DataContext).Info);
+                }
+
+            }
+            catch (TestException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: невозможно загрузить/сохранить файл");
             }
         }
     }

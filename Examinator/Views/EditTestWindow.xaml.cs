@@ -22,9 +22,12 @@ namespace Examinator.Views
             var result = MessageBox.Show("Убедитесь, что сохранили изменения, иначе они будут утеряны", "Вы уверены?", MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
 
+
             if (result == MessageBoxResult.Cancel)
                 e.Cancel = true;
 
+            if (((RedactorModel) DataContext).Info.TestName != null)
+                DialogResult = true;
         }
     }
 }

@@ -35,6 +35,7 @@
             
             <MenuItem Header="Файл">
                 <MenuItem Header="Режим преподавателя" IsCheckable="True" IsChecked="{Binding TeacherMode, Mode=OneWay, UpdateSourceTrigger=LostFocus}" Command="{Binding SwitchModeCommand}"/>
+                <MenuItem Header="Создаать Тест" Command="{Binding CreateNewTestCommand}" Visibility="{Binding TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
                 <Separator/>
                 <MenuItem Header="Выход"/>
             </MenuItem>

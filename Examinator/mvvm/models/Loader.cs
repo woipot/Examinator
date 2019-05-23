@@ -25,8 +25,8 @@ namespace Examinator.mvvm.models
 
         private readonly string _baseDir;
 
-        private string PathToTests => _baseDir + $"{TestDirectoryName}";
-        private string PathToResults => _baseDir + $"{ResultDirectoryName}";
+        public string PathToTests => _baseDir + $"{TestDirectoryName}";
+        public string PathToResults => _baseDir + $"{ResultDirectoryName}";
 
         public Loader()
         {
@@ -37,11 +37,11 @@ namespace Examinator.mvvm.models
                 RecreateStructure();
             }
 
+            //place here code to test
+
             PreloadedTests = new ObservableCollection<PreloadedTestInfo>();
 
             LoadExceptions = PreloadTests().ToList();
-
-
         }
 
         private void RecreateStructure()
@@ -125,6 +125,36 @@ namespace Examinator.mvvm.models
             m.Close();
             cs.Close();
             fsCrypt.Close();
+        }
+
+        public static string SaveTest(TestModel testModel, string destinationFolder)
+        {
+            var path = FindWayToSave(testModel.TestName, destinationFolder);
+
+            SaveTest(path, testModel);
+
+            return path;
+        }
+
+        private static string FindWayToSave(string name, string destinationFolder, string extension = ".xml")
+        {
+            var dirinfo = new DirectoryInfo(destinationFolder);
+            var files = dirinfo.GetFiles();
+
+            var typedName = $"{name}_{DateTime.Now:MM_dd_yyyy}";
+            
+
+            var additinalPrefix = 0;
+            string finalName;
+            do
+            {
+                finalName = typedName + (additinalPrefix == 0 ? "" : $"_{additinalPrefix}") + extension;
+                additinalPrefix++;
+
+            } while (files.Any(s => string.Equals(s.Name, finalName, StringComparison.CurrentCultureIgnoreCase)));
+
+            return $"{destinationFolder}\\{finalName}";
+
         }
 
         private static string DecryptFile(string inputFile)
