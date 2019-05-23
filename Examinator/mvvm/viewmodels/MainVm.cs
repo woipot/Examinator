@@ -39,6 +39,7 @@ namespace Examinator.mvvm.viewmodels
             CreateNewTestCommand = new DelegateCommand(CreateNewTest);
             DeleteCommand = new DelegateCommand<PreloadedTestInfo>(Delete);
             ImportCommand = new DelegateCommand(ImportTest);
+            ShowInstructionCommand = new DelegateCommand(ShowInstruction);
         }
 
         public DelegateCommand SwitchModeCommand { get; }
