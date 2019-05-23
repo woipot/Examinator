@@ -195,7 +195,5 @@ namespace Examinator.mvvm.models
         {
             SwitchQuestion(SelectedQuestion.Number - 1);
         }
-
-
     }
 }

@@ -23,20 +23,11 @@ namespace Examinator.mvvm.models
         private const string ResultDirectoryName = "Results";
         private static string DeffaultPass = "19voenkr";
 
-        struct TestModelFlags
-        {
-            public bool TestName;
-            public bool Author;
-            public bool Date;
-            public bool Time;
-            public bool QuestionCount;
-            public bool Skipable;
-        }
 
         private readonly string _baseDir;
 
-        private string PathToTests => _baseDir + $"{TestDirectoryName}";
-        private string PathToResults => _baseDir + $"{ResultDirectoryName}";
+        public string PathToTests => _baseDir + $"{TestDirectoryName}";
+        public string PathToResults => _baseDir + $"{ResultDirectoryName}";
 
         public Loader()
         {
@@ -47,13 +38,11 @@ namespace Examinator.mvvm.models
                 RecreateStructure();
             }
 
-            LoadFromFile("G:\\Progects\\VS17\\C#\\Examinator\\Examinator\\test.txt");
+            //place here code to test
 
             PreloadedTests = new ObservableCollection<PreloadedTestInfo>();
 
             LoadExceptions = PreloadTests().ToList();
-
-
         }
 
         private static string GetSubStringBeforeEqually(string line) {
@@ -285,6 +274,36 @@ namespace Examinator.mvvm.models
             fsCrypt.Close();
         }
 
+        public static string SaveTest(TestModel testModel, string destinationFolder)
+        {
+            var path = FindWayToSave(testModel.TestName, destinationFolder);
+
+            SaveTest(path, testModel);
+
+            return path;
+        }
+
+        private static string FindWayToSave(string name, string destinationFolder, string extension = ".xml")
+        {
+            var dirinfo = new DirectoryInfo(destinationFolder);
+            var files = dirinfo.GetFiles();
+
+            var typedName = $"{name}_{DateTime.Now:MM_dd_yyyy}";
+            
+
+            var additinalPrefix = 0;
+            string finalName;
+            do
+            {
+                finalName = typedName + (additinalPrefix == 0 ? "" : $"_{additinalPrefix}") + extension;
+                additinalPrefix++;
+
+            } while (files.Any(s => string.Equals(s.Name, finalName, StringComparison.CurrentCultureIgnoreCase)));
+
+            return $"{destinationFolder}\\{finalName}";
+
+        }
+
         private static string DecryptFile(string inputFile)
         {
             var ue = new UnicodeEncoding();
@@ -308,6 +327,11 @@ namespace Examinator.mvvm.models
             fsCrypt.Close();
 
             return Encoding.Default.GetString(bytes.ToArray());
+        }
+
+        public static void DeleteTest(string infoAssociatedPath)
+        {
+            File.Delete(infoAssociatedPath);
         }
     }
 }

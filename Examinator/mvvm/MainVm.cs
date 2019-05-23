@@ -7,6 +7,7 @@ using Examinator.mvvm.models;
 using Examinator.mvvm.models.subModels;
 using Examinator.other;
 using Examinator.Views;
+using Microsoft.Win32;
 
 namespace Examinator.mvvm
 {
@@ -35,8 +36,10 @@ namespace Examinator.mvvm
             ViewTestCommand = new DelegateCommand<object>(OpenViewWindow);
             EditTestCommand = new DelegateCommand<object>(OpenEditWindow);
             SolveTestCommand = new DelegateCommand<object>(OpenSolveWindow);
+            CreateNewTestCommand = new DelegateCommand(CreateNewTest);
+            DeleteCommand = new DelegateCommand<PreloadedTestInfo>(Delete);
+            ImportCommand = new DelegateCommand(ImportTest);
         }
-
 
         public DelegateCommand SwitchModeCommand { get; }
 
@@ -76,7 +79,7 @@ namespace Examinator.mvvm
                 var testModel = Loader.LoadTest(preloadedInfo.AssociatedPath);
                 var viewWindow = new TestViewWindow(testModel);
 
-                viewWindow.Show();
+                viewWindow.ShowDialog();
             }
             catch (TestException e)
             {
@@ -91,8 +94,6 @@ namespace Examinator.mvvm
 
         public DelegateCommand<object> EditTestCommand { get; }
 
-        public DelegateCommand<object> SolveTestCommand { get; }
-
         private static void OpenEditWindow(object param)
         {
             if (!(param is PreloadedTestInfo preloadedInfo))
@@ -106,8 +107,8 @@ namespace Examinator.mvvm
                 var testModel = Loader.LoadTest(preloadedInfo.AssociatedPath);
 
                 var editWindow = new EditTestWindow(testModel, preloadedInfo);
-                editWindow.Show();
-                
+                editWindow.ShowDialog();
+
             }
             catch (TestException e)
             {
@@ -119,6 +120,9 @@ namespace Examinator.mvvm
             }
         }
 
+
+        public DelegateCommand<object> SolveTestCommand { get; }
+        
         private static void OpenSolveWindow(object param)
         {
             if (!(param is PreloadedTestInfo preloadedInfo))
@@ -142,6 +146,97 @@ namespace Examinator.mvvm
             catch (Exception e)
             {
                 MessageBox.Show("Что-то пошло не так: невозможно загрузить файл");
+            }
+        }
+
+
+        public DelegateCommand CreateNewTestCommand { get; }
+
+        private void CreateNewTest()
+        {
+            try
+            {
+                var testModel = new TestModel();
+
+                var editWindow = new EditTestWindow(testModel, new PreloadedTestInfo(null, _loader.PathToTests));
+                
+                if (editWindow.ShowDialog() == true)
+                {
+                    _loader.PreloadedTests.Insert(0, ((RedactorModel)editWindow.DataContext).Info);
+                }
+
+            }
+            catch (TestException e)
+            {
+                MessageBox.Show(e.Message);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: невозможно загрузить/сохранить файл");
+            }
+        }
+
+
+        public DelegateCommand<PreloadedTestInfo> DeleteCommand { get; }
+
+        private void Delete(PreloadedTestInfo info)
+        {
+            var result = MessageBox.Show("Востановить тест будет невозможно", "Вы уверены?", MessageBoxButton.OKCancel,
+                MessageBoxImage.Question);
+
+            if(result == MessageBoxResult.Cancel)
+                return;
+
+            try
+            {
+                Loader.DeleteTest(info.AssociatedPath);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: Возможно, файл уже удален");
+            }
+
+            _loader.PreloadedTests.Remove(info);
+        }
+
+
+        public DelegateCommand ImportCommand { get; }
+
+        private void ImportTest()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == false)
+                return;
+
+            var p  = openFileDialog.FileName;
+
+            try
+            {
+
+            }
+            catch (TestException e)
+            {
+                var errorWindow = new ErrorWindow(e.Message + "\n" + e.AdditionalErrorInfo);
+                errorWindow.ShowDialog();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: невозможно загрузить/сохранить файл");
+            }
+        }
+
+
+        public DelegateCommand ShowInstructionCommand { get; }
+
+        private void ShowInstruction()
+        {
+            try
+            {
+
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: невозможно загрузить/сохранить файл");
             }
         }
     }
