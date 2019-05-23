@@ -30,9 +30,9 @@ namespace Examinator.mvvm.models.subModels
 
         public string CreatedDate { get; set; }
 
-        public int MinutsToTest { get; set; }
+        public int MinutsToTest { get; set; } = 10;
 
-        public int QuestionsInTest { get; set; }
+        public int QuestionsInTest { get; set; } = 1;
 
         public ObservableCollection<QuestionModel> Questions { get; }
 
