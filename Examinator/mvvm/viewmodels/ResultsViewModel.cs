@@ -29,23 +29,24 @@ namespace Examinator.mvvm.viewmodels
         {
             ResultModel = new ResultModel();
             Results=new ObservableCollection<ResultModel>();
-        //    LoadResults();
         }
 
         private void SaveResults()
         {
-            using (FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/results.axax",
+            using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/results.axax",
                 FileMode.Create, FileAccess.Write))
             {
-                DESCryptoServiceProvider cryptic = new DESCryptoServiceProvider();
+                var cryptic = new DESCryptoServiceProvider
+                {
+                    Key = Encoding.ASCII.GetBytes("Forichok"),
+                    IV = Encoding.ASCII.GetBytes("Forichok")
+                };
 
-                cryptic.Key = ASCIIEncoding.ASCII.GetBytes("Forichok");
-                cryptic.IV = ASCIIEncoding.ASCII.GetBytes("Forichok");
 
-                using (CryptoStream crStream = new CryptoStream(stream,
+                using (var crStream = new CryptoStream(stream,
                     cryptic.CreateEncryptor(), CryptoStreamMode.Write))
                 {
-                    BinaryFormatter formatter = new BinaryFormatter();
+                    var formatter = new BinaryFormatter();
                     
                     formatter.Serialize(crStream, Results);
                 }
@@ -57,18 +58,18 @@ namespace Examinator.mvvm.viewmodels
         {
             try
             {
-                using (FileStream stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/results.axax",
+                using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/results.axax",
                     FileMode.OpenOrCreate, FileAccess.Read))
                 {
-                    DESCryptoServiceProvider cryptic = new DESCryptoServiceProvider();
+                    var cryptic = new DESCryptoServiceProvider();
 
-                    cryptic.Key = ASCIIEncoding.ASCII.GetBytes("Forichok");
-                    cryptic.IV = ASCIIEncoding.ASCII.GetBytes("Forichok");
+                    cryptic.Key = Encoding.ASCII.GetBytes("Forichok");
+                    cryptic.IV = Encoding.ASCII.GetBytes("Forichok");
 
-                    using (CryptoStream crStream = new CryptoStream(stream,
+                    using (var crStream = new CryptoStream(stream,
                         cryptic.CreateDecryptor(), CryptoStreamMode.Read))
                     {
-                        BinaryFormatter formatter = new BinaryFormatter();
+                        var formatter = new BinaryFormatter();
 
                         var t = (IEnumerable<ResultModel>)formatter.Deserialize(crStream);
                         Results = new ObservableCollection<ResultModel>(t);

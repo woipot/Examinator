@@ -15,17 +15,18 @@ namespace Examinator.mvvm.viewmodels
     class ExaminatorViewModel : BindableBase
     {
         private PreloadedTestInfo _info;
-        private DispatcherTimer Timer;
-        private DateTime startTime;
+        private DispatcherTimer _timer;
+        private DateTime _startTime;
         public DelegateCommand<int> ChangeQuestionCommand { get; set; }
         public DelegateCommand EndTestCommand { get; set; }
         public DelegateCommand NextQuestionCommand { get; set; }
         public DelegateCommand PreviousQuestionCommand { get; set; }
 
         public int TimeLeft { get; set; }
-        private int answered;
+        private int _answered;
         public String TimeLeftStr { get; set; }
 
+        private int _questionsCount; 
 
         public QuestionModel SelectedQuestion { get; set; }
 
@@ -39,25 +40,30 @@ namespace Examinator.mvvm.viewmodels
             _info = preloadedInfo;
             Questions = TestModel?.Questions;
             RandomizeQuestions();
+
+            _questionsCount = Math.Min(testModel.QuestionsInTest, testModel.Questions.Count);
+
             EndTestCommand = new DelegateCommand(EndTestByCommand);
             NextQuestionCommand = new DelegateCommand(NextQuestion);
             ChangeQuestionCommand = new DelegateCommand<int>(ChangeQuestion);
             PreviousQuestionCommand = new DelegateCommand(PreviousQuestion);
+
             Questions = new ObservableCollection<QuestionModel>(Questions.ToList()
-                .GetRange(0, Math.Min(testModel.QuestionsInTest, testModel.Questions.Count)));
+                .GetRange(0, _questionsCount));
+
             SelectedQuestion = Questions.FirstOrDefault();
-            SelectedQuestion.IsCurrent = true;
+            if (SelectedQuestion != null) SelectedQuestion.IsCurrent = true;
             RaisePropertiesChanged("Questions");
 
-            startTime=DateTime.Now;
+            _startTime=DateTime.Now;
             TimeLeft = TestModel.Skipable
-                ? TestModel.MinutsToTest * TestModel.QuestionsInTest
+                ? TestModel.MinutsToTest * _questionsCount
                 : TestModel.MinutsToTest;
 
-            Timer = new DispatcherTimer();
-            Timer.Interval = TimeSpan.FromSeconds(1);
-            Timer.Tick += timer_Tick;
-            Timer.Start();
+            _timer = new DispatcherTimer();
+            _timer.Interval = TimeSpan.FromSeconds(1);
+            _timer.Tick += timer_Tick;
+            _timer.Start();
         }
 
         void timer_Tick(object sender, EventArgs e)
@@ -75,7 +81,7 @@ namespace Examinator.mvvm.viewmodels
             if (TimeLeft < 0 && !TestModel.Skipable)
             {
                 SwitchQuestion(SelectedQuestion.Number + 1);
-                if (SelectedQuestion.Number >= TestModel.QuestionsInTest)
+                if (SelectedQuestion.Number >= _questionsCount)
                 {
                     EndTest();
                     return;
@@ -90,11 +96,11 @@ namespace Examinator.mvvm.viewmodels
         private int CalculateResults(IEnumerable<QuestionModel> Questions)
         {
             var rightAnswers = 0;
-            answered = 0;
+            _answered = 0;
             foreach (var question in Questions)
             {
-                bool questionResult = true;
-                bool isAnswered = false;
+                var questionResult = true;
+                var isAnswered = false;
                 foreach (var answer in question.Answers)
                 {
                     if (answer.IsSelected)
@@ -104,7 +110,7 @@ namespace Examinator.mvvm.viewmodels
                 }
 
                 if (isAnswered)
-                    answered++;
+                    _answered++;
                 if (questionResult)
                     rightAnswers++;
             }
@@ -115,7 +121,7 @@ namespace Examinator.mvvm.viewmodels
         public void RandomizeQuestions()
         {
             Questions.Shuffle();
-            int num = 1;
+            var num = 1;
             foreach (var question in Questions)
             {
                 question.Number = num++;
@@ -164,12 +170,12 @@ namespace Examinator.mvvm.viewmodels
         private void EndTest()
         {
 
-            Timer.Stop();
+            _timer.Stop();
 
             
             double results = CalculateResults(Questions);
 
-            double res = results==0? 0: results/TestModel.QuestionsInTest  *100;
+            var res = results==0? 0: results/ _questionsCount * 100;
 
             if (res >= 90)
             {
@@ -190,14 +196,21 @@ namespace Examinator.mvvm.viewmodels
 
             var resultWindow = new ResultWindow(new ResultModel()
             {
-                Mark = (int) res, QuestionsCount = TestModel.QuestionsInTest,
-                CorrectAnswersCount = (int) results, StudentName = "Forichok", TestName = TestModel.TestName, StartTime = startTime,
-                FinishTime = DateTime.Now,TestAuthor = TestModel.Author,TestDate = TestModel.CreatedDate,TotalAnswers = answered
+                Mark = (int) res, QuestionsCount = _questionsCount,
+                CorrectAnswersCount = (int) results,
+                StudentName = "Forichok",
+                TestName = TestModel.TestName,
+                StartTime = _startTime,
+                FinishTime = DateTime.Now,
+                TestAuthor = TestModel.Author,
+                TestDate = TestModel.CreatedDate,
+                TotalAnswers = _answered
             });
             resultWindow.ShowDialog();
+
             try
             {
-                var windows = App.Current.Windows;
+                var windows = Application.Current.Windows;
                 foreach (var window in windows)
                 {
                     if (window is SolveTestWindow thisWindow)
@@ -217,14 +230,14 @@ namespace Examinator.mvvm.viewmodels
 
         private void NextQuestion()
         {
-            if (SelectedQuestion.Number == TestModel.QuestionsInTest && !TestModel.Skipable)
+            if (SelectedQuestion.Number == _questionsCount && !TestModel.Skipable)
             {
                 EndTest();
             }
                 SwitchQuestion(SelectedQuestion.Number + 1);
             if (!TestModel.Skipable)
             {
-                if (SelectedQuestion.Number > TestModel.QuestionsInTest)
+                if (SelectedQuestion.Number > _questionsCount)
                 {
                     EndTest();
                 }
