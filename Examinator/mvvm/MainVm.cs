@@ -7,6 +7,7 @@ using Examinator.mvvm.models;
 using Examinator.mvvm.models.subModels;
 using Examinator.other;
 using Examinator.Views;
+using Microsoft.Win32;
 
 namespace Examinator.mvvm
 {
@@ -174,6 +175,7 @@ namespace Examinator.mvvm
             }
         }
 
+
         public DelegateCommand<PreloadedTestInfo> DeleteCommand { get; }
 
         private void Delete(PreloadedTestInfo info)
@@ -196,5 +198,30 @@ namespace Examinator.mvvm
             _loader.PreloadedTests.Remove(info);
         }
 
+
+        public DelegateCommand ImportCommand { get; }
+
+        private void ImportTest()
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == false)
+                return;
+
+            var p  = openFileDialog.FileName;
+
+            try
+            {
+
+            }
+            catch (TestException e)
+            {
+                var errorWindow = new ErrorWindow(e.Message + "\n" + e.AdditionalErrorInfo);
+                errorWindow.ShowDialog();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: невозможно загрузить/сохранить файл");
+            }
+        }
     }
 }
