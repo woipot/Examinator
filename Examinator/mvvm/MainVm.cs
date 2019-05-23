@@ -38,6 +38,7 @@ namespace Examinator.mvvm
             SolveTestCommand = new DelegateCommand<object>(OpenSolveWindow);
             CreateNewTestCommand = new DelegateCommand(CreateNewTest);
             DeleteCommand = new DelegateCommand<PreloadedTestInfo>(Delete);
+            ImportCommand = new DelegateCommand(ImportTest);
         }
 
         public DelegateCommand SwitchModeCommand { get; }
@@ -217,6 +218,21 @@ namespace Examinator.mvvm
             {
                 var errorWindow = new ErrorWindow(e.Message + "\n" + e.AdditionalErrorInfo);
                 errorWindow.ShowDialog();
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: невозможно загрузить/сохранить файл");
+            }
+        }
+
+
+        public DelegateCommand ShowInstructionCommand { get; }
+
+        private void ShowInstruction()
+        {
+            try
+            {
+
             }
             catch (Exception e)
             {

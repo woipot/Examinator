@@ -203,9 +203,9 @@
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Instruction.txt">
+    <AdditionalFiles Include="Instruction.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </AdditionalFiles>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\Fody.4.2.1\build\Fody.targets" Condition="Exists('..\packages\Fody.4.2.1\build\Fody.targets')" />

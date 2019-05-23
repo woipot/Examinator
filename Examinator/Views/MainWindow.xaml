@@ -41,7 +41,10 @@
             </MenuItem>
 
             <MenuItem Header="Результаты">
+                
             </MenuItem>
+
+            <MenuItem Header="Инструкция" Command="{Binding ShowInstructionCommand}"/>
         </Menu>
 
         <Grid Grid.Row="1">
