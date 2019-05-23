@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Examinator
+namespace Examinator.Views
 {
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml

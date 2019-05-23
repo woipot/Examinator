@@ -9,7 +9,7 @@ using Examinator.other;
 using Examinator.Views;
 using Microsoft.Win32;
 
-namespace Examinator.mvvm
+namespace Examinator.mvvm.viewmodels
 {
     public class MainVm : BindableBase
     {

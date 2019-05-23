@@ -6,11 +6,11 @@ using System.Windows;
 using System.Windows.Threading;
 using DevExpress.Mvvm;
 using Examinator.Extensions;
+using Examinator.mvvm.models;
 using Examinator.mvvm.models.subModels;
-using Examinator.other;
 using Examinator.Views;
 
-namespace Examinator.mvvm.models
+namespace Examinator.mvvm.viewmodels
 {
     class ExaminatorViewModel : BindableBase
     {

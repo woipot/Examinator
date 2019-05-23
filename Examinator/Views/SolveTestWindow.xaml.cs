@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Examinator.mvvm.models;
 using Examinator.mvvm.models.subModels;
+using Examinator.mvvm.viewmodels;
 
 namespace Examinator.Views
 {

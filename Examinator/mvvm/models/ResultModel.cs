@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Xml.Linq;
-using DevExpress.Mvvm;
-using Examinator.mvvm.models.subModels;
 
-namespace Examinator.other
+namespace Examinator.mvvm.models
 {
     [Serializable]
     public class ResultModel

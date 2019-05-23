@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
 using DevExpress.Mvvm;
+using Examinator.mvvm.models;
 using Examinator.other;
 
 namespace Examinator.mvvm.viewmodels

@@ -8,11 +8,12 @@
 
         xmlns:models="clr-namespace:Examinator.mvvm.models"
         xmlns:converters="clr-namespace:Examinator.converters"
+        xmlns:viewmodels="clr-namespace:Examinator.mvvm.viewmodels"
         mc:Ignorable="d"
         Title="{Binding TestModel.TestName}" Height="450" Width="800">
 
     <Window.DataContext>
-        <models:ExaminatorViewModel/>
+        <viewmodels:ExaminatorViewModel/>
     </Window.DataContext>
 
     <Window.Resources>
