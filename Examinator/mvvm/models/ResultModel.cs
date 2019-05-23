@@ -30,7 +30,7 @@ namespace Examinator.other
 
         public int QuestionsCount { get; set; }
 
-        public int Mark { get; set; }
+        public int Mark { get; set; } = 2;
 
         public String MarkStr => marks[Mark - 2];
 

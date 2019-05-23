@@ -30,7 +30,7 @@ namespace Examinator.mvvm.viewmodels
 
         public ResultsViewModel()
         {
-            
+            ResultModel = new ResultModel();
             Results=new ObservableCollection<ResultModel>();
         //    LoadResults();
         }
