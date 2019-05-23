@@ -190,7 +190,7 @@ namespace Examinator.mvvm
             }
             catch (Exception e)
             {
-                MessageBox.Show("Что-то пошло не так: невозможно загрузить файл");
+                MessageBox.Show("Что-то пошло не так: Возможно, файл уже удален");
             }
 
             _loader.PreloadedTests.Remove(info);

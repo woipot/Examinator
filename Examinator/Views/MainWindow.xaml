@@ -61,11 +61,11 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteTestCommand}" Content="удалить" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}">
+                                <Button Grid.Column="0" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" Content="удалить" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}">
                                     <Button.Background>
                                         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                                             <GradientStop Color="#99FF0000" Offset="0"/>
-                                            <GradientStop Color="#FF830D0D" Offset="1"/>
+                                            <GradientStop Color="#99830D0D" Offset="1"/>
                                         </LinearGradientBrush>
                                     </Button.Background>
                                 </Button>
