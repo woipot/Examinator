@@ -181,5 +181,10 @@ namespace Examinator.mvvm.models
 
             return Encoding.Default.GetString(bytes.ToArray());
         }
+
+        public static void DeleteTest(string infoAssociatedPath)
+        {
+            File.Delete(infoAssociatedPath);
+        }
     }
 }

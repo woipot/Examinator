@@ -3,7 +3,9 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using DevExpress.Mvvm;
 using Examinator.mvvm.models.subModels;
+using Examinator.other;
 using Examinator.Views;
+using MaterialDesignThemes.Wpf;
 using MessageBox = System.Windows.MessageBox;
 
 namespace Examinator.mvvm.models
@@ -116,8 +118,6 @@ namespace Examinator.mvvm.models
                     var path = Loader.SaveTest(TestModel, Info.AssociatedPath);
                     _info = new PreloadedTestInfo(TestModel.TestName, path);
                 }
-                
-
 
                 _info.TestName = TestModel.TestName;
                 MessageBox.Show("Успешно сохранено!", "Результат");
@@ -127,6 +127,5 @@ namespace Examinator.mvvm.models
                 MessageBox.Show("Что-то пошло не по плану, непредвиденная ошибка");
             }
         }
-
     }
 }

@@ -36,6 +36,7 @@ namespace Examinator.mvvm
             EditTestCommand = new DelegateCommand<object>(OpenEditWindow);
             SolveTestCommand = new DelegateCommand<object>(OpenSolveWindow);
             CreateNewTestCommand = new DelegateCommand(CreateNewTest);
+            DeleteCommand = new DelegateCommand<PreloadedTestInfo>(Delete);
         }
 
         public DelegateCommand SwitchModeCommand { get; }
@@ -172,5 +173,28 @@ namespace Examinator.mvvm
                 MessageBox.Show("Что-то пошло не так: невозможно загрузить/сохранить файл");
             }
         }
+
+        public DelegateCommand<PreloadedTestInfo> DeleteCommand { get; }
+
+        private void Delete(PreloadedTestInfo info)
+        {
+            var result = MessageBox.Show("Востановить тест будет невозможно", "Вы уверены?", MessageBoxButton.OKCancel,
+                MessageBoxImage.Question);
+
+            if(result == MessageBoxResult.Cancel)
+                return;
+
+            try
+            {
+                Loader.DeleteTest(info.AssociatedPath);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Что-то пошло не так: невозможно загрузить файл");
+            }
+
+            _loader.PreloadedTests.Remove(info);
+        }
+
     }
 }
