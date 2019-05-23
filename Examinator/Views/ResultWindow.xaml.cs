@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using Examinator.mvvm.viewmodels;
 using Examinator.other;
 
 namespace Examinator.Views
@@ -8,11 +10,16 @@ namespace Examinator.Views
     /// </summary>
     public partial class ResultWindow : Window
     {
-        public ResultWindow(ResulyInfo result)
+        public ResultWindow(ResultModel resultmodel)
         {
             InitializeComponent();
 
-            ResultLabel.Content = $"";
+            ((ResultsViewModel) DataContext).ResultModel = resultmodel;
+        }
+
+        private void FrameworkElement_OnLoaded(object sender, RoutedEventArgs e)
+        {
+            ((ResultsViewModel)DataContext).LoadResults();
         }
     }
 }

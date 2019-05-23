@@ -106,7 +106,8 @@
     <Compile Include="converters\CollectionToBoolConverter.cs" />
     <Compile Include="converters\SelectionConverter.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
-    <Compile Include="other\ResulyInfo.cs" />
+    <Compile Include="mvvm\viewmodels\ResultsViewModel.cs" />
+    <Compile Include="mvvm\models\ResultModel.cs" />
     <Compile Include="Views\EditTestWindow.xaml.cs">
       <DependentUpon>EditTestWindow.xaml</DependentUpon>
     </Compile>
@@ -164,8 +165,8 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="mvvm\MainVm.cs" />
-    <Compile Include="mvvm\models\ExaminatorViewModel.cs" />
+    <Compile Include="mvvm\viewmodels\MainVm.cs" />
+    <Compile Include="mvvm\viewmodels\ExaminatorViewModel.cs" />
     <Compile Include="mvvm\models\Loader.cs" />
     <Compile Include="mvvm\models\RedactorModel.cs" />
     <Compile Include="mvvm\models\subModels\AnswerModel.cs" />
