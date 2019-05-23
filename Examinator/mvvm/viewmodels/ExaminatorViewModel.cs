@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using DevExpress.Mvvm;
 using Examinator.Extensions;
 using Examinator.mvvm.models.subModels;
+using Examinator.other;
 using Examinator.Views;
 
 namespace Examinator.mvvm.models
@@ -15,13 +16,14 @@ namespace Examinator.mvvm.models
     {
         private PreloadedTestInfo _info;
         private DispatcherTimer Timer;
+        private DateTime startTime;
         public DelegateCommand<int> ChangeQuestionCommand { get; set; }
         public DelegateCommand EndTestCommand { get; set; }
         public DelegateCommand NextQuestionCommand { get; set; }
         public DelegateCommand PreviousQuestionCommand { get; set; }
 
         public int TimeLeft { get; set; }
-
+        private int answered;
         public String TimeLeftStr { get; set; }
 
 
@@ -47,7 +49,7 @@ namespace Examinator.mvvm.models
             SelectedQuestion.IsCurrent = true;
             RaisePropertiesChanged("Questions");
 
-
+            startTime=DateTime.Now;
             TimeLeft = TestModel.Skipable
                 ? TestModel.MinutsToTest * TestModel.QuestionsInTest
                 : TestModel.MinutsToTest;
@@ -88,15 +90,21 @@ namespace Examinator.mvvm.models
         private int CalculateResults(IEnumerable<QuestionModel> Questions)
         {
             var rightAnswers = 0;
+            answered = 0;
             foreach (var question in Questions)
             {
                 bool questionResult = true;
+                bool isAnswered = false;
                 foreach (var answer in question.Answers)
                 {
+                    if (answer.IsSelected)
+                        isAnswered = true;
                     if (answer.IsSelected != answer.IsRight)
                         questionResult = false;
                 }
 
+                if (isAnswered)
+                    answered++;
                 if (questionResult)
                     rightAnswers++;
             }
@@ -143,7 +151,8 @@ namespace Examinator.mvvm.models
 
         private void EndTestByCommand()
         {
-            var result =  MessageBox.Show("Завершить тест и получить результат?", "Вы уверены?", MessageBoxButton.OKCancel,
+            var result = MessageBox.Show("Завершить тест и получить результат?", "Вы уверены?",
+                MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
 
             if (result == MessageBoxResult.OK)
@@ -154,11 +163,40 @@ namespace Examinator.mvvm.models
 
         private void EndTest()
         {
+
+            Timer.Stop();
+
+            
+            double results = CalculateResults(Questions);
+
+            double res = results==0? 0: results/TestModel.QuestionsInTest  *100;
+
+            if (res >= 90)
+            {
+                res = 5;
+            }else if (res>=75)
+            {
+                res = 4;
+            }
+            else if (res >= 60)
+            {
+                res = 3;
+            }
+            else
+            {
+                res = 2;
+            }
+
+
+            var resultWindow = new ResultWindow(new ResultModel()
+            {
+                Mark = (int) res, QuestionsCount = TestModel.QuestionsInTest,
+                CorrectAnswersCount = (int) results, StudentName = "Forichok", TestName = TestModel.TestName, StartTime = startTime,
+                FinishTime = DateTime.Now,TestAuthor = TestModel.Author,TestDate = TestModel.CreatedDate,TotalAnswers = answered
+            });
+            resultWindow.ShowDialog();
             try
             {
-                Timer.Stop();
-                var results = CalculateResults(Questions);
-                MessageBox.Show($"{results}/{Math.Min(TestModel.QuestionsInTest, TestModel.Questions.Count)}");
                 var windows = App.Current.Windows;
                 foreach (var window in windows)
                 {
@@ -171,16 +209,22 @@ namespace Examinator.mvvm.models
             catch (Exception e)
             {
             }
-           
+
         }
+
+        
 
 
         private void NextQuestion()
         {
-            SwitchQuestion(SelectedQuestion.Number + 1);
+            if (SelectedQuestion.Number == TestModel.QuestionsInTest && !TestModel.Skipable)
+            {
+                EndTest();
+            }
+                SwitchQuestion(SelectedQuestion.Number + 1);
             if (!TestModel.Skipable)
             {
-                if (SelectedQuestion.Number >= TestModel.QuestionsInTest)
+                if (SelectedQuestion.Number > TestModel.QuestionsInTest)
                 {
                     EndTest();
                 }

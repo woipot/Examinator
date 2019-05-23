@@ -24,15 +24,15 @@ namespace Examinator.mvvm.models.subModels
 
         public bool Skipable { get; set; } = true;
 
-        public string TestName { get; set; }
+        public string TestName { get; set; } = "Test";
 
-        public string Author { get; set; }
+        public string Author { get; set; } = "Author";
 
-        public string CreatedDate { get; set; }
+        public string CreatedDate { get; set; } = DateTime.Now.ToString();
 
         public int MinutsToTest { get; set; } = 10;
 
-        public int QuestionsInTest { get; set; } = 1;
+        public int QuestionsInTest { get; set; } = 10;
 
         public ObservableCollection<QuestionModel> Questions { get; }
 
