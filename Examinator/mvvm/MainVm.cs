@@ -76,7 +76,7 @@ namespace Examinator.mvvm
                 var testModel = Loader.LoadTest(preloadedInfo.AssociatedPath);
                 var viewWindow = new TestViewWindow(testModel);
 
-                viewWindow.Show();
+                viewWindow.ShowDialog();
             }
             catch (TestException e)
             {
@@ -104,7 +104,7 @@ namespace Examinator.mvvm
                 var testModel = Loader.LoadTest(preloadedInfo.AssociatedPath);
 
                 var editWindow = new EditTestWindow(testModel, preloadedInfo);
-                editWindow.Show();
+                editWindow.ShowDialog();
 
             }
             catch (TestException e)
