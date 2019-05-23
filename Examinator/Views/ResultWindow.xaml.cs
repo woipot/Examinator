@@ -1,8 +1,6 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using Examinator.mvvm.models;
 using Examinator.mvvm.viewmodels;
-using Examinator.other;
 
 namespace Examinator.Views
 {

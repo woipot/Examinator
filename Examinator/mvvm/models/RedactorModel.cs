@@ -3,9 +3,7 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using DevExpress.Mvvm;
 using Examinator.mvvm.models.subModels;
-using Examinator.other;
 using Examinator.Views;
-using MaterialDesignThemes.Wpf;
 using MessageBox = System.Windows.MessageBox;
 
 namespace Examinator.mvvm.models
