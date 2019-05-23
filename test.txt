@@ -1,12 +1,10 @@
 TestName = Пробный тест
 Author = ivanov ivan
 Date = 05.22.2019
-Time = 10
-QuestionCount = 1
-Skipable = False
+Time = 21
+questioncount = 10
 
-
-=Кто такой мяуске
+=Почему я дебил
 +кот
 -медведь
 -лошадь

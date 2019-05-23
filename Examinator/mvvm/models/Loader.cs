@@ -57,137 +57,136 @@ namespace Examinator.mvvm.models
             return null;
         }
 
-        private static TestModel LoadFromFile(string filename)
+        public static TestModel LoadFromFile(string filename)
         {
-            if (File.Exists(filename.ToString()))
+            StreamReader sr = new StreamReader(filename, Encoding.Default);
+            var test = new TestModel();
+            bool questions_count_setted = false;
+            bool questions_time_setted = false;
+
+            bool[] flags_readed_arr = new bool[6];
+            
+            string line;
+            QuestionModel tmpuestion = null;
+            while ((line = sr.ReadLine()) != null)
             {
-                TestModelFlags flags; 
-                flags.TestName = false;
-                flags.Author = false;
-                flags.Date = false;
-                flags.Time = false;
-                flags.QuestionCount = false;
-                flags.Skipable = false;
+                //var line_copy = "awdfesgrd";
+                //var kek = line_copy.Split('=');
 
-                StreamReader sr = new StreamReader(filename, Encoding.Default);
-                var test = new TestModel();
-
-                bool[] flags_readed_arr = new bool[6];
-                
-                string line;
-                QuestionModel tmpuestion = null;
-                while ((line = sr.ReadLine()) != null)
+                line = line.Trim();
+                if (string.IsNullOrEmpty(line)) continue;
+                var first = line.First();
+                switch(first)
                 {
-                    //var line_copy = "awdfesgrd";
-                    //var kek = line_copy.Split('=');
-
-                    line = line.Trim();
-                    if (string.IsNullOrEmpty(line)) continue;
-                    var first = line.First();
-                    switch(first)
-                    {
-                        case '-':
-                        case '+':
-                            if(tmpuestion == null)
-                            {
-                                tmpuestion = new QuestionModel("");
-                                test.Questions.Add(tmpuestion);
-                            }
-                                                    
-                            if (first == '+')
-                            {
-                                line.Remove(0);
-                                line.Trim();
-                                tmpuestion.Answers.Add(new AnswerModel(line, true));
-                            }
-                            else
-                            {
-                                line.Remove(0);
-                                line.Trim();
-                                tmpuestion.Answers.Add(new AnswerModel(line, false));
-                            }
-                            break;
-                        case '=':
+                    case '-':
+                    case '+':
+                        if(tmpuestion == null)
+                        {
+                            tmpuestion = new QuestionModel("");
+                            test.Questions.Add(tmpuestion);
+                        }
+                                                
+                        if (first == '+')
+                        {
                             line.Remove(0);
                             line.Trim();
+                            tmpuestion.Answers.Add(new AnswerModel(line, true));
+                        }
+                        else
+                        {
+                            line.Remove(0);
+                            line.Trim();
+                            tmpuestion.Answers.Add(new AnswerModel(line, false));
+                        }
+                        break;
+                    case '=':
+                        line.Remove(0);
+                        line.Trim();
 
-                            tmpuestion = new QuestionModel(line);
-                            test.Questions.Add(tmpuestion);
-                            break;
-                        default:
-                            var line_split = line.Split('=');
-                            if (line_split.Length == 2)
+                        tmpuestion = new QuestionModel(line);
+                        test.Questions.Add(tmpuestion);
+                        break;
+                    default:
+                        var line_split = line.Split('=');
+                        if (line_split.Length == 2)
+                        {
+                            var variant = line_split[0].Trim().ToLower();
+                            var data = line_split[1].Trim();
+                            if (!string.IsNullOrEmpty(data))
                             {
-                                var variant = line_split[0].Trim();
-                                var data = line_split[1].Trim();
-                                if (string.IsNullOrEmpty(data))
+                                switch (variant)
                                 {
-                                    switch (variant)
+                                case "название":
+                                case "testname":
+                                    test.TestName = data;
+                                    break;
+                                case "автор":
+                                case "author":
+                                    test.Author = data;
+                                    break;
+                                case "время на вопрос":
+                                case "time":
+                                    try
                                     {
-                                        case "TestName":
-                                            test.TestName = data;
-                                            break;
-                                        case "Author":
-                                            test.Author = data;
-                                            break;
-                                        case "Date":
-                                            test.CreatedDate = data;
-                                            break;
-                                        case "Time":
-                                            try
-                                            {
-                                                var time = Int32.Parse(data);
-                                                test.MinutsToTest = time;
-                                            } catch (FormatException) {
-                                                test.MinutsToTest = 0;
-                                            }
-                                            break;
-                                        case "QuestionCount":
-                                            try
-                                            {
-                                                var count = Int32.Parse(data);
-                                                test.QuestionsInTest = count;
-                                            }
-                                            catch (FormatException) {
-                                                test.QuestionsInTest = 0;
-                                            }
-                                            break;
-                                        case "Skipable":
-                                            if (data.Contains("Не") || data.Contains("False"))
-                                            {
-                                                test.Skipable = false;
-                                            }
-                                            else if (data.Contains("Да") || data.Contains("True"))
-                                            {
-                                                test.Skipable = true;
-                                            }
-                                            else
-                                            {
-                                                test.Skipable = true;
-                                            }
-                                            //test.Skipable = 
-                                            break;
-                                        default:
-                                            break;
+                                        var time = Int32.Parse(data);
+                                        test.MinutsToTest = time;
+                                        questions_time_setted = true; 
+                                    } catch (FormatException) {
+                                        test.MinutsToTest = 0;
+                                        questions_time_setted = true;
                                     }
+                                    break;
+                                case "вопросы":
+                                case "questioncount":
+                                    try
+                                    {
+                                        var count = Int32.Parse(data);
+                                        test.QuestionsInTest = count;
+                                        questions_count_setted = true;
+                                    }
+                                    catch (FormatException) {
+                                        test.QuestionsInTest = 0;
+                                        questions_count_setted = true;
+                                    }
+                                    break;
+                                case "можно пропускать":
+                                case "skipable":
+                                    if (data.Contains("Не") || data.Contains("False"))
+                                    {
+                                        test.Skipable = false;
+                                    }
+                                    else if (data.Contains("Да") || data.Contains("True"))
+                                    {
+                                        test.Skipable = true;
+                                    }
+                                    else
+                                    {
+                                        test.Skipable = true;
+                                    }
+                                    //test.Skipable = 
+                                    break;
+                                default:
+                                    break;
                                 }
                             }
-                            break;
-                    }
+                        }
+                        break;
                 }
-
-                var check = test.CheckToCorrect();
-                if(check.Item2)
-                {
-                    throw new TestException("В файле обнаружены крит ошибки", check.Item1);
-                }
-
-                test.Clean();
-
-                return test;
-                
             }
-            
+            if (!questions_count_setted)
+                test.QuestionsInTest = 0;
+            if (!questions_time_setted)
+                test.MinutsToTest = 0;
+
+            var check = test.CheckToCorrect();
+            if(check.Item2)
+            {
+                throw new TestException("В файле обнаружены критические ошибки", check.Item1);
+            }
+
+            test.Clean();
+
+            return test;
             
         } 
 
