@@ -131,7 +131,7 @@
                                                 <Ellipse  Grid.Column="0" Width="10"  Height="10"  Fill="Black"  Stroke="Black"  StrokeThickness="1" VerticalAlignment="Top"/>
                                                 <TextBox Grid.Column="1" MinWidth="40" Margin="20,0" Text="{Binding QuestionText}"/>
                                                 <Button Grid.Column="2" FontSize="10" Content="Удалить вопрос"  Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}"/>
-                                                <Button Grid.Column="3" FontSize="10" Margin="20,0" Content="Копировать"  Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.CopyCommand}" CommandParameter="{Binding}"/>
+                                                <Button Grid.Column="3" FontSize="10" Margin="20,0" Content="Копировать"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}"/>
                                             </Grid>
                                         </Expander.Header>
                                         <StackPanel Orientation="Vertical">
@@ -167,7 +167,7 @@
             </StackPanel>
         </ScrollViewer>
         <Grid Grid.Row="1"  Margin="10">
-            <Button Content="Добавить вопрос" Command="{Binding TestModel.AddEmptyQuestionCommand}" HorizontalAlignment="Left" Margin="20, 0"/>
+            <Button Content="Добавить вопрос" Command="{Binding AddEmptyQuestionCommand}" HorizontalAlignment="Left" Margin="20, 0"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Button Command="{Binding SaveCommand}" Style="{StaticResource MaterialDesignRaisedAccentButton}" Content="Сохранить изменения" HorizontalAlignment="Right" Margin="20, 0">
                     <Button.ToolTip>

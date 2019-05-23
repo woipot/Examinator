@@ -19,6 +19,8 @@ namespace Examinator.mvvm.models
         {
             CloseWindowCommand = new DelegateCommand<Window>(CloseWindow);
             SaveCommand = new DelegateCommand(Save);
+            AddEmptyQuestionCommand = new DelegateCommand(AddEmptyQuestion);
+            CopyCommand = new DelegateCommand<QuestionModel>(AddCopy);
         }
 
 
@@ -124,6 +126,21 @@ namespace Examinator.mvvm.models
             {
                 MessageBox.Show("Что-то пошло не по плану, непредвиденная ошибка");
             }
+        }
+
+        public DelegateCommand AddEmptyQuestionCommand { get; }
+
+        public void AddEmptyQuestion()
+        {
+            Questions.Add(new QuestionModel(""));
+            RaisePropertiesChanged("FullTime");
+        }
+
+        public DelegateCommand<QuestionModel> CopyCommand { get; }
+
+        public void AddCopy(QuestionModel question)
+        {
+            Questions.Add(new QuestionModel(question));
         }
     }
 }

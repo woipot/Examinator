@@ -14,7 +14,8 @@ namespace Examinator.mvvm.viewmodels
     {
        public String Result => $"{PercentResult}\n{TotalResult}";
 
-        public String PercentResult => string.Format("{0:N2}%", ResultModel.CorrectAnswersCount / (double)ResultModel.QuestionsCount * 100);
+        public String PercentResult =>
+            $"{ResultModel.CorrectAnswersCount / (double) ResultModel.QuestionsCount * 100:N2}%";
 
         public String TotalResult => $"{ResultModel.CorrectAnswersCount}/{ResultModel.QuestionsCount}";
 
@@ -33,7 +34,7 @@ namespace Examinator.mvvm.viewmodels
 
         private void SaveResults()
         {
-            using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/results.axax",
+            using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/Results/results.db",
                 FileMode.Create, FileAccess.Write))
             {
                 var cryptic = new DESCryptoServiceProvider

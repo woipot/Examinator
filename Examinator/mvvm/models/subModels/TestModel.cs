@@ -17,8 +17,6 @@ namespace Examinator.mvvm.models.subModels
         {
             Questions = new ObservableCollection<QuestionModel>();
             DeleteCommand = new DelegateCommand<QuestionModel>(Delete);
-            CopyCommand = new DelegateCommand<QuestionModel>(AddCopy);
-            AddEmptyQuestionCommand = new DelegateCommand(AddEmptyQuestion);
         }
 
 
@@ -174,21 +172,6 @@ namespace Examinator.mvvm.models.subModels
             Questions.Remove(question);
         }
 
-
-        public DelegateCommand AddEmptyQuestionCommand { get; }
-
-        public void AddEmptyQuestion()
-        {
-            Questions.Add(new QuestionModel(""));
-        }
-
-
-        public DelegateCommand<QuestionModel> CopyCommand { get; }
-
-        public void AddCopy(QuestionModel question)
-        {
-            Questions.Add(new QuestionModel(question));
-        }
 
         public Tuple<string, bool> CheckToCorrect()
         {

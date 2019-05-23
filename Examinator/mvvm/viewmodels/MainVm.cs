@@ -205,7 +205,12 @@ namespace Examinator.mvvm.viewmodels
 
         private void ImportTest()
         {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
+            var openFileDialog =
+                new OpenFileDialog
+                {
+                    Filter = "Текстовые файлы (*.txt)|*.txt"
+                };
+
             if (openFileDialog.ShowDialog() == false)
                 return;
 
