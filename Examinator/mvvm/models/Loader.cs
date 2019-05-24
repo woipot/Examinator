@@ -63,8 +63,6 @@ namespace Examinator.mvvm.models
             var test = new TestModel();
             bool questions_count_setted = false;
             bool questions_time_setted = false;
-
-            bool[] flags_readed_arr = new bool[6];
             
             string line;
             QuestionModel tmpuestion = null;
@@ -88,20 +86,20 @@ namespace Examinator.mvvm.models
                                                 
                         if (first == '+')
                         {
-                            line.Remove(0);
-                            line.Trim();
+                            line = line.Remove(0, 1);
+                            line = line.Trim();
                             tmpuestion.Answers.Add(new AnswerModel(line, true));
                         }
                         else
                         {
-                            line.Remove(0);
-                            line.Trim();
+                            line = line.Remove(0, 1);
+                            line = line.Trim();
                             tmpuestion.Answers.Add(new AnswerModel(line, false));
                         }
                         break;
                     case '=':
-                        line.Remove(0);
-                        line.Trim();
+                        line = line.Remove(0, 1);
+                        line = line.Trim();
 
                         tmpuestion = new QuestionModel(line);
                         test.Questions.Add(tmpuestion);
