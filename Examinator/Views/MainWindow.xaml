@@ -35,14 +35,14 @@
                 <MenuItem Header="Режим преподавателя" IsCheckable="True" IsChecked="{Binding TeacherMode, Mode=OneWay, UpdateSourceTrigger=LostFocus}" Command="{Binding SwitchModeCommand}"/>
                 <MenuItem Header="Создать Тест" Command="{Binding CreateNewTestCommand}" Visibility="{Binding TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
                 <MenuItem Header="Загрузить из файла" Command="{Binding ImportCommand}" Visibility="{Binding TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
-                <Separator/>
-                <MenuItem Header="Выход"/>
             </MenuItem>
 
             <MenuItem Header="Результаты" Command="{Binding ShowResultsCommand}"/>
 
-
             <MenuItem Header="Инструкция" Command="{Binding ShowInstructionCommand}"/>
+
+            <MenuItem Header="Контакты" Command="{Binding ShowAboutCommand}"/>
+
         </Menu>
 
         <Grid Grid.Row="1">

@@ -41,6 +41,8 @@ namespace Examinator.mvvm.viewmodels
             ImportCommand = new DelegateCommand(ImportTest);
             ShowInstructionCommand = new DelegateCommand(ShowInstruction);
             ShowResultsCommand = new DelegateCommand(ShowResults);
+            ShowAboutCommand = new DelegateCommand(ShowAbout);
+
         }
 
         public DelegateCommand SwitchModeCommand { get; }
@@ -263,6 +265,15 @@ namespace Examinator.mvvm.viewmodels
         {
             var resultsWindow = new ResultTableWindow();
             resultsWindow.ShowDialog();
+        }
+
+
+        public DelegateCommand ShowAboutCommand { get; }
+
+        private void ShowAbout()
+        {
+            MessageBox.Show(
+                "Создатели:\nСтульников Кирилл, Удалов Никита,\nКирдяшкин Игорь, Павлов Александр\nСпециально для кафедры военной подготовки\nПо всем вопросам: forandwoicorp@gmail.com", "Контакты", MessageBoxButton.OK, MessageBoxImage.Information);
         }
     }
 }
