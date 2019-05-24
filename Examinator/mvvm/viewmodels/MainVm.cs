@@ -133,21 +133,26 @@ namespace Examinator.mvvm.viewmodels
                 return;
             }
 
-            try
+            var studentInfoWindow = new StudentInputDialog();
+            if (studentInfoWindow.ShowDialog() == true)
             {
-                var testModel = Loader.LoadTest(preloadedInfo.AssociatedPath);
 
-                var solveWindow = new SolveTestWindow(testModel, preloadedInfo);
-                solveWindow.ShowDialog();
+                try
+                {
+                    var testModel = Loader.LoadTest(preloadedInfo.AssociatedPath);
 
-            }
-            catch (TestException e)
-            {
-                MessageBox.Show(e.Message);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Что-то пошло не так: невозможно загрузить файл");
+                    var solveWindow = new SolveTestWindow(testModel, preloadedInfo, studentInfoWindow.StudentName, studentInfoWindow.Group);
+                    solveWindow.ShowDialog();
+
+                }
+                catch (TestException e)
+                {
+                    MessageBox.Show(e.Message);
+                }
+                catch (Exception e)
+                {
+                    MessageBox.Show("Что-то пошло не так: невозможно загрузить файл");
+                }
             }
         }
 

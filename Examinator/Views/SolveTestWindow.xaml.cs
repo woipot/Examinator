@@ -9,10 +9,11 @@ namespace Examinator.Views
     /// </summary>
     public partial class SolveTestWindow : Window
     {
-        public SolveTestWindow(TestModel testModel, PreloadedTestInfo preloadedInfo)
+        public SolveTestWindow(TestModel testModel, PreloadedTestInfo preloadedInfo, string studentName, string group)
         {
             InitializeComponent();
-            ((ExaminatorViewModel)DataContext).SetData(testModel, preloadedInfo);
+            ((ExaminatorViewModel)DataContext).SetData(testModel, studentName, group);
+
         }
     }
 }

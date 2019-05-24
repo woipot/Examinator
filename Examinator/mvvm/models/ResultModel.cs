@@ -14,6 +14,8 @@ namespace Examinator.mvvm.models
         public String TestAuthor { get; set; }
 
         public String StudentName { get; set; }
+
+        public String Group{ get; set; }
         
         public DateTime StartTime { get; set; }
 

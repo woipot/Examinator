@@ -14,7 +14,6 @@ namespace Examinator.mvvm.viewmodels
 {
     class ExaminatorViewModel : BindableBase
     {
-        private PreloadedTestInfo _info;
         private DispatcherTimer _timer;
         private DateTime _startTime;
         public DelegateCommand<int> ChangeQuestionCommand { get; set; }
@@ -34,10 +33,16 @@ namespace Examinator.mvvm.viewmodels
 
         public ObservableCollection<QuestionModel> Questions { get; set; }
 
-        public void SetData(TestModel testModel, PreloadedTestInfo preloadedInfo)
+        private string _studentName;
+        private string _group;
+
+
+        public void SetData(TestModel testModel, string studentName, string group)
         {
+            _studentName = studentName;
+            _group = group;
+
             TestModel = testModel;
-            _info = preloadedInfo;
             Questions = TestModel?.Questions;
             RandomizeQuestions();
 
@@ -198,7 +203,8 @@ namespace Examinator.mvvm.viewmodels
             {
                 Mark = (int) res, QuestionsCount = _questionsCount,
                 CorrectAnswersCount = (int) results,
-                StudentName = "Forichok",
+                StudentName = _studentName,
+                Group = _group,
                 TestName = TestModel.TestName,
                 StartTime = _startTime,
                 FinishTime = DateTime.Now,

@@ -142,6 +142,9 @@
     <Compile Include="Views\SolveTestWindow.xaml.cs">
       <DependentUpon>SolveTestWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\StudentInputDialog.xaml.cs">
+      <DependentUpon>StudentInputDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TestViewWindow.xaml.cs">
       <DependentUpon>TestViewWindow.xaml</DependentUpon>
     </Compile>
@@ -179,6 +182,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SolveTestWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\StudentInputDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
