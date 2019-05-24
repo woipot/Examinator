@@ -14,6 +14,7 @@ namespace Examinator.mvvm.models
 {
     internal class Loader : BindableBase
     {
+
         public ObservableCollection<PreloadedTestInfo> PreloadedTests { get; }
 
         public List<TestException> LoadExceptions { get; }
@@ -43,6 +44,151 @@ namespace Examinator.mvvm.models
 
             LoadExceptions = PreloadTests().ToList();
         }
+
+        private static string GetSubStringBeforeEqually(string line) {
+            var pos_eq = line.IndexOf("=");
+            if (pos_eq != -1)
+            {
+
+                line.Trim(' ');
+                if ((!string.IsNullOrWhiteSpace(line)) && (!string.IsNullOrEmpty(line)))
+                    return line;
+            }
+            return null;
+        }
+
+        public static TestModel LoadFromFile(string filename)
+        {
+            StreamReader sr = new StreamReader(filename, Encoding.Default);
+            var test = new TestModel();
+            bool questions_count_setted = false;
+            bool questions_time_setted = false;
+
+            bool[] flags_readed_arr = new bool[6];
+            
+            string line;
+            QuestionModel tmpuestion = null;
+            while ((line = sr.ReadLine()) != null)
+            {
+                //var line_copy = "awdfesgrd";
+                //var kek = line_copy.Split('=');
+
+                line = line.Trim();
+                if (string.IsNullOrEmpty(line)) continue;
+                var first = line.First();
+                switch(first)
+                {
+                    case '-':
+                    case '+':
+                        if(tmpuestion == null)
+                        {
+                            tmpuestion = new QuestionModel("");
+                            test.Questions.Add(tmpuestion);
+                        }
+                                                
+                        if (first == '+')
+                        {
+                            line.Remove(0);
+                            line.Trim();
+                            tmpuestion.Answers.Add(new AnswerModel(line, true));
+                        }
+                        else
+                        {
+                            line.Remove(0);
+                            line.Trim();
+                            tmpuestion.Answers.Add(new AnswerModel(line, false));
+                        }
+                        break;
+                    case '=':
+                        line.Remove(0);
+                        line.Trim();
+
+                        tmpuestion = new QuestionModel(line);
+                        test.Questions.Add(tmpuestion);
+                        break;
+                    default:
+                        var line_split = line.Split('=');
+                        if (line_split.Length == 2)
+                        {
+                            var variant = line_split[0].Trim().ToLower();
+                            var data = line_split[1].Trim();
+                            if (!string.IsNullOrEmpty(data))
+                            {
+                                switch (variant)
+                                {
+                                case "название":
+                                case "testname":
+                                    test.TestName = data;
+                                    break;
+                                case "автор":
+                                case "author":
+                                    test.Author = data;
+                                    break;
+                                case "время на вопрос":
+                                case "time":
+                                    try
+                                    {
+                                        var time = Int32.Parse(data);
+                                        test.MinutsToTest = time;
+                                        questions_time_setted = true; 
+                                    } catch (FormatException) {
+                                        test.MinutsToTest = 0;
+                                        questions_time_setted = true;
+                                    }
+                                    break;
+                                case "вопросы":
+                                case "questioncount":
+                                    try
+                                    {
+                                        var count = Int32.Parse(data);
+                                        test.QuestionsInTest = count;
+                                        questions_count_setted = true;
+                                    }
+                                    catch (FormatException) {
+                                        test.QuestionsInTest = 0;
+                                        questions_count_setted = true;
+                                    }
+                                    break;
+                                case "можно пропускать":
+                                case "skipable":
+                                    if (data.Contains("Не") || data.Contains("False"))
+                                    {
+                                        test.Skipable = false;
+                                    }
+                                    else if (data.Contains("Да") || data.Contains("True"))
+                                    {
+                                        test.Skipable = true;
+                                    }
+                                    else
+                                    {
+                                        test.Skipable = true;
+                                    }
+                                    //test.Skipable = 
+                                    break;
+                                default:
+                                    break;
+                                }
+                            }
+                        }
+                        break;
+                }
+            }
+            if (!questions_count_setted)
+                test.QuestionsInTest = 0;
+            if (!questions_time_setted)
+                test.MinutsToTest = 0;
+
+            var check = test.CheckToCorrect();
+            if(check.Item2)
+            {
+                throw new TestException("В файле обнаружены критические ошибки", check.Item1);
+            }
+
+            test.Clean();
+
+            return test;
+            
+        } 
 
         private void RecreateStructure()
         {

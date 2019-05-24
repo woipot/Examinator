@@ -218,7 +218,11 @@ namespace Examinator.mvvm.viewmodels
 
             try
             {
+                var test = Loader.LoadFromFile(p);
 
+                var realPath = Loader.SaveTest(test, _loader.PathToTests);
+
+                _loader.PreloadedTests.Insert(0, new PreloadedTestInfo(test.TestName, realPath));
             }
             catch (TestException e)
             {
