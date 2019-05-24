@@ -4,9 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="ResultTableWindow" Height="400" Width="700">
+        Title="Результаты" Height="400" Width="700">
     <Grid>
-        <StackPanel>
+        <ScrollViewer>
             <DataGrid x:Name="DateGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserDeleteRows="False" CanUserAddRows="False">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название теста" Binding="{Binding TestName}"></DataGridTextColumn>
@@ -17,6 +17,6 @@
                     <DataGridTextColumn Header="Время прохождения" Binding="{Binding TotalTime}"></DataGridTextColumn>
                 </DataGrid.Columns>
             </DataGrid>
-        </StackPanel>
+        </ScrollViewer>
     </Grid>
 </Window>

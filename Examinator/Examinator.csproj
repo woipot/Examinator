@@ -130,6 +130,9 @@
     <Compile Include="Views\ErrorWindow.xaml.cs">
       <DependentUpon>ErrorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\HelpWindow.xaml.cs">
+      <DependentUpon>HelpWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PasswordDialog.xaml.cs">
       <DependentUpon>PasswordDialog.xaml</DependentUpon>
     </Compile>
@@ -148,6 +151,10 @@
     <Compile Include="Views\TestViewWindow.xaml.cs">
       <DependentUpon>TestViewWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\HelpWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

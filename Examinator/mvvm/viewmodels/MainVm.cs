@@ -42,7 +42,6 @@ namespace Examinator.mvvm.viewmodels
             ShowInstructionCommand = new DelegateCommand(ShowInstruction);
             ShowResultsCommand = new DelegateCommand(ShowResults);
             ShowAboutCommand = new DelegateCommand(ShowAbout);
-
         }
 
         public DelegateCommand SwitchModeCommand { get; }
@@ -248,14 +247,8 @@ namespace Examinator.mvvm.viewmodels
 
         private void ShowInstruction()
         {
-            try
-            {
-
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show("Что-то пошло не так: невозможно загрузить/сохранить файл");
-            }
+            var window = new HelpWindow();
+            window.Show();
         }
 
 
@@ -275,5 +268,7 @@ namespace Examinator.mvvm.viewmodels
             MessageBox.Show(
                 "Создатели:\nСтульников Кирилл, Удалов Никита,\nКирдяшкин Игорь, Павлов Александр\nСпециально для кафедры военной подготовки\nПо всем вопросам: forandwoicorp@gmail.com", "Контакты", MessageBoxButton.OK, MessageBoxImage.Information);
         }
+
+    
     }
 }

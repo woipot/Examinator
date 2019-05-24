@@ -13,7 +13,7 @@
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
         mc:Ignorable="d"
-        Title="Просмотр теста" Height="400" Width="600">
+        Title="Просмотр теста" Height="600" Width="600">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
