@@ -130,14 +130,14 @@
                                             <UniformGrid Columns="2" HorizontalAlignment="Stretch" Margin="0,10">
                                             <TextBlock VerticalAlignment="Center" Margin="20,0,0,0" Text="Начало" FontWeight="Bold" FontSize="15"></TextBlock>
                                             <StackPanel>
-                                                <TextBlock Text="{Binding ResultModel.StartTime}" FontWeight="DemiBold" FontSize="15"></TextBlock>
+                                                <TextBlock Text="{Binding ResultModel.StartTimeStr}" FontWeight="DemiBold" FontSize="15"></TextBlock>
                                             </StackPanel>
                                         </UniformGrid>
 
                                             <UniformGrid Columns="2" HorizontalAlignment="Stretch" Margin="0,10">
                                                 <TextBlock VerticalAlignment="Center" Margin="20,0,0,0" Text="Конец" FontWeight="Bold" FontSize="15"></TextBlock>
                                             <StackPanel>
-                                                <TextBlock Text="{Binding ResultModel.FinishTime}" FontWeight="DemiBold" FontSize="15"></TextBlock>
+                                                <TextBlock Text="{Binding ResultModel.FinishTimeStr}" FontWeight="DemiBold" FontSize="15"></TextBlock>
                                             </StackPanel>
                                         </UniformGrid>
 
@@ -158,7 +158,7 @@
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Название теста" Binding="{Binding TestName}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="ФИО" Binding="{Binding StudentName}"></DataGridTextColumn>
-                                        <DataGridTextColumn Header="Дата прохождения" Binding="{Binding StartTime}"></DataGridTextColumn>
+                                        <DataGridTextColumn Header="Дата прохождения" Binding="{Binding StartTimeStr}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="Время прохождения" Binding="{Binding TotalTime}"></DataGridTextColumn>
                                         <DataGridTextColumn Header="Оценка" Binding="{Binding MarkStr}"></DataGridTextColumn>
                                     </DataGrid.Columns>

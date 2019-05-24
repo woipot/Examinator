@@ -16,9 +16,14 @@ namespace Examinator.mvvm.models
         public String StudentName { get; set; }
         
         public DateTime StartTime { get; set; }
+
+        public string StartTimeStr => StartTime.ToString("g");
         
         public DateTime FinishTime { get; set; }
-        
+
+        public string FinishTimeStr => FinishTime.ToString("g");
+
+
         public String TotalTime => (FinishTime - StartTime).ToString(@"mm") + " мин. " +
                                    (FinishTime - StartTime).ToString(@"ss") + " сек.";
 

@@ -11,7 +11,7 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Название теста" Binding="{Binding TestName}"></DataGridTextColumn>
                     <DataGridTextColumn Header="ФИО" Binding="{Binding StudentName}"></DataGridTextColumn>
-                    <DataGridTextColumn Header="Дата прохождения" Binding="{Binding StartTime}"></DataGridTextColumn>
+                    <DataGridTextColumn Header="Дата прохождения" Binding="{Binding StartTimeStr}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Время прохождения" Binding="{Binding TotalTime}"></DataGridTextColumn>
                     <DataGridTextColumn Header="Оценка" Binding="{Binding MarkStr}"></DataGridTextColumn>
                 </DataGrid.Columns>
