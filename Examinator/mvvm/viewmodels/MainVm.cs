@@ -40,6 +40,7 @@ namespace Examinator.mvvm.viewmodels
             DeleteCommand = new DelegateCommand<PreloadedTestInfo>(Delete);
             ImportCommand = new DelegateCommand(ImportTest);
             ShowInstructionCommand = new DelegateCommand(ShowInstruction);
+            ShowResultsCommand = new DelegateCommand(ShowResults);
         }
 
         public DelegateCommand SwitchModeCommand { get; }
@@ -248,6 +249,15 @@ namespace Examinator.mvvm.viewmodels
             {
                 MessageBox.Show("Что-то пошло не так: невозможно загрузить/сохранить файл");
             }
+        }
+
+
+        public DelegateCommand ShowResultsCommand { get; }
+
+        private void ShowResults()
+        {
+            var resultsWindow = new ResultTableWindow();
+            resultsWindow.ShowDialog();
         }
     }
 }

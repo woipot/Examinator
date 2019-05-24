@@ -59,7 +59,7 @@ namespace Examinator.mvvm.viewmodels
         {
             try
             {
-                using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/results.axax",
+                using (var stream = new FileStream(AppDomain.CurrentDomain.BaseDirectory + "/Results/results.db",
                     FileMode.OpenOrCreate, FileAccess.Read))
                 {
                     var cryptic = new DESCryptoServiceProvider();
