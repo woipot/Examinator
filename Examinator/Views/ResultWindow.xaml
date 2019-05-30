@@ -6,14 +6,10 @@
         xmlns:viewmodels="clr-namespace:Examinator.mvvm.viewmodels"
         xmlns:local="clr-namespace:Examinator.Views"
         mc:Ignorable="d"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}"
         Title="Результаты" Height="500" Width="700">
 
     <Window.DataContext>
@@ -21,7 +17,7 @@
     </Window.DataContext>
 
     <Grid>
-        <materialDesign:Card Margin="10" Padding="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+        <Border Margin="10" Padding="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -37,13 +33,13 @@
                                 <TextBlock Text="{Binding ResultModel.TestDate}" Margin="10,0" FontSize="12" FontWeight="DemiBold"></TextBlock>
                         </StackPanel>
 
-                            <materialDesign:Card HorizontalAlignment="Center" VerticalAlignment="Center" Padding="15">
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Padding="15">
                                 <StackPanel>
                                     <TextBlock Text="Результат:" FontWeight="DemiBold" FontSize="16"></TextBlock>
                                     <TextBlock Text="{Binding Result}" FontWeight="DemiBold" FontSize="16"></TextBlock>
                                     <TextBlock Text="{Binding ResultModel.MarkStr}" FontWeight="DemiBold" FontSize="16"></TextBlock>
                                 </StackPanel>
-                            </materialDesign:Card>
+                            </Border>
                         
 
                         </UniformGrid>
@@ -170,6 +166,6 @@
                     </TabControl>
                 </Grid>
             </Grid>
-        </materialDesign:Card>
+        </Border>
     </Grid>
 </Window>
