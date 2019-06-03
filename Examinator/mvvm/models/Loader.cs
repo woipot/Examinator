@@ -45,18 +45,6 @@ namespace Examinator.mvvm.models
             LoadExceptions = PreloadTests().ToList();
         }
 
-        private static string GetSubStringBeforeEqually(string line) {
-            var pos_eq = line.IndexOf("=");
-            if (pos_eq != -1)
-            {
-
-                line.Trim(' ');
-                if ((!string.IsNullOrWhiteSpace(line)) && (!string.IsNullOrEmpty(line)))
-                    return line;
-            }
-            return null;
-        }
-
         public static TestModel LoadFromFile(string filename)
         {
             StreamReader sr = new StreamReader(filename, Encoding.Default);
@@ -219,6 +207,10 @@ namespace Examinator.mvvm.models
                 {
                     errorsList.Add(e);
                 }
+                catch (Exception ex)
+                {
+                    errorsList.Add(new TestException("Файл поврежден"));
+                }
             }
 
             return errorsList;
@@ -317,8 +309,9 @@ namespace Examinator.mvvm.models
             var bytes = new List<byte>(); 
 
             int data;
+
             while ((data = cs.ReadByte()) != -1)
-                bytes.Add((byte)data);
+                bytes.Add((byte) data);
 
             cs.Close();
             fsCrypt.Close();
