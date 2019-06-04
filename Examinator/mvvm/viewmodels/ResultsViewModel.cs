@@ -48,7 +48,7 @@ namespace Examinator.mvvm.viewmodels
                     cryptic.CreateEncryptor(), CryptoStreamMode.Write))
                 {
                     var formatter = new BinaryFormatter();
-                    
+
                     formatter.Serialize(crStream, Results);
                 }
 

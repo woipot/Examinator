@@ -58,7 +58,7 @@ namespace Examinator.mvvm.viewmodels
             var dialog = new PasswordDialog();
             if (dialog.ShowDialog() == true)
             {
-                if (dialog.ResponseText.GetHashCode().ToString() == "-1359372755")
+                if (dialog.ResponseText.GetHashCode().ToString().Equals("-891927694"))
                     TeacherMode = true;
                 else
                     MessageBox.Show("Пароль неверен, проверьте язык ввода и capslock, и повторите попытку");

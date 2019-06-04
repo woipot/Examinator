@@ -14,7 +14,6 @@ namespace Examinator.mvvm.models
 {
     internal class Loader : BindableBase
     {
-
         public ObservableCollection<PreloadedTestInfo> PreloadedTests { get; }
 
         public List<TestException> LoadExceptions { get; }
@@ -209,7 +208,7 @@ namespace Examinator.mvvm.models
                 }
                 catch (Exception ex)
                 {
-                    errorsList.Add(new TestException("Файл поврежден"));
+                    errorsList.Add(new TestException("Файл поврежден", file.Name));
                 }
             }
 

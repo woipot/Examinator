@@ -245,9 +245,9 @@
     <Resource Include="FodyWeavers.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AdditionalFiles Include="Instruction.txt">
+    <None Include="Instruction.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
