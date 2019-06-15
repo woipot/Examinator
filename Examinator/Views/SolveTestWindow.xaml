@@ -7,7 +7,8 @@
         xmlns:converters="clr-namespace:Examinator.converters"
         xmlns:viewmodels="clr-namespace:Examinator.mvvm.viewmodels"
         mc:Ignorable="d"
-        Title="{Binding TestModel.TestName}" Height="450" Width="800">
+        Title="{Binding TestModel.TestName}" Height="450" Width="800"
+        Closing="SolveTestWindow_OnClosing">
 
     <Window.DataContext>
         <viewmodels:ExaminatorViewModel/>
@@ -23,32 +24,36 @@
 
         <Border Margin="10" Padding="5" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
             <Grid>
-                    <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <TextBlock Margin="10,5" Text="{Binding TestModel.TestName}" FontWeight="Bold" FontSize="20"></TextBlock>
-                    <Grid Grid.Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Margin="10,5" Text="{Binding TestModel.TestName}" FontWeight="Bold" FontSize="20"></TextBlock>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                        <Border Grid.Column="0" Margin="10" Padding="5">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition Height="Auto"></RowDefinition>
-                                    <RowDefinition Height="Auto"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Border Grid.Row="0">
-                                    <Grid>
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="Auto"></RowDefinition>
-                                            <RowDefinition></RowDefinition>
-                                        </Grid.RowDefinitions>
-                                        <TextBlock Margin="10,5" Text="Вопросы" FontSize="15" FontWeight="Bold" ></TextBlock>
-                                        <ScrollViewer Grid.Row="1">
+                    <Border BorderThickness="1" Grid.Column="0" Margin="10" Padding="5" BorderBrush="Black">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Border Grid.Row="0" BorderThickness="1" >
+                                <Border.BorderBrush>
+                                    <SolidColorBrush Color="{DynamicResource {x:Static SystemColors.AppWorkspaceColorKey}}"/>
+                                </Border.BorderBrush>
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"></RowDefinition>
+                                        <RowDefinition></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Margin="10,5" Text="Вопросы" FontSize="15" FontWeight="Bold" ></TextBlock>
+                                    <ScrollViewer Grid.Row="1">
+                                        <StackPanel Orientation="Vertical">
                                             <ItemsControl HorizontalAlignment="Left" Margin="5" ItemsSource="{Binding Questions}">
                                                 <ItemsControl.ItemsPanel>
                                                     <ItemsPanelTemplate>
@@ -60,6 +65,8 @@
                                                         <Button Command="{Binding RelativeSource={RelativeSource AncestorType = ItemsControl}, Path=DataContext.ChangeQuestionCommand}"
                                                                 CommandParameter="{Binding Number}" 
                                                                 IsEnabled="{Binding RelativeSource={RelativeSource AncestorType = ItemsControl}, Path=DataContext.TestModel.Skipable}"
+                                                                MinHeight="20"
+                                                                MinWidth="20"
                                                                 Margin="2">
                                                             <TextBlock Text="{Binding Number}"/>
                                                             <Button.Background>
@@ -72,61 +79,61 @@
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
-                                        </ScrollViewer>
-                                    </Grid>
-                                </Border>
-                                <WrapPanel Grid.Row="1">
-                                    <Label Content="Осталось: "></Label>
-                                    <Label Content="{Binding TimeLeftStr}"></Label>
-                                </WrapPanel>
-
-                                <Button Margin="10" Grid.Row="2" Content="Завершить" Command="{Binding EndTestCommand}"></Button>
-                            </Grid>
-                        </Border>
-
-
-                        <Grid Row="0" RowSpan="2" Column="1">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition></RowDefinition>
-                                    <RowDefinition Height="Auto"></RowDefinition>
-                                </Grid.RowDefinitions>
-                                <Border Margin="10" Padding="5">
-                                    <StackPanel>
-                                        <TextBlock Text="{Binding SelectedQuestion.QuestionText}" FontSize="14" FontWeight="DemiBold" Margin="10,5"></TextBlock>
-
-                                        <ListBox ItemsSource="{Binding SelectedQuestion.Answers}" Margin="5" SelectionMode="Single">
-                                            <ListBox.ItemsPanel>
-                                                <ItemsPanelTemplate>
-                                                    <StackPanel></StackPanel>
-                                                </ItemsPanelTemplate>
-                                            </ListBox.ItemsPanel>
-                                            <ListBox.ItemTemplate>
-                                                <DataTemplate>
-                                                    <CheckBox Name="CheckBox" Content="{Binding AnswerText}" HorizontalAlignment="Left">
-                                                        <CheckBox.IsChecked>
-                                                            <MultiBinding Converter="{StaticResource CollectionToBoolConverter}" Mode="TwoWay">
-                                                                <Binding Path="IsSelected" RelativeSource="{RelativeSource AncestorType=ListBoxItem}" />
-                                                                <Binding Path="IsSelected" />
-                                                                <Binding ElementName="CheckBox" Path="DataContext"></Binding>
-                                                            </MultiBinding>
-                                                        </CheckBox.IsChecked>
-                                                    </CheckBox>
-                                                </DataTemplate>
-                                            </ListBox.ItemTemplate>
-                                        </ListBox>
-                                    </StackPanel>
-                                </Border>
-                                <Grid Row="1">
-                                    <WrapPanel HorizontalAlignment="Right">
-                                        <Button Content="Назад" Command="{Binding PreviousQuestionCommand}" Visibility="{Binding TestModel.Skipable, Converter={StaticResource VisibilityConverter}}"></Button>
-                                        <Button Content="Далее" Command="{Binding NextQuestionCommand}" Margin="10"></Button>
-                                    </WrapPanel>
+                                        </StackPanel>
+                                    </ScrollViewer>
                                 </Grid>
+                            </Border>
+                            <WrapPanel Grid.Row="1">
+                                <Label Content="Осталось: "></Label>
+                                <Label Content="{Binding TimeLeftStr}"></Label>
+                            </WrapPanel>
+
+                            <Button Margin="10" Grid.Row="2" Content="Завершить" Command="{Binding EndTestCommand}"></Button>
+                        </Grid>
+                    </Border>
+
+
+                    <Grid Row="0" RowSpan="2" Column="1">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition></RowDefinition>
+                                <RowDefinition Height="Auto"></RowDefinition>
+                            </Grid.RowDefinitions>
+                            <Border Margin="10" Padding="5">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding SelectedQuestion.QuestionText}" FontSize="14" FontWeight="DemiBold" Margin="10,5"></TextBlock>
+
+                                    <ListBox ItemsSource="{Binding SelectedQuestion.Answers}" Margin="5" SelectionMode="Single">
+                                        <ListBox.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <StackPanel></StackPanel>
+                                            </ItemsPanelTemplate>
+                                        </ListBox.ItemsPanel>
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox Name="CheckBox" Content="{Binding AnswerText}" HorizontalAlignment="Left">
+                                                    <CheckBox.IsChecked>
+                                                        <MultiBinding Converter="{StaticResource CollectionToBoolConverter}" Mode="TwoWay">
+                                                            <Binding Path="IsSelected" RelativeSource="{RelativeSource AncestorType=ListBoxItem}" />
+                                                            <Binding Path="IsSelected" />
+                                                            <Binding ElementName="CheckBox" Path="DataContext"></Binding>
+                                                        </MultiBinding>
+                                                    </CheckBox.IsChecked>
+                                                </CheckBox>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </Border>
+                            <Grid Row="1">
+                                <WrapPanel HorizontalAlignment="Right">
+                                    <Button MinHeight="30" MinWidth="50" Content="Назад" Command="{Binding PreviousQuestionCommand}" Visibility="{Binding TestModel.Skipable, Converter={StaticResource VisibilityConverter}}"/>
+                                    <Button MinHeight="30" MinWidth="50" Content="Далее" Command="{Binding NextQuestionCommand}" Margin="20,0"/>
+                                </WrapPanel>
                             </Grid>
                         </Grid>
                     </Grid>
-                
+                </Grid>
             </Grid>
         </Border>
     </Grid>

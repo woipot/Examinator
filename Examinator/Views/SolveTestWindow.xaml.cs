@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Windows;
 using Examinator.mvvm.models.subModels;
 using Examinator.mvvm.viewmodels;
 
@@ -14,6 +15,11 @@ namespace Examinator.Views
             InitializeComponent();
             ((ExaminatorViewModel)DataContext).SetData(testModel, studentName, group);
 
+        }
+
+        private void SolveTestWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+           // throw new System.NotImplementedException();
         }
     }
 }
