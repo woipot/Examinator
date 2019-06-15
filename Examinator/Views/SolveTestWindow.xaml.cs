@@ -19,6 +19,9 @@ namespace Examinator.Views
 
         private void SolveTestWindow_OnClosing(object sender, CancelEventArgs e)
         {
+            if (((ExaminatorViewModel) DataContext).IsSolved)
+                return;
+
             var res = ExaminatorViewModel.EndTestDialog();
             if(res)
                 ((ExaminatorViewModel)DataContext).EndTest();

@@ -21,12 +21,14 @@ namespace Examinator.mvvm.viewmodels
         public DelegateCommand NextQuestionCommand { get; set; }
         public DelegateCommand PreviousQuestionCommand { get; set; }
 
+        public bool IsSolved { get; private set; } = false;
+
         public int TimeLeft { get; set; }
         private int _answered;
         public String TimeLeftStr { get; set; }
 
         private int _questionsCount; 
-
+        
         public QuestionModel SelectedQuestion { get; set; }
 
         public TestModel TestModel { get; set; }
@@ -180,9 +182,9 @@ namespace Examinator.mvvm.viewmodels
 
         public void EndTest()
         {
-
+            IsSolved = true; 
             _timer.Stop();
-
+            
             
             double results = CalculateResults(Questions);
 

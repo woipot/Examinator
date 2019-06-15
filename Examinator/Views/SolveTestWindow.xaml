@@ -103,7 +103,7 @@
                                 <StackPanel>
                                     <TextBlock Text="{Binding SelectedQuestion.QuestionText}" FontSize="14" FontWeight="DemiBold" Margin="10,5"></TextBlock>
 
-                                    <ListBox ItemsSource="{Binding SelectedQuestion.Answers}" Margin="5" SelectionMode="Single">
+                                    <ListBox Padding="30" ItemsSource="{Binding SelectedQuestion.Answers}" Margin="5" SelectionMode="Single">
                                         <ListBox.ItemsPanel>
                                             <ItemsPanelTemplate>
                                                 <StackPanel></StackPanel>
