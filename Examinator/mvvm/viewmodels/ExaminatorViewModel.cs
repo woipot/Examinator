@@ -160,19 +160,25 @@ namespace Examinator.mvvm.viewmodels
             }
         }
 
-        private void EndTestByCommand()
+        public void EndTestByCommand()
+        {
+            if (EndTestDialog())
+            {
+                EndTest();
+            }
+
+        }
+
+        public static bool EndTestDialog()
         {
             var result = MessageBox.Show("Завершить тест и получить результат?", "Вы уверены?",
                 MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
 
-            if (result == MessageBoxResult.OK)
-            {
-                EndTest();
-            }
+            return result == MessageBoxResult.OK;
         }
 
-        private void EndTest()
+        public void EndTest()
         {
 
             _timer.Stop();

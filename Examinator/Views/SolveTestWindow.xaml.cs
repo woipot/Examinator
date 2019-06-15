@@ -19,7 +19,10 @@ namespace Examinator.Views
 
         private void SolveTestWindow_OnClosing(object sender, CancelEventArgs e)
         {
-           // throw new System.NotImplementedException();
+            var res = ExaminatorViewModel.EndTestDialog();
+            if(res)
+                ((ExaminatorViewModel)DataContext).EndTest();
+            
         }
     }
 }
