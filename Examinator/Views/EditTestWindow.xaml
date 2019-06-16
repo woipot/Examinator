@@ -13,7 +13,7 @@
         Title="Редактирование теста" Height="450" Width="800"
         x:Name ="Window"
         Closing="EditTestWindow_OnClosing">
-    
+
     <Window.DataContext>
         <models:RedactorModel/>
     </Window.DataContext>
@@ -37,69 +37,69 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
-                    
-                        <StackPanel Grid.Column="0" Grid.Row="0" Orientation="Horizontal">
-                            <Label Content="Название теста:"/>
-                            <TextBox Text="{Binding TestModel.TestName}" MinWidth="40"/>
-                        </StackPanel>
 
-                        <StackPanel Grid.Column="0" Grid.Row="1" Orientation="Horizontal">
-                            <Label Content="Автор:"/>
-                            <TextBox Text="{Binding TestModel.Author}" MinWidth="40"/>
-                        </StackPanel>
+                        <DockPanel Margin="10" Grid.Column="0" Grid.Row="0">
+                            <Label DockPanel.Dock="Left" Content="Название теста:"/>
+                            <TextBox Text="{Binding TestModel.TestName}" MinWidth="40" TextAlignment="Center"/>
+                        </DockPanel>
 
-                        <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-                            <Label Content="Послледнее изменение:"/>
+                        <DockPanel Margin="10" Grid.Column="0" Grid.Row="1">
+                            <Label  DockPanel.Dock="Left" Content="Автор:"/>
+                            <TextBox Text="{Binding TestModel.Author}" MinWidth="40" TextAlignment="Center"/>
+                        </DockPanel>
+
+                        <DockPanel Margin="10" Grid.Column="1" Grid.Row="0">
+                            <Label DockPanel.Dock="Left" Content="Дата послледнего изменения:"/>
                             <Label Content="{Binding TestModel.CreatedDate}"/>
-                        </StackPanel>
+                        </DockPanel>
 
-                        <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="1">
-                            <StackPanel.ToolTip>
+                        <DockPanel Margin="10"  Grid.Column="1" Grid.Row="1">
+                            <DockPanel.ToolTip>
                                 <ToolTip>
                                     <StackPanel Orientation="Vertical">
-                                        <Label Content="Если данное поле выбрано, при прохождении теста," Foreground="Beige"/>
-                                        <Label Content="будет возможность отвечать на вопросы в любом порядке," Foreground="Beige"/>
-                                        <Label Content="а суммарное время теста будет высчитано на основе:" Foreground="Beige"/>
-                                        <Label Content="Кол-во вопросов в тесте * время на один вопрос" Foreground="Beige"/>
+                                        <Label Content="Если данное поле выбрано, при прохождении теста," />
+                                        <Label Content="будет возможность отвечать на вопросы в любом порядке," />
+                                        <Label Content="а суммарное время теста будет высчитано на основе:" />
+                                        <Label Content="Кол-во вопросов в тесте * время на один вопрос" />
                                     </StackPanel>
                                 </ToolTip>
-                            </StackPanel.ToolTip>
-                            <Label Content="Можно пропускать вопросы:"/>
+                            </DockPanel.ToolTip>
+                            <Label DockPanel.Dock="Left" Content="Можно пропускать вопросы:"/>
                             <CheckBox IsChecked="{Binding TestModel.Skipable}" VerticalAlignment="Center"/>
-                        </StackPanel>
+                        </DockPanel>
 
-                        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+                        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" Margin="10,0,0,0">
                             <StackPanel.ToolTip>
                                 <ToolTip>
                                     <StackPanel Orientation="Vertical">
-                                        <Label Content="Кол-во вопросов, которые будут случайно выбраны" Foreground="Beige"/>
-                                        <Label Content="из общего списка вопросов, если это значение больше общего" Foreground="Beige"/>
-                                        <Label Content="кол-ва вопросов, будет задействованы все вопросы" Foreground="Beige"/>
+                                        <Label Content="Кол-во вопросов, которые будут случайно выбраны" />
+                                        <Label Content="из общего списка вопросов, если это значение больше общего" />
+                                        <Label Content="кол-ва вопросов, будет задействованы все вопросы" />
                                     </StackPanel>
                                 </ToolTip>
                             </StackPanel.ToolTip>
-                            <Label Content="Вопросов в тесте:"/>
+                            <Label Content="Вопросов в одном тесте:"/>
                             <xctk:IntegerUpDown MinWidth="100" FormatString="N0" Value="{Binding QuestionsInTestCount}" Increment="1" Minimum="1"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal">
-                            <Label Content="Всего вопросов: "/>                            
+                        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" Margin="10,0,0,10">
+                            <Label Content="Всего возможных вопросов в тесте: "/>
                             <Label Content="{Binding Questions.Count}"/>
                         </StackPanel>
-                        
-                        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-                            <Label Content="Секунд на вопрос:"/>
+
+                        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" >
+                            <Label Content="Секунд на один вопрос:" Margin="10,0,0,1"/>
                             <xctk:IntegerUpDown MinWidth="100" FormatString="N0" Value="{Binding MinutToTest}" Increment="1" Minimum="10"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
+                        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" Margin="10,0,0,10">
                             <Label Content="Общее время теста: "/>
                             <Label Content="{Binding FullTime}"/>
                         </StackPanel>
 
                     </Grid>
                 </Border>
-                
+
                 <ListView ItemsSource="{Binding Questions}">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
@@ -118,16 +118,14 @@
                                         <Expander.Header>
                                             <Grid>
                                                 <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="*"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <Ellipse  Grid.Column="0" Width="10"  Height="10"  Fill="Black"  Stroke="Black"  StrokeThickness="1" VerticalAlignment="Top"/>
-                                                <TextBox Grid.Column="1" MinWidth="40" Margin="20,0" Text="{Binding QuestionText}"/>
-                                                <Button Grid.Column="2" FontSize="10" Content="Удалить вопрос"  Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}"/>
-                                                <Button Grid.Column="3" FontSize="10" Margin="20,0" Content="Копировать"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}"/>
+                                                <TextBox Grid.Column="0" MinWidth="40" Margin="20,0" Text="{Binding QuestionText}"/>
+                                                <Button Grid.Column="1" FontSize="10" Content="Удалить вопрос"  Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}"/>
+                                                <Button Grid.Column="2" FontSize="10" Margin="20,0" Content="Копировать"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}"/>
                                             </Grid>
                                         </Expander.Header>
                                         <StackPanel Orientation="Vertical">
@@ -169,9 +167,9 @@
                     <Button.ToolTip>
                         <ToolTip>
                             <StackPanel Orientation="Vertical">
-                                <Label Content="Будет выполнена проверка теста." Foreground="Beige"/>
-                                <Label Content="Пустые поля ответов будут удалены автоматически." Foreground="Beige"/>
-                                <Label Content="Некорректные значения будут заменены на стандартные." Foreground="Beige"/>
+                                <Label Content="Будет выполнена проверка теста." />
+                                <Label Content="Пустые поля ответов будут удалены автоматически." />
+                                <Label Content="Некорректные значения будут заменены на стандартные." />
                             </StackPanel>
                         </ToolTip>
                     </Button.ToolTip>
