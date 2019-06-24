@@ -125,6 +125,36 @@ namespace Examinator.mvvm.viewmodels
             return rightAnswers;
         }
 
+        private double SmartCalculateResults(IEnumerable<QuestionModel> Questions)
+        {
+            double rightAnswers = 0;
+            foreach (var question in Questions)
+            {
+                var rightCounter = 0;
+                var rightCount = 0;
+                var isBadAnswered = false;
+                var isAnswered = false;
+                foreach (var answer in question.Answers)
+                {
+                    if (answer.IsRight)
+                        rightCount++;
+                    if (answer.IsSelected)
+                    {
+                        if (!answer.IsRight)
+                            isBadAnswered = true;
+                        else
+                            rightCounter++;
+                        isAnswered = true;
+                    }    
+                }
+                if (!isBadAnswered)
+                    rightAnswers += (double) rightCounter / (double) rightCount;
+                if (isAnswered)
+                    _answered++;
+            }
+            return rightAnswers;
+        }
+
         public void RandomizeQuestions()
         {
             Questions.Shuffle();
@@ -184,20 +214,22 @@ namespace Examinator.mvvm.viewmodels
         {
             IsSolved = true; 
             _timer.Stop();
-            
-            
-            double results = CalculateResults(Questions);
 
-            var res = results==0? 0: results/ _questionsCount * 100;
 
-            if (res >= 90)
+            //double results = CalculateResults(Questions);
+            double results = SmartCalculateResults(Questions);
+
+            var correctPercent = results==0? 0: results/ _questionsCount * 100;
+
+            int res = 0;
+            if (correctPercent == 100)
             {
                 res = 5;
-            }else if (res>=75)
+            }else if (correctPercent >= 80)
             {
                 res = 4;
             }
-            else if (res >= 60)
+            else if (correctPercent >= 70)
             {
                 res = 3;
             }
@@ -209,15 +241,13 @@ namespace Examinator.mvvm.viewmodels
 
             var resultWindow = new ResultWindow(new ResultModel()
             {
-                Mark = (int) res, QuestionsCount = _questionsCount,
-                CorrectAnswersCount = (int) results,
+                Mark = res,
+                Perent = correctPercent,
                 StudentName = _studentName,
                 Group = _group,
                 TestName = TestModel.TestName,
                 StartTime = _startTime,
                 FinishTime = DateTime.Now,
-                TestAuthor = TestModel.Author,
-                TestDate = TestModel.CreatedDate,
                 TotalAnswers = _answered
             });
             resultWindow.ShowDialog();

@@ -21,12 +21,14 @@ namespace Examinator.mvvm.models
         private const string TestDirectoryName = "Tests";
         private const string ResultDirectoryName = "Results";
         private static string DeffaultPass = "19voenkr";
+        private const string MarkFileName = "MarkFile";
 
 
         private readonly string _baseDir;
 
         public string PathToTests => _baseDir + $"{TestDirectoryName}";
         public string PathToResults => _baseDir + $"{ResultDirectoryName}";
+        public string PathToMarkFile => _baseDir + $"{MarkFileName}";
 
         public Loader()
         {
@@ -179,6 +181,24 @@ namespace Examinator.mvvm.models
         {
             Directory.CreateDirectory(PathToTests);
             Directory.CreateDirectory(PathToResults);
+
+            if (CheckOrCreateMarkFile(PathToMarkFile))
+            {
+                // Проверить есть ли в нем что-то, если нет заполнить
+                DecryptFile(PathToMarkFile);
+               // StreamReader sr = new StreamReader(PathToMarkFile, Encoding.Default);
+
+
+            } else
+            {
+                // Создать и заполнить
+            }
+            
+        }
+
+        private static bool CheckOrCreateMarkFile(String filename)
+        {
+            return File.Exists(filename);
         }
 
         private bool StructureIsReady()
@@ -219,6 +239,14 @@ namespace Examinator.mvvm.models
         {
             var test = LoadTest(path, true);
             return test.TestName;
+        }
+
+        public static MarkClass LoadMark(string path)
+        {
+            var text = DecryptFile(path);
+            var xdoc = XDocument.Parse(text);
+
+            return MarkClass.fromXML(xdoc, MarkClass.DeffautBlockName);
         }
 
         public static TestModel LoadTest(string path, bool loadOnlyHeader = false)
