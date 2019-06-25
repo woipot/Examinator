@@ -16,12 +16,11 @@ namespace Examinator.mvvm.models
     {
         public ObservableCollection<PreloadedTestInfo> PreloadedTests { get; }
 
-        public List<TestExceptionxxxxxx> LoadExceptions { get; }
+        public List<TestException> LoadExceptions { get; }
 
         private const string TestDirectoryName = "Tests";
         private const string ResultDirectoryName = "Results";
         private static string DeffaultPass = "19voenkr";
-
 
         private readonly string _baseDir;
 
