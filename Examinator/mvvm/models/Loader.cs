@@ -16,7 +16,7 @@ namespace Examinator.mvvm.models
     {
         public ObservableCollection<PreloadedTestInfo> PreloadedTests { get; }
 
-        public List<TestException> LoadExceptions { get; }
+        public List<TestExceptionxxxxxx> LoadExceptions { get; }
 
         private const string TestDirectoryName = "Tests";
         private const string ResultDirectoryName = "Results";
