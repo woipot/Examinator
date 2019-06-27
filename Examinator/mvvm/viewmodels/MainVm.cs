@@ -29,7 +29,7 @@ namespace Examinator.mvvm.viewmodels
 
             if (_loader.LoadExceptions.Any())
             {
-                MessageBox.Show("Фаилы повреждены : \n" + string.Join("\n", _loader.LoadExceptions));
+                MessageBox.Show("Файлы повреждены : \n" + string.Join("\n", _loader.LoadExceptions));
             }
 
             SwitchModeCommand = new DelegateCommand(SwitchMode);
@@ -189,7 +189,7 @@ namespace Examinator.mvvm.viewmodels
 
         private void Delete(PreloadedTestInfo info)
         {
-            var result = MessageBox.Show("Востановить тест будет невозможно", "Вы уверены?", MessageBoxButton.OKCancel,
+            var result = MessageBox.Show("Восстановить тест будет невозможно", "Вы уверены?", MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
 
             if(result == MessageBoxResult.Cancel)
@@ -266,7 +266,7 @@ namespace Examinator.mvvm.viewmodels
         private void ShowAbout()
         {
             MessageBox.Show(
-                "Создатели:\nСтульников Кирилл, Удалов Никита,\nКирдяшкин Игорь, Павлов Александр\nСпециально для кафедры военной подготовки\nПо всем вопросам: forandwoicorp@gmail.com", "Контакты", MessageBoxButton.OK, MessageBoxImage.Information);
+                "Создатели:\nСтульников Кирилл, Удалов Никита,\nКирдяшкин Игорь, Павлов Александр\nСпециально для Военной Кафедры МАИ 2019 год\nПо всем вопросам: forandwoicorp@gmail.com", "Контакты", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
     

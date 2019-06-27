@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Examinator.Views"
         mc:Ignorable="d"
-        Title="Инструкция" Height="450" Width="800">
+        Title="Инструкция" Height="500" Width="800" WindowStartupLocation="CenterScreen">
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Visible">  
             <RichTextBox IsReadOnly="True" x:Name="TextBox" Margin="20" BorderThickness="2" Padding="10"/>

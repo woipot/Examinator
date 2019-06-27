@@ -10,7 +10,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Title="Экзаменатор" Height="450" Width="800">
+        Title="Экзаменатор" Height="500" Width="800" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <viewmodels:MainVm/>

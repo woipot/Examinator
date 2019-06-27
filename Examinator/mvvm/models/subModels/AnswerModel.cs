@@ -43,7 +43,7 @@ namespace Examinator.mvvm.models.subModels
         {
             var textAttr = element.Attribute("AnswerText");
             if(textAttr == null)
-                throw new TestException("Фаил поврежден: отсутствует текст ответа");
+                throw new TestException("Файл поврежден: отсутствует текст ответа");
 
             var isRightAttr = element.Attribute("IsRight");
             var isRight = false;

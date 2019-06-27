@@ -79,7 +79,7 @@ namespace Examinator.mvvm.models.subModels
 
             var testElement = xdoc.Element(documentName);
             if (testElement == null)
-                throw new TestException("Фаил испорчен: невозможно прочитать заголовок");
+                throw new TestException("Файл испорчен: невозможно прочитать заголовок");
 
             var nameAttr = testElement.Attribute("Name");
             var dateAttr = testElement.Attribute("Date");
@@ -89,14 +89,14 @@ namespace Examinator.mvvm.models.subModels
             var authorAttr = testElement.Attribute("Author");
 
             result.TestName = nameAttr?.Value ??
-                              throw new TestException("Фаил испорчен: невозможно прочитать название теста");
+                              throw new TestException("Файл испорчен: невозможно прочитать название теста");
 
             if (timeAttr == null)
-                throw new TestException("Фаил испорчен: невозможно определить время на прохождение теста");
+                throw new TestException("Файл испорчен: невозможно определить время на прохождение теста");
             result.MinutsToTest = int.Parse(timeAttr.Value);
 
             if (countAttr == null)
-                throw new TestException("Фаил испорчен: невозможно определить кол-во вопросов на тест");
+                throw new TestException("Файл испорчен: невозможно определить кол-во вопросов на тест");
             result.QuestionsInTest = int.Parse(countAttr.Value);
 
             if (skipableAttr != null)
@@ -229,7 +229,7 @@ namespace Examinator.mvvm.models.subModels
         {
             if (string.IsNullOrEmpty(TestName))
             {
-                TestName = "Загаловок теста";
+                TestName = "Заголовок теста";
             }
 
             if (string.IsNullOrEmpty(Author))

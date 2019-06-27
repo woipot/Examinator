@@ -10,9 +10,10 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Title="Редактирование теста" Height="450" Width="800"
+
+        Title="Редактирование теста" Height="500" Width="800"
         x:Name ="Window"
-        Closing="EditTestWindow_OnClosing">
+        Closing="EditTestWindow_OnClosing" WindowStartupLocation="CenterScreen">
     
     <Window.DataContext>
         <models:RedactorModel/>
@@ -23,7 +24,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Visible" Margin="0,15,0,0">
+        <ScrollViewer models:AutoScrollBehavior.AutoScroll="True">
             <StackPanel Orientation="Vertical">
                 <Border Padding="5" Margin="15,10,15,15" BorderBrush="#FFABADB3" BorderThickness="1" >
                     <Grid>
@@ -49,7 +50,7 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="1" Grid.Row="0" Orientation="Horizontal">
-                            <Label Content="Послледнее изменение:"/>
+                            <Label Content="Последнее изменение:"/>
                             <Label Content="{Binding TestModel.CreatedDate}"/>
                         </StackPanel>
 
@@ -114,21 +115,15 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Expander Grid.Column="0">
-                                        <Expander.Header>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
 
-                                                <Ellipse  Grid.Column="0" Width="10"  Height="10"  Fill="Black"  Stroke="Black"  StrokeThickness="1" VerticalAlignment="Top"/>
-                                                <TextBox Grid.Column="1" MinWidth="40" Margin="20,0" Text="{Binding QuestionText}"/>
-                                                <Button Grid.Column="2" FontSize="10" Content="Удалить вопрос"  Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}"/>
-                                                <Button Grid.Column="3" FontSize="10" Margin="20,0" Content="Копировать"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}"/>
-                                            </Grid>
+                                    <Expander Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="AliceBlue" Margin="0,2,0,2">
+                                        <Expander.Header>
+                                            <DockPanel VerticalAlignment="Stretch" Height="Auto">
+                                                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" MinWidth="400">
+                                                    <Label Content="Текст вопроса:"/>
+                                                    <TextBox DockPanel.Dock="Left" MinWidth="40" Text="{Binding QuestionText}"/>
+                                                </DockPanel>
+                                            </DockPanel>
                                         </Expander.Header>
                                         <StackPanel Orientation="Vertical">
                                             <ListView ItemsSource="{Binding Answers}">
@@ -145,14 +140,16 @@
                                                                 <ColumnDefinition Width="Auto"/>
                                                                 <ColumnDefinition Width="Auto"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <Button Grid.Column="2" Content="Удалить" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" CommandParameter="{Binding}"/>
+                                                            <Button Grid.Column="2" Content="Удалить ответ" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" CommandParameter="{Binding}"/>
                                                             <CheckBox Margin="20,0" Grid.Column="1" IsChecked="{Binding IsRight, UpdateSourceTrigger=LostFocus}"/>
                                                             <TextBox MinWidth="40" Margin="20,0" Grid.Column="0" Text="{Binding AnswerText, UpdateSourceTrigger=LostFocus}"/>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </ListView>
-                                            <Button Command="{Binding AddEmptyCommand}" HorizontalAlignment="Left" Content="Добавить ответ" Margin="40,20"/>
+                                            <Button Command="{Binding AddEmptyCommand}" HorizontalAlignment="Left" Content="Добавить ответ" Margin="20,10"/>
+                                            <Button DockPanel.Dock="Right" Content="Создать новый вопрос с таким же текстом"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="20,0"/>
+                                            <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="20,0"/>
                                         </StackPanel>
                                     </Expander>
                                 </Grid>

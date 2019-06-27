@@ -146,6 +146,7 @@
     <Compile Include="converters\CollectionToBoolConverter.cs" />
     <Compile Include="converters\SelectionConverter.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
+    <Compile Include="mvvm\models\AutoScrollBehavior.cs" />
     <Compile Include="mvvm\viewmodels\ResultsViewModel.cs" />
     <Compile Include="mvvm\models\ResultModel.cs" />
     <Compile Include="Views\EditTestWindow.xaml.cs">
