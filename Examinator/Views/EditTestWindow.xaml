@@ -120,8 +120,10 @@
                                         <Expander.Header>
                                             <DockPanel VerticalAlignment="Stretch" Height="Auto">
                                                 <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto" MinWidth="400">
-                                                    <Label Content="Текст вопроса:"/>
-                                                    <TextBox DockPanel.Dock="Left" MinWidth="40" Text="{Binding QuestionText}"/>
+                                                    <Label Content="Текст вопроса:" Margin="13,0"/>
+                                                    <TextBox DockPanel.Dock="Left" MinWidth="300" Text="{Binding QuestionText}"/>
+                                                    <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" Margin="5, 0" Background="Red" Foreground="Beige"  Padding="5"/>
+                                                    <Button DockPanel.Dock="Right" Content="Скопировать вопрос"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}" Margin="5, 0"  Padding="5"/>
                                                 </DockPanel>
                                             </DockPanel>
                                         </Expander.Header>
@@ -136,20 +138,24 @@
                                                     <DataTemplate>
                                                         <Grid>
                                                             <Grid.ColumnDefinitions>
+                                                                <ColumnDefinition Width="Auto"/>
+                                                                <ColumnDefinition Width="Auto"/>
                                                                 <ColumnDefinition Width="*"/>
                                                                 <ColumnDefinition Width="Auto"/>
-                                                                <ColumnDefinition Width="Auto"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <Button Grid.Column="2" Content="Удалить ответ" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" CommandParameter="{Binding}"/>
-                                                            <CheckBox Margin="20,0" Grid.Column="1" IsChecked="{Binding IsRight, UpdateSourceTrigger=LostFocus}"/>
-                                                            <TextBox MinWidth="40" Margin="20,0" Grid.Column="0" Text="{Binding AnswerText, UpdateSourceTrigger=LostFocus}"/>
+                                                            <Button Grid.Column="3" Content="Удалить ответ" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" CommandParameter="{Binding}" Background="Red" Foreground="Beige"  Padding="5"/>
+                                                            <CheckBox Margin="20,0" Grid.Column="1" IsChecked="{Binding IsRight, UpdateSourceTrigger=LostFocus}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                            <TextBox MinWidth="40"  Grid.Column="2" Text="{Binding AnswerText, UpdateSourceTrigger=LostFocus}"/>
+                                                            <Label Grid.Column="0" Margin="20,0" Content = "Ответ:"/>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </ListView>
-                                            <Button Command="{Binding AddEmptyCommand}" HorizontalAlignment="Left" Content="Добавить ответ" Margin="20,10"/>
+                                            <Button Command="{Binding AddEmptyCommand}" HorizontalAlignment="Left" Content="Добавить ответ" Margin="20,10" Padding="5"/>
+                                            <!--
                                             <Button DockPanel.Dock="Right" Content="Создать новый вопрос с таким же текстом"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="20,0"/>
                                             <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="20,0"/>
+                                            !-->
                                         </StackPanel>
                                     </Expander>
                                 </Grid>
@@ -160,9 +166,9 @@
             </StackPanel>
         </ScrollViewer>
         <Grid Grid.Row="1"  Margin="10">
-            <Button Content="Добавить вопрос" Command="{Binding AddEmptyQuestionCommand}" HorizontalAlignment="Left" Margin="20, 0"/>
+            <Button Content="Добавить вопрос" Command="{Binding AddEmptyQuestionCommand}" HorizontalAlignment="Left" Margin="20, 0"  Padding="10"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Button Command="{Binding SaveCommand}" Content="Сохранить изменения" HorizontalAlignment="Right" Margin="20, 0">
+                <Button Command="{Binding SaveCommand}" Content="Сохранить изменения" HorizontalAlignment="Right" Margin="20, 0"  Padding="10" Background="Aquamarine">
                     <Button.ToolTip>
                         <ToolTip>
                             <StackPanel Orientation="Vertical">
@@ -173,7 +179,7 @@
                         </ToolTip>
                     </Button.ToolTip>
                 </Button>
-                <Button Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=Window}" Content="Выйти" HorizontalAlignment="Right" Margin="20, 0"/>
+                <Button Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=Window}" Content="Выйти" Background="Red" Foreground="Beige" HorizontalAlignment="Right" Margin="20, 0" Padding="10"/>
             </StackPanel>
         </Grid>
     </Grid>

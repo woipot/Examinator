@@ -19,7 +19,7 @@ namespace Examinator.Views
 
         private void EditTestWindow_OnClosing(object sender, CancelEventArgs e)
         {
-            var result = MessageBox.Show("Убедитесь, что сохранили изменения, иначе они будут утеряны", "Вы уверены?", MessageBoxButton.OKCancel,
+            var result = MessageBox.Show("Убедитесь, что Вы нажали на кнопку 'Сохранить изменения', иначе все изменения в тесте не будут сохранены.", "Вы уверены, что хотите выйти?", MessageBoxButton.OKCancel,
                 MessageBoxImage.Question);
 
 
