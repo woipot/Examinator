@@ -9,6 +9,7 @@ using Examinator.Extensions;
 using Examinator.mvvm.models;
 using Examinator.mvvm.models.subModels;
 using Examinator.Views;
+using Examinator.other;
 
 namespace Examinator.mvvm.viewmodels
 {
@@ -37,12 +38,16 @@ namespace Examinator.mvvm.viewmodels
 
         private string _studentName;
         private string _group;
+        private MarkClass _marks;
 
 
-        public void SetData(TestModel testModel, string studentName, string group)
+        public void SetData(TestModel testModel, string studentName, string group, MarkClass marks)
         {
             _studentName = studentName;
             _group = group;
+            _marks = marks;
+
+            // TODO : mark 
 
             TestModel = testModel;
             Questions = TestModel?.Questions;
@@ -125,6 +130,36 @@ namespace Examinator.mvvm.viewmodels
             return rightAnswers;
         }
 
+        private double SmartCalculateResults(IEnumerable<QuestionModel> Questions)
+        {
+            double rightAnswers = 0;
+            foreach (var question in Questions)
+            {
+                var rightCounter = 0;
+                var rightCount = 0;
+                var isBadAnswered = false;
+                var isAnswered = false;
+                foreach (var answer in question.Answers)
+                {
+                    if (answer.IsRight)
+                        rightCount++;
+                    if (answer.IsSelected)
+                    {
+                        if (!answer.IsRight)
+                            isBadAnswered = true;
+                        else
+                            rightCounter++;
+                        isAnswered = true;
+                    }    
+                }
+                if (!isBadAnswered)
+                    rightAnswers += (double) rightCounter / (double) rightCount;
+                if (isAnswered)
+                    _answered++;
+            }
+            return rightAnswers;
+        }
+
         public void RandomizeQuestions()
         {
             Questions.Shuffle();
@@ -184,20 +219,30 @@ namespace Examinator.mvvm.viewmodels
         {
             IsSolved = true; 
             _timer.Stop();
-            
-            
-            double results = CalculateResults(Questions);
 
-            var res = results==0? 0: results/ _questionsCount * 100;
 
-            if (res >= 90)
+            //double results = CalculateResults(Questions);
+            double results = SmartCalculateResults(Questions);
+
+            var correctPercent = results==0? 0: results/ _questionsCount * 100;
+
+            //try
+            //{
+            //    var marks = Loader.LoadMark()
+            //} catch (TestException ex)
+            //{
+            //    MessageBox.Show("Невозможно считать файл оценок, будет применена стандартная система");
+            //}
+
+            int res = 0;
+            if (correctPercent == _marks.FivePercent)
             {
                 res = 5;
-            }else if (res>=75)
+            }else if (correctPercent >= _marks.FourPercent)
             {
                 res = 4;
             }
-            else if (res >= 60)
+            else if (correctPercent >= _marks.ThreePercent)
             {
                 res = 3;
             }
@@ -209,15 +254,13 @@ namespace Examinator.mvvm.viewmodels
 
             var resultWindow = new ResultWindow(new ResultModel()
             {
-                Mark = (int) res, QuestionsCount = _questionsCount,
-                CorrectAnswersCount = (int) results,
+                Mark = res,
+                Perent = correctPercent,
                 StudentName = _studentName,
                 Group = _group,
                 TestName = TestModel.TestName,
                 StartTime = _startTime,
                 FinishTime = DateTime.Now,
-                TestAuthor = TestModel.Author,
-                TestDate = TestModel.CreatedDate,
                 TotalAnswers = _answered
             });
             resultWindow.ShowDialog();

@@ -2,6 +2,7 @@
 using System.Windows;
 using Examinator.mvvm.models.subModels;
 using Examinator.mvvm.viewmodels;
+using Examinator.other;
 
 namespace Examinator.Views
 {
@@ -10,10 +11,10 @@ namespace Examinator.Views
     /// </summary>
     public partial class SolveTestWindow : Window
     {
-        public SolveTestWindow(TestModel testModel, PreloadedTestInfo preloadedInfo, string studentName, string group)
+        public SolveTestWindow(TestModel testModel, PreloadedTestInfo preloadedInfo, string studentName, string group, MarkClass marks)
         {
             InitializeComponent();
-            ((ExaminatorViewModel)DataContext).SetData(testModel, studentName, group);
+            ((ExaminatorViewModel)DataContext).SetData(testModel, studentName, group, marks);
 
         }
 

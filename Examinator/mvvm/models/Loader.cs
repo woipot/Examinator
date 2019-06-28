@@ -26,6 +26,7 @@ namespace Examinator.mvvm.models
 
         public string PathToTests => _baseDir + $"{TestDirectoryName}";
         public string PathToResults => _baseDir + $"{ResultDirectoryName}";
+        public string PathToMarkFile => PathToResults + $"//{MarkClass.DeffautFileName}";
 
         public Loader()
         {
@@ -178,6 +179,25 @@ namespace Examinator.mvvm.models
         {
             Directory.CreateDirectory(PathToTests);
             Directory.CreateDirectory(PathToResults);
+
+            if (File.Exists(PathToMarkFile))
+            {
+                // Проверить есть ли в нем что-то, если нет заполнить
+                try
+                {
+                    var marks = LoadMark(PathToMarkFile);
+                } catch (TestException ex)
+                {
+                    LoadExceptions.Add(ex);
+                }
+                // StreamReader sr = new StreamReader(PathToMarkFile, Encoding.Default);
+
+            } else
+            {
+                // Создать и заполнить
+                SaveMark(new MarkClass(), PathToMarkFile);
+            }
+            
         }
 
         private bool StructureIsReady()
@@ -185,7 +205,9 @@ namespace Examinator.mvvm.models
             var isTestsFolderExist = Directory.Exists(PathToTests);
             var isResultsFolderExist = Directory.Exists(PathToResults);
 
-            return isTestsFolderExist && isResultsFolderExist;
+            var isMarkEx = File.Exists(PathToMarkFile);
+
+            return isTestsFolderExist && isResultsFolderExist && isMarkEx;
         }
 
         private IEnumerable<TestException> PreloadTests()
@@ -218,6 +240,21 @@ namespace Examinator.mvvm.models
         {
             var test = LoadTest(path, true);
             return test.TestName;
+        }
+
+        public static MarkClass LoadMark(string path)
+        {
+            var text = DecryptFile(path);
+            var xdoc = XDocument.Parse(text);
+
+            return MarkClass.fromXML(xdoc, MarkClass.DeffautBlockName);
+        }
+
+        public static void SaveMark(MarkClass marks, string path)
+        {
+            var marksXdox = MarkClass.toXML(marks);
+
+            EncryptToFile(marksXdox.ToString(), path);
         }
 
         public static TestModel LoadTest(string path, bool loadOnlyHeader = false)

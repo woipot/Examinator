@@ -5,13 +5,9 @@ namespace Examinator.mvvm.models
     [Serializable]
     public class ResultModel
     {
-        private static String[] marks = { "Неудовлетворительно", "Удовлетворительно", "Хорошо", "Отлично" };
+        private static String[] marks = { "Неудовлетворительно / 2", "Удовлетворительно / 3", "Хорошо / 4", "Отлично / 5" };
 
         public String TestName { get; set; }
-
-        public String TestDate { get; set; }
-
-        public String TestAuthor { get; set; }
 
         public String StudentName { get; set; }
 
@@ -29,16 +25,12 @@ namespace Examinator.mvvm.models
         public String TotalTime => (FinishTime - StartTime).ToString(@"mm") + " мин. " +
                                    (FinishTime - StartTime).ToString(@"ss") + " сек.";
 
-        public int CorrectAnswersCount { get; set; }
-        public int IncorrectAnswersCount => QuestionsCount - CorrectAnswersCount;
-
-        public int QuestionsCount { get; set; }
-
         public int Mark { get; set; } = 2;
 
         public String MarkStr => marks[Mark - 2];
 
         public int TotalAnswers { get; set; }
 
+        public double Perent { get; internal set; }
     }
 }

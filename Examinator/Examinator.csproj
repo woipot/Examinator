@@ -144,10 +144,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="converters\CollectionToBoolConverter.cs" />
+    <Compile Include="converters\ColorConverter.cs" />
     <Compile Include="converters\SelectionConverter.cs" />
     <Compile Include="Extensions\ListExtension.cs" />
     <Compile Include="mvvm\viewmodels\ResultsViewModel.cs" />
     <Compile Include="mvvm\models\ResultModel.cs" />
+    <Compile Include="other\MarkClass.cs" />
     <Compile Include="Views\EditTestWindow.xaml.cs">
       <DependentUpon>EditTestWindow.xaml</DependentUpon>
     </Compile>
