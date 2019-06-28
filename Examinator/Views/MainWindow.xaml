@@ -59,7 +59,7 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" Content="Удалить Тест" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"  Padding="5">
+                                <Button Grid.Column="0" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" Content="Удалить Тест" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"  Padding="5" Foreground="Beige">
                                     <Button.Background>
                                         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                                             <GradientStop Color="#99FF0000" Offset="0"/>
@@ -70,7 +70,14 @@
                                 <TextBlock Grid.Column="1" Text="{Binding Path=TestName}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                 <Button Grid.Column="2" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.ViewTestCommand}" Content="Смотреть" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"  Padding="5"/>
                                 <Button Grid.Column="3" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.EditTestCommand}" Content="Редактировать" Margin="10, 0" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"  Padding="5"/>
-                                <Button Grid.Column="4" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.SolveTestCommand}" Content="Пройти"  Padding="5"/>
+                                <Button Grid.Column="4" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.SolveTestCommand}" Content="Пройти"  Padding="5" Foreground="Beige">
+                                    <Button.Background>
+                                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                            <GradientStop Color="CornflowerBlue" Offset="0"/>
+                                            <GradientStop Color="DarkBlue" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Button.Background>
+                                </Button>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>

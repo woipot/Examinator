@@ -121,7 +121,15 @@
                                                 <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
                                                     <Label Content="Текст Вопрос:" Margin="10,0"/>
                                                     <TextBox DockPanel.Dock="Left" MinWidth="300" Text="{Binding QuestionText}"/>
-                                                    <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" Margin="5, 0" Background="Red" Foreground="Beige"  Padding="5"/>
+                                                    
+                                                    <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" Margin="5, 0" Foreground="Beige"  Padding="5">
+                                                        <Button.Background>
+                                                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                                                <GradientStop Color="#99FF0000" Offset="0"/>
+                                                                <GradientStop Color="#99830D0D" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Button.Background>
+                                                    </Button>
                                                     <Button DockPanel.Dock="Right" Content="Создать копию"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}" Margin="5, 0"  Padding="5"/>
                                                 </DockPanel>
                                             </DockPanel>
@@ -142,19 +150,22 @@
                                                                 <ColumnDefinition Width="*"/>
                                                                 <ColumnDefinition Width="Auto"/>
                                                             </Grid.ColumnDefinitions>
-                                                            <Button Grid.Column="3" Content="Удалить ответ" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" CommandParameter="{Binding}" Background="Red" Foreground="Beige"  Padding="5"/>
+                                                            <Button Grid.Column="3" Content="Удалить ответ" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" CommandParameter="{Binding}" Foreground="Beige"  Padding="5">
+                                                                <Button.Background>
+                                                                    <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                                                        <GradientStop Color="#99FF0000" Offset="0"/>
+                                                                        <GradientStop Color="#99830D0D" Offset="1"/>
+                                                                    </LinearGradientBrush>
+                                                                </Button.Background>
+                                                            </Button>
                                                             <CheckBox Margin="20,0" Grid.Column="1" IsChecked="{Binding IsRight, UpdateSourceTrigger=LostFocus}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                            <TextBox MinWidth="40"  Grid.Column="2" Text="{Binding AnswerText, UpdateSourceTrigger=LostFocus}"/>
+                                                            <TextBox MinWidth="40"  Grid.Column="2" Text="{Binding AnswerText, UpdateSourceTrigger=LostFocus}"  Margin="5,0"/>
                                                             <Label Grid.Column="0" Margin="20,0" Content = "Ответ:"/>
                                                         </Grid>
                                                     </DataTemplate>
                                                 </ListView.ItemTemplate>
                                             </ListView>
                                             <Button Command="{Binding AddEmptyCommand}" HorizontalAlignment="Left" Content="Добавить ответ" Margin="20,10" Padding="5"/>
-                                            <!--
-                                            <Button DockPanel.Dock="Right" Content="Создать новый вопрос с таким же текстом"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="20,0"/>
-                                            <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" HorizontalAlignment="Right" Margin="20,0"/>
-                                            !-->
                                         </StackPanel>
                                     </Expander>
                                 </Grid>
@@ -178,7 +189,14 @@
                         </ToolTip>
                     </Button.ToolTip>
                 </Button>
-                <Button Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=Window}" Content="Выйти" Background="Red" Foreground="Beige" HorizontalAlignment="Right" Margin="20, 0" Padding="10"/>
+                <Button Command="{Binding CloseWindowCommand}" CommandParameter="{Binding ElementName=Window}" Content="Выйти" Foreground="Beige" HorizontalAlignment="Right" Margin="20, 0" Padding="10">
+                    <Button.Background>
+                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                            <GradientStop Color="#99FF0000" Offset="0"/>
+                            <GradientStop Color="#99830D0D" Offset="1"/>
+                        </LinearGradientBrush>
+                    </Button.Background>
+                </Button>
             </StackPanel>
         </Grid>
     </Grid>

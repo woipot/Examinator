@@ -148,7 +148,7 @@
                             </UniformGrid>
                             </StackPanel>
                         </TabItem>
-                        <TabItem Header="Таблица результатов" FontWeight="DemiBold" FontSize="15" Loaded="FrameworkElement_OnLoaded">
+                        Header="Таблица результатов" FontWeight="DemiBold" FontSize="15" Loaded="FrameworkElement_OnLoaded">
                             <StackPanel>
                                 <DataGrid ItemsSource="{Binding Results}" AutoGenerateColumns="False" IsReadOnly="True" CanUserDeleteRows="False" CanUserAddRows="False">
                                     <DataGrid.Columns>
@@ -162,7 +162,7 @@
                                 </DataGrid>
                             </StackPanel>
                             
-                        </TabItem>
+                        </>
                     </TabControl>
                 </Grid>
             </Grid>
