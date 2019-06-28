@@ -31,6 +31,7 @@
                 <MenuItem Header="Режим преподавателя" IsCheckable="True" IsChecked="{Binding TeacherMode, Mode=OneWay, UpdateSourceTrigger=LostFocus}" Command="{Binding SwitchModeCommand}"/>
                 <MenuItem Header="Создать Тест" Command="{Binding CreateNewTestCommand}" Visibility="{Binding TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
                 <MenuItem Header="Загрузить из файла" Command="{Binding ImportCommand}" Visibility="{Binding TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
+                <MenuItem Header="Установить критерий оценивания" Command="{Binding OpenMarkWindowCommand}" Visibility="{Binding TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
             </MenuItem>
 
             <MenuItem Header="Результаты" Command="{Binding ShowResultsCommand}"/>

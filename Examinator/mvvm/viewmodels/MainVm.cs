@@ -42,6 +42,7 @@ namespace Examinator.mvvm.viewmodels
             ShowInstructionCommand = new DelegateCommand(ShowInstruction);
             ShowResultsCommand = new DelegateCommand(ShowResults);
             ShowAboutCommand = new DelegateCommand(ShowAbout);
+            OpenMarkWindowCommand = new DelegateCommand(OpenMarkWindow);
         }
 
         public DelegateCommand SwitchModeCommand { get; }
@@ -184,6 +185,13 @@ namespace Examinator.mvvm.viewmodels
             }
         }
 
+        public DelegateCommand OpenMarkWindowCommand { get; }
+
+        private void OpenMarkWindow()
+        {
+            var markWindow = new MarksSettingsWindow();
+            markWindow.ShowDialog();
+        }
 
         public DelegateCommand<PreloadedTestInfo> DeleteCommand { get; }
 

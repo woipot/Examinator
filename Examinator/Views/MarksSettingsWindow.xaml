@@ -3,12 +3,10 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Examinator.Views"
-        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Оценивание" Height="320" Width="400">
+        Title="Оценивание" Height="250" Width="250" WindowStartupLocation="CenterScreen">
     <Grid>
-        <Border Padding="5" Margin="15,10,15,15" BorderBrush="#FFABADB3" BorderThickness="1" >
+        <Border Padding="5" Margin="15,10,15,5" BorderBrush="#FFABADB3" BorderThickness="1" >
             <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
@@ -26,44 +24,32 @@
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <DockPanel Margin="10" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center">
+                        <DockPanel Margin="5" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center">
                             <Label DockPanel.Dock="Left" Content="Критерии оценивания:"/>
                         </DockPanel>
 
-                        <DockPanel Margin="10" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center">
+                        <DockPanel Margin="5" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center">
                             <Label  DockPanel.Dock="Left" Content="5:"/>
-                            <TextBox Text="{Binding }" MinWidth="50" TextAlignment="Center"/>
+                            <TextBox Text="" MinWidth="50" TextAlignment="Center"/>
                             <Label  DockPanel.Dock="Right" Content="%"/>
                         </DockPanel>
 
-                        <DockPanel Margin="10" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center">
+                        <DockPanel Margin="5" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center">
                             <Label  DockPanel.Dock="Left" Content="4:"/>
-                            <TextBox Text="{Binding }" MinWidth="50" TextAlignment="Center"/>
+                            <TextBox Text="" MinWidth="50" TextAlignment="Center"/>
                             <Label  DockPanel.Dock="Right" Content="%"/>
                         </DockPanel>
 
-                        <DockPanel Margin="10" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center">
+                        <DockPanel Margin="5" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center">
                             <Label  DockPanel.Dock="Left" Content="3:"/>
-                            <TextBox Text="{Binding }" MinWidth="50" TextAlignment="Center"/>
+                            <TextBox Text="" MinWidth="50" TextAlignment="Center"/>
                             <Label  DockPanel.Dock="Right" Content="%"/>
                         </DockPanel>
                     </Grid>
 
                 </Border>
                 <Grid Grid.Row="1"  Margin="5">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                        <Button Command="{Binding }" Content="Сохранить изменения" HorizontalAlignment="Center" Margin="10, 0"  Padding="10" Background="Aquamarine">
-                            <Button.ToolTip>
-                                <ToolTip>
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content="Будет выполнена проверка теста." />
-                                        <Label Content="Пустые поля ответов будут удалены автоматически." />
-                                        <Label Content="Некорректные значения будут заменены на стандартные." />
-                                    </StackPanel>
-                                </ToolTip>
-                            </Button.ToolTip>
-                        </Button>
-                    </StackPanel>
+                        <Button Content="Сохранить изменения" HorizontalAlignment="Center" Margin="10, 0"  Padding="10" Background="Aquamarine" HorizontalContentAlignment="Center"/>
                 </Grid>
             </Grid>
         </Border>
