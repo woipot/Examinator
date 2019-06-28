@@ -24,7 +24,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ScrollViewer models:AutoScrollBehavior.AutoScroll="True">
+        <ScrollViewer>
             <StackPanel Orientation="Vertical">
                 <Border Padding="5" Margin="15,10,15,15" BorderBrush="#FFABADB3" BorderThickness="1" >
                     <Grid>

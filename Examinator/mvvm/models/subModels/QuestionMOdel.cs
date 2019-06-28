@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 using DevExpress.Mvvm;
@@ -25,6 +26,7 @@ namespace Examinator.mvvm.models.subModels
         {
             QuestionText = questionText;
             Answers = new ObservableCollection<AnswerModel>();
+
             DeleteCommand = new DelegateCommand<AnswerModel>(Delete);
             AddEmptyCommand = new DelegateCommand(AddEmpty);
         }
@@ -32,7 +34,7 @@ namespace Examinator.mvvm.models.subModels
         public QuestionModel(QuestionModel question)
         {
             QuestionText = question.QuestionText;
-            Answers = new ObservableCollection<AnswerModel>(question.Answers);
+            Answers = new ObservableCollection<AnswerModel>(from x in question.Answers select (AnswerModel)x.Clone());
 
             DeleteCommand = new DelegateCommand<AnswerModel>(Delete);
             AddEmptyCommand = new DelegateCommand(AddEmpty);
