@@ -54,9 +54,26 @@ namespace Examinator.Views
 
         }
 
+        private static bool ClearResultsDialog()
+        {
+            var result = MessageBox.Show("Очистить файл с результатами? При нажатии на кнопку 'ОК' файл с результатами будет стерт безвозвратно.", "Вы уверены?",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question);
+
+            return result == MessageBoxResult.OK;
+        }
+
         private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
         {
-            ClearResults();
+            ClearResultsByCommand();
+        }
+
+        private void ClearResultsByCommand()
+        {
+            if (ClearResultsDialog())
+            {
+                ClearResults();
+            }
         }
 
         private void ClearResults()
