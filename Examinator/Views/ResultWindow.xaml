@@ -161,8 +161,7 @@
                                     </DataGrid.Columns>
                                 </DataGrid>
                             </StackPanel>
-                            
-                        </TabItem>
+                        </TabItem>>
                     </TabControl>
                 </Grid>
             </Grid>

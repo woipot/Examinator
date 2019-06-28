@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
@@ -15,7 +16,7 @@ namespace Examinator.Views
     public partial class ResultTableWindow : Window
     {
 
-        List<ResultModel> _results = new List<ResultModel>();
+        ObservableCollection<ResultModel> _results = new ObservableCollection<ResultModel>();
 
         public ResultTableWindow()
         {
@@ -42,15 +43,50 @@ namespace Examinator.Views
                         var formatter = new BinaryFormatter();
 
                         var t = (IEnumerable<ResultModel>)formatter.Deserialize(crStream);
-                        _results = new List<ResultModel>(t);
+                        _results = new ObservableCollection<ResultModel>(t);
                     }
                 }
             }
             catch (Exception e)
             {
-                MessageBox.Show("Непредвиденная ошибка: невозможно открыть файл с результатами");
+                MessageBox.Show("Непредвиденная ошибка: невозможно открыть файл с результатами либо он пуст");
             }
 
+        }
+
+        private static bool ClearResultsDialog()
+        {
+            var result = MessageBox.Show("Очистить файл с результатами? При нажатии на кнопку 'ОК' файл с результатами будет стерт безвозвратно.", "Вы уверены?",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.Question);
+
+            return result == MessageBoxResult.OK;
+        }
+
+        private void ButtonBase_OnClick(object sender, RoutedEventArgs e)
+        {
+            ClearResultsByCommand();
+        }
+
+        private void ClearResultsByCommand()
+        {
+            if (ClearResultsDialog())
+            {
+                ClearResults();
+            }
+        }
+
+        private void ClearResults()
+        {
+            try
+            {
+                File.WriteAllText(AppDomain.CurrentDomain.BaseDirectory + "/Results/results.db", string.Empty);
+                _results.Clear();
+            }
+            catch (Exception у)
+            {
+                MessageBox.Show("Непредвиденная ошибка: Невозможно очистить файл", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
     }
 }
