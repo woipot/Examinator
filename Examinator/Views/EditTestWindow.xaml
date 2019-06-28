@@ -50,7 +50,7 @@
                         </DockPanel>
 
                         <DockPanel Margin="10" Grid.Column="1" Grid.Row="0">
-                            <Label DockPanel.Dock="Left" Content="Дата послледнего изменения:"/>
+                            <Label DockPanel.Dock="Left" Content="Дата последнего изменения:"/>
                             <Label Content="{Binding TestModel.CreatedDate}"/>
                         </DockPanel>
 
@@ -115,19 +115,16 @@
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <Expander Grid.Column="0">
+                                    <Expander Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="AliceBlue" Margin="0,2,0,2">
                                         <Expander.Header>
-                                            <Grid>
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="*"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                    <ColumnDefinition Width="Auto"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <TextBox Grid.Column="0" MinWidth="40" Margin="20,0" Text="{Binding QuestionText}"/>
-                                                <Button Grid.Column="1" FontSize="10" Content="Удалить вопрос"  Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}"/>
-                                                <Button Grid.Column="2" FontSize="10" Margin="20,0" Content="Копировать"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}"/>
-                                            </Grid>
+                                            <DockPanel VerticalAlignment="Stretch" Height="Auto">
+                                                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
+                                                    <Label Content="Текст Вопрос:" Margin="10,0"/>
+                                                    <TextBox DockPanel.Dock="Left" MinWidth="300" Text="{Binding QuestionText}"/>
+                                                    <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" Margin="5, 0" Background="Red" Foreground="Beige"  Padding="5"/>
+                                                    <Button DockPanel.Dock="Right" Content="Создать копию"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}" Margin="5, 0"  Padding="5"/>
+                                                </DockPanel>
+                                            </DockPanel>
                                         </Expander.Header>
                                         <StackPanel Orientation="Vertical">
                                             <ListView ItemsSource="{Binding Answers}">
