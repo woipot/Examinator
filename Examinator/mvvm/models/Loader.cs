@@ -21,14 +21,13 @@ namespace Examinator.mvvm.models
         private const string TestDirectoryName = "Tests";
         private const string ResultDirectoryName = "Results";
         private static string DeffaultPass = "19voenkr";
-        private const string MarkFileName = "MarkFile";
 
 
         private readonly string _baseDir;
 
         public string PathToTests => _baseDir + $"{TestDirectoryName}";
         public string PathToResults => _baseDir + $"{ResultDirectoryName}";
-        public string PathToMarkFile => _baseDir + $"{MarkFileName}";
+        public string PathToMarkFile => _baseDir + $"{MarkClass.DeffautFileName}";
 
         public Loader()
         {
@@ -185,13 +184,14 @@ namespace Examinator.mvvm.models
             if (CheckOrCreateMarkFile(PathToMarkFile))
             {
                 // Проверить есть ли в нем что-то, если нет заполнить
-                DecryptFile(PathToMarkFile);
+                var marks = LoadMark(PathToMarkFile);
                // StreamReader sr = new StreamReader(PathToMarkFile, Encoding.Default);
 
 
             } else
             {
                 // Создать и заполнить
+                SaveMark(new MarkClass(), PathToMarkFile);
             }
             
         }
@@ -247,6 +247,13 @@ namespace Examinator.mvvm.models
             var xdoc = XDocument.Parse(text);
 
             return MarkClass.fromXML(xdoc, MarkClass.DeffautBlockName);
+        }
+
+        public static void SaveMark(MarkClass marks, string path)
+        {
+            var marksXdox = MarkClass.toXML(marks);
+
+            EncryptToFile(marksXdox.ToString(), path);
         }
 
         public static TestModel LoadTest(string path, bool loadOnlyHeader = false)

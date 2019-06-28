@@ -9,6 +9,7 @@ namespace Examinator.other
     class MarkClass
     {
         public static string DeffautBlockName = "Mark";
+        public static string DeffautFileName = "marks.txt";
 
         public int FivePercent { get; private set; }
         public int FourPercent { get; private set; }
@@ -30,6 +31,23 @@ namespace Examinator.other
         public MarkClass ()
         {
             SetAllParam(100, 80, 70);
+        }
+
+        public static XDocument toXML(MarkClass marks)
+        {
+            var xdoc = new XDocument();
+
+            var test = new XElement(DeffautBlockName);
+            var testFive = new XAttribute("FiveMark", marks.FivePercent);
+            var testFour = new XAttribute("FourMark", marks.FourPercent);
+            var testThree = new XAttribute("ThreeMark", marks.ThreePercent);
+            test.Add(testFive);
+            test.Add(testFour);
+            test.Add(testThree);
+
+            xdoc.Add(test);
+
+            return xdoc;
         }
 
         public static MarkClass fromXML(XDocument doc, string documentName)
