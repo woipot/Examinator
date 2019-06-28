@@ -9,6 +9,7 @@ using Examinator.Extensions;
 using Examinator.mvvm.models;
 using Examinator.mvvm.models.subModels;
 using Examinator.Views;
+using Examinator.other;
 
 namespace Examinator.mvvm.viewmodels
 {
@@ -37,12 +38,16 @@ namespace Examinator.mvvm.viewmodels
 
         private string _studentName;
         private string _group;
+        private MarkClass _marks;
 
 
-        public void SetData(TestModel testModel, string studentName, string group)
+        public void SetData(TestModel testModel, string studentName, string group, MarkClass marks)
         {
             _studentName = studentName;
             _group = group;
+            _marks = marks;
+
+            // TODO : mark 
 
             TestModel = testModel;
             Questions = TestModel?.Questions;
@@ -221,15 +226,23 @@ namespace Examinator.mvvm.viewmodels
 
             var correctPercent = results==0? 0: results/ _questionsCount * 100;
 
+            //try
+            //{
+            //    var marks = Loader.LoadMark()
+            //} catch (TestException ex)
+            //{
+            //    MessageBox.Show("Невозможно считать файл оценок, будет применена стандартная система");
+            //}
+
             int res = 0;
-            if (correctPercent == 100)
+            if (correctPercent == _marks.FivePercent)
             {
                 res = 5;
-            }else if (correctPercent >= 80)
+            }else if (correctPercent >= _marks.FourPercent)
             {
                 res = 4;
             }
-            else if (correctPercent >= 70)
+            else if (correctPercent >= _marks.ThreePercent)
             {
                 res = 3;
             }

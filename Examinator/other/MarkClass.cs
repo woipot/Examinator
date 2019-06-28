@@ -6,10 +6,10 @@ using System.Xml.Linq;
 
 namespace Examinator.other
 {
-    class MarkClass
+    public class MarkClass
     {
         public static string DeffautBlockName = "Mark";
-        public static string DeffautFileName = "marks.txt";
+        public static string DeffautFileName = "marks.db";
 
         public int FivePercent { get; private set; }
         public int FourPercent { get; private set; }

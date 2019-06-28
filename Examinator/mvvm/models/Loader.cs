@@ -27,7 +27,7 @@ namespace Examinator.mvvm.models
 
         public string PathToTests => _baseDir + $"{TestDirectoryName}";
         public string PathToResults => _baseDir + $"{ResultDirectoryName}";
-        public string PathToMarkFile => _baseDir + $"{MarkClass.DeffautFileName}";
+        public string PathToMarkFile => PathToResults + $"//{MarkClass.DeffautFileName}";
 
         public Loader()
         {
@@ -181,12 +181,17 @@ namespace Examinator.mvvm.models
             Directory.CreateDirectory(PathToTests);
             Directory.CreateDirectory(PathToResults);
 
-            if (CheckOrCreateMarkFile(PathToMarkFile))
+            if (File.Exists(PathToMarkFile))
             {
                 // Проверить есть ли в нем что-то, если нет заполнить
-                var marks = LoadMark(PathToMarkFile);
-               // StreamReader sr = new StreamReader(PathToMarkFile, Encoding.Default);
-
+                try
+                {
+                    var marks = LoadMark(PathToMarkFile);
+                } catch (TestException ex)
+                {
+                    LoadExceptions.Add(ex);
+                }
+                // StreamReader sr = new StreamReader(PathToMarkFile, Encoding.Default);
 
             } else
             {
@@ -196,17 +201,14 @@ namespace Examinator.mvvm.models
             
         }
 
-        private static bool CheckOrCreateMarkFile(String filename)
-        {
-            return File.Exists(filename);
-        }
-
         private bool StructureIsReady()
         {
             var isTestsFolderExist = Directory.Exists(PathToTests);
             var isResultsFolderExist = Directory.Exists(PathToResults);
 
-            return isTestsFolderExist && isResultsFolderExist;
+            var isMarkEx = File.Exists(PathToMarkFile);
+
+            return isTestsFolderExist && isResultsFolderExist && isMarkEx;
         }
 
         private IEnumerable<TestException> PreloadTests()

@@ -25,7 +25,9 @@ namespace Examinator.mvvm.viewmodels
                 TeacherMode = true;
             #endif
 
+            
             _loader = new Loader();
+            
 
             if (_loader.LoadExceptions.Any())
             {
@@ -126,7 +128,7 @@ namespace Examinator.mvvm.viewmodels
 
         public DelegateCommand<object> SolveTestCommand { get; }
         
-        private static void OpenSolveWindow(object param)
+        private void OpenSolveWindow(object param)
         {
             if (!(param is PreloadedTestInfo preloadedInfo))
             {
@@ -141,8 +143,16 @@ namespace Examinator.mvvm.viewmodels
                 try
                 {
                     var testModel = Loader.LoadTest(preloadedInfo.AssociatedPath);
+                    MarkClass marks = new MarkClass();
+                    try
+                    {
+                        marks = Loader.LoadMark(_loader.PathToMarkFile);
+                    } catch (TestException ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                    }
 
-                    var solveWindow = new SolveTestWindow(testModel, preloadedInfo, studentInfoWindow.StudentName, studentInfoWindow.Group);
+                    var solveWindow = new SolveTestWindow(testModel, preloadedInfo, studentInfoWindow.StudentName, studentInfoWindow.Group, marks);
                     solveWindow.ShowDialog();
 
                 }
