@@ -9,7 +9,7 @@
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
         mc:Ignorable="d"
-        Title="Просмотр теста" Height="600" Width="600">
+        Title="Просмотр теста" Height="600" Width="600" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

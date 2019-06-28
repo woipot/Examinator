@@ -7,8 +7,8 @@
         xmlns:converters="clr-namespace:Examinator.converters"
         xmlns:viewmodels="clr-namespace:Examinator.mvvm.viewmodels"
         mc:Ignorable="d"
-        Title="{Binding TestModel.TestName}" Height="450" Width="800"
-        Closing="SolveTestWindow_OnClosing">
+        Title="{Binding TestModel.TestName}" Height="500" Width="800"
+        Closing="SolveTestWindow_OnClosing" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <viewmodels:ExaminatorViewModel/>

@@ -22,7 +22,6 @@ namespace Examinator.mvvm.models
         private const string ResultDirectoryName = "Results";
         private static string DeffaultPass = "19voenkr";
 
-
         private readonly string _baseDir;
 
         public string PathToTests => _baseDir + $"{TestDirectoryName}";

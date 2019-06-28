@@ -10,7 +10,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Title="Результаты" Height="500" Width="700">
+        Title="Результаты" Height="450" Width="700" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <viewmodels:ResultsViewModel/>

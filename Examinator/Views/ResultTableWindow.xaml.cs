@@ -48,7 +48,7 @@ namespace Examinator.Views
             }
             catch (Exception e)
             {
-                MessageBox.Show("Неапредвиденныая ошибка: невозможно открыть файл с результатами");
+                MessageBox.Show("Непредвиденная ошибка: невозможно открыть файл с результатами");
             }
 
         }

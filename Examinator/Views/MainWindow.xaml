@@ -10,7 +10,7 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto"
-        Title="Экзаменатор" Height="450" Width="800">
+        Title="Экзаменатор" Height="500" Width="800" WindowStartupLocation="CenterScreen">
 
     <Window.DataContext>
         <viewmodels:MainVm/>
@@ -59,7 +59,7 @@
                                     <ColumnDefinition Width="auto"/>
                                     <ColumnDefinition Width="auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" Content="удалить" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}">
+                                <Button Grid.Column="0" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.DeleteCommand}" Content="Удалить Тест" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"  Padding="5">
                                     <Button.Background>
                                         <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
                                             <GradientStop Color="#99FF0000" Offset="0"/>
@@ -67,10 +67,10 @@
                                         </LinearGradientBrush>
                                     </Button.Background>
                                 </Button>
-                                <TextBlock Grid.Column="1" Text="{Binding Path=TestName}" HorizontalAlignment="Center"/>
-                                <Button Grid.Column="2" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.ViewTestCommand}" Content="Смотреть" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
-                                <Button Grid.Column="3" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.EditTestCommand}" Content="Редактировать" Margin="10, 0" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"/>
-                                <Button Grid.Column="4" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.SolveTestCommand}" Content="Пройти"/>
+                                <TextBlock Grid.Column="1" Text="{Binding Path=TestName}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <Button Grid.Column="2" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.ViewTestCommand}" Content="Смотреть" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"  Padding="5"/>
+                                <Button Grid.Column="3" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.EditTestCommand}" Content="Редактировать" Margin="10, 0" Visibility="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TeacherMode, Converter={StaticResource VisibilityConverter}}"  Padding="5"/>
+                                <Button Grid.Column="4" CommandParameter="{Binding}" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.SolveTestCommand}" Content="Пройти"  Padding="5"/>
                             </Grid>
                         </DataTemplate>
                     </ListView.ItemTemplate>
