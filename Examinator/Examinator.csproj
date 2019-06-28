@@ -158,6 +158,9 @@
     <Compile Include="Views\HelpWindow.xaml.cs">
       <DependentUpon>HelpWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\MarksSettingsWindow.xaml.cs">
+      <DependentUpon>MarksSettingsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PasswordDialog.xaml.cs">
       <DependentUpon>PasswordDialog.xaml</DependentUpon>
     </Compile>
@@ -198,6 +201,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ErrorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\MarksSettingsWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
