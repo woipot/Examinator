@@ -20,5 +20,10 @@ namespace Examinator.Views
         {
             ((ResultsViewModel)DataContext).LoadResults();
         }
+
+        private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

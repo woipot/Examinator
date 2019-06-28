@@ -15,7 +15,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ScrollViewer Grid.Row="0" Margin="213,10,23.435,62" HorizontalAlignment="Center" Grid.RowSpan="2">
+        <ScrollViewer Grid.Row="0"  HorizontalAlignment="Center" Grid.ColumnSpan="2">
             <TextBlock x:Name="Block" TextWrapping="Wrap"/>
         </ScrollViewer>
         <Button Grid.Row="1" Click="ButtonBase_OnClick"  Content="Вернуться и исправить" VerticalAlignment="Bottom" Margin="0,0,20.2,20" HorizontalAlignment="Right" Grid.Column="1"/>

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml.Linq;
+﻿using System.Xml.Linq;
 
 namespace Examinator.other
 {
@@ -19,7 +15,7 @@ namespace Examinator.other
         {
             if ((paramFive <= paramFour) || (paramFour <= paramThree) || (paramFive <= 0) || (paramFour <= 0) || (paramThree <= 0))
             {
-                throw new TestException("Параметры для оценки указанны не верно");
+                throw new TestException("Параметры для оценки указаны неверно");
             } else
             {
                 FivePercent = paramFive;

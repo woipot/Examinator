@@ -18,9 +18,9 @@ namespace Examinator.converters
                     case 2:
                         return new SolidColorBrush(Colors.Red);
                     case 3:
-                        return new SolidColorBrush(Colors.Yellow);
+                        return new SolidColorBrush(Colors.OrangeRed);
                     case 4:
-                        return new SolidColorBrush(Colors.GreenYellow);
+                        return new SolidColorBrush(Colors.Gold);
                     case 5:
                         return new SolidColorBrush(Colors.Green);
                 }

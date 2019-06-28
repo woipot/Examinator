@@ -5,13 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Examinator.Views"
         mc:Ignorable="d"
-        Title="Введите данные" Height="220" Width="240" WindowStartupLocation="CenterScreen">
+        Title="Введите данные" Height="220" Width="240" WindowStartupLocation="CenterScreen" SizeToContent="Height">
     <Grid>
         <StackPanel >
-        <Label Content="Фамилия имя:"  FontSize="15"/>
+        <Label HorizontalAlignment="Center" Content="Фамилия имя:"  FontSize="15"/>
         <TextBox x:Name="NameTextBox" Margin="20,0"/>
 
-        <Label Content="Группа:"  FontSize="15"/>
+        <Label HorizontalAlignment="Center" Content="Группа:"  FontSize="15"/>
         <TextBox x:Name="GroupTextBox" Margin="20,0"/>
         <Button Content="Начать тест" Margin="20, 15" Click="ButtonBase_OnClick"/>
         </StackPanel>

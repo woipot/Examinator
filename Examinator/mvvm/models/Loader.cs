@@ -12,7 +12,7 @@ using Examinator.other;
 
 namespace Examinator.mvvm.models
 {
-    internal class Loader : BindableBase
+    public class Loader : BindableBase
     {
         public ObservableCollection<PreloadedTestInfo> PreloadedTests { get; }
 
@@ -185,7 +185,7 @@ namespace Examinator.mvvm.models
                 // Проверить есть ли в нем что-то, если нет заполнить
                 try
                 {
-                    var marks = LoadMark(PathToMarkFile);
+                    LoadMark(PathToMarkFile);
                 } catch (TestException ex)
                 {
                     LoadExceptions.Add(ex);

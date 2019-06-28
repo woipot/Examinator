@@ -28,15 +28,15 @@
                 </Grid.RowDefinitions>
 
                 <Grid Row="0" >
-                    <Border Padding="10" Background="#FFE7E6E6">
+                    <Border Padding="10" Background="#FFC2BCBC">
                         <UniformGrid Columns="3">
                         <StackPanel>
                             <TextBlock Text="{Binding ResultModel.TestName}" Margin="10" TextWrapping="Wrap" FontSize="20" FontWeight="Bold"></TextBlock>
                         </StackPanel>
 
-                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Padding="15">
+                            <Border HorizontalAlignment="Center" VerticalAlignment="Center" Padding="15" BorderBrush="Black" BorderThickness="2">
                                 <StackPanel>
-                                    <TextBlock Text="Результат:" FontWeight="DemiBold" FontSize="16"></TextBlock>
+                                    <TextBlock Text="Результат:" TextAlignment="Center" FontWeight="DemiBold" FontSize="16"></TextBlock>
                                     <TextBlock Text="{Binding Result}" FontWeight="DemiBold" FontSize="16"/>
                                     <TextBlock Text="{Binding ResultModel.MarkStr}" Foreground="{Binding ResultModel.Mark, Converter={StaticResource ColorConverter}}" FontWeight="DemiBold" FontSize="16"/>
                                 </StackPanel>
@@ -48,7 +48,7 @@
                 </Grid>
 
                 <Grid Row="1">
-                    <TabControl>
+                    <TabControl SelectionChanged="TabControl_SelectionChanged">
                         <TabItem Header="Результаты теста" Padding="5" FontWeight="DemiBold" FontSize="15">
                             <StackPanel>
                                 <StackPanel Orientation="Horizontal" Margin="10,15,0,20">  
@@ -59,31 +59,25 @@
                                     <StackPanel>
                                       <StackPanel Margin="10,0">
                                           <UniformGrid Columns="2" HorizontalAlignment="Stretch" Margin="0,10">
-                                              <TextBlock VerticalAlignment="Center" Margin="20,0,0,0" Text="Начало" FontWeight="Bold" FontSize="15"></TextBlock>
-                                              <StackPanel>
+                                              <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" Text="Время начала:" FontWeight="Bold" FontSize="15"></TextBlock>
+                                                <StackPanel Margin="30,0,0,0">
                                                 <TextBlock Text="{Binding ResultModel.StartTimeStr}" FontWeight="DemiBold" FontSize="15"></TextBlock>
                                               </StackPanel>
-                                            </UniformGrid>
-                                      </StackPanel>
-                                    </StackPanel>
-                                
-                                <UniformGrid VerticalAlignment="Bottom">
-                                    <StackPanel >
-                                            
+                                          </UniformGrid>
 
-                                        <UniformGrid Columns="2" HorizontalAlignment="Stretch" Margin="0,10">
-                                            <TextBlock VerticalAlignment="Center" Margin="20,0,0,0" Text="Время" FontWeight="Bold" FontSize="15"></TextBlock>
-                                            <StackPanel>
-                                                <TextBlock Text="{Binding TotalTime}" FontWeight="DemiBold" FontSize="15"></TextBlock>
-                                            </StackPanel>
-                                        </UniformGrid>
+                                          <UniformGrid Columns="2" HorizontalAlignment="Stretch" Margin="0,10">
+                                              <TextBlock VerticalAlignment="Center" Margin="10,0,0,0" Text="Затраченное время:" FontWeight="Bold" FontSize="15"></TextBlock>
+                                              <StackPanel Margin="30,0,0,0">
+                                                    <TextBlock Text="{Binding TotalTime}" FontWeight="DemiBold" FontSize="15"></TextBlock>
+                                              </StackPanel>
+                                          </UniformGrid>
+                                        </StackPanel>
                                     </StackPanel>
-                                </UniformGrid>
                             </UniformGrid>
                             </StackPanel>
                         </TabItem>
                         <TabItem Header="Таблица результатов" FontWeight="DemiBold" FontSize="15" Loaded="FrameworkElement_OnLoaded">
-                            <StackPanel>
+                            <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
                                 <DataGrid ItemsSource="{Binding Results}" AutoGenerateColumns="False" IsReadOnly="True" CanUserDeleteRows="False" CanUserAddRows="False">
                                     <DataGrid.Columns>
                                         <DataGridTextColumn Header="Название теста" Binding="{Binding TestName}"></DataGridTextColumn>
@@ -94,8 +88,8 @@
                                         <DataGridTextColumn Header="Время прохождения" Binding="{Binding TotalTime}"></DataGridTextColumn>
                                     </DataGrid.Columns>
                                 </DataGrid>
-                            </StackPanel>
-                        </TabItem>>
+                            </ScrollViewer>
+                        </TabItem>
                     </TabControl>
                 </Grid>
             </Grid>

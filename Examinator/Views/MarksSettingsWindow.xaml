@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
         Title="Оценивание" Height="250" Width="250" WindowStartupLocation="CenterScreen">
     <Grid>
@@ -30,26 +31,26 @@
 
                         <DockPanel Margin="5" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Center">
                             <Label  DockPanel.Dock="Left" Content="5:"/>
-                            <TextBox Text="" MinWidth="50" TextAlignment="Center"/>
+                            <xctk:IntegerUpDown FormatString="N0" x:Name="FiveBlock" MinWidth="60" Increment="1" Minimum="0" Maximum="100"/>
                             <Label  DockPanel.Dock="Right" Content="%"/>
                         </DockPanel>
 
                         <DockPanel Margin="5" Grid.Column="0" Grid.Row="2" HorizontalAlignment="Center">
                             <Label  DockPanel.Dock="Left" Content="4:"/>
-                            <TextBox Text="" MinWidth="50" TextAlignment="Center"/>
+                            <xctk:IntegerUpDown FormatString="N0" x:Name="FourBlock" MinWidth="60" Increment="1" Minimum="0" Maximum="100"/>
                             <Label  DockPanel.Dock="Right" Content="%"/>
                         </DockPanel>
 
                         <DockPanel Margin="5" Grid.Column="0" Grid.Row="3" HorizontalAlignment="Center">
                             <Label  DockPanel.Dock="Left" Content="3:"/>
-                            <TextBox Text="" MinWidth="50" TextAlignment="Center"/>
+                            <xctk:IntegerUpDown FormatString="N0" x:Name="ThreeBlock" MinWidth="60" Increment="1" Minimum="0" Maximum="100"/>
                             <Label  DockPanel.Dock="Right" Content="%"/>
                         </DockPanel>
                     </Grid>
 
                 </Border>
                 <Grid Grid.Row="1"  Margin="5">
-                        <Button Content="Сохранить изменения" HorizontalAlignment="Center" Margin="10, 0"  Padding="10" Background="Aquamarine" HorizontalContentAlignment="Center"/>
+                        <Button Click="ButtonBase_OnClick" Content="Сохранить изменения" HorizontalAlignment="Center" Margin="10, 0"  Padding="10" Background="Aquamarine" HorizontalContentAlignment="Center"/>
                 </Grid>
             </Grid>
         </Border>
