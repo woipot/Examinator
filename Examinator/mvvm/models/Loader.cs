@@ -136,7 +136,7 @@ namespace Examinator.mvvm.models
                                     break;
                                 case "можно пропускать":
                                 case "skipable":
-                                    if (data.Contains("Не") || data.Contains("False"))
+                                    if (data.Contains("Нет") || data.Contains("False"))
                                     {
                                         test.Skipable = false;
                                     }
@@ -182,7 +182,7 @@ namespace Examinator.mvvm.models
 
             if (File.Exists(PathToMarkFile))
             {
-                // Проверить есть ли в нем что-то, если нет заполнить
+                // Проверить есть ли в нем что-то, если нет заполнитьMO
                 try
                 {
                     LoadMark(PathToMarkFile);
