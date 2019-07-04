@@ -48,12 +48,13 @@ namespace Examinator.Views
 
             try
             {
-                
-                 _marks.SetAllParam((int) FiveBlock.Value, (int) FourBlock.Value, (int) ThreeBlock.Value);
+
+                _marks.SetAllParam((int) FiveBlock.Value, (int) FourBlock.Value, (int) ThreeBlock.Value);
             }
             catch (TestException exception)
             {
                 MessageBox.Show($"Ошибка: {exception.Message}\nИсправьте и попробуйте снова");
+                return;
             }
 
             try
@@ -63,6 +64,7 @@ namespace Examinator.Views
             catch (Exception exception)
             {
                 MessageBox.Show($"Непредвиденная ошибка: невозможно сохранить в файл");
+                return;
             }
 
             MessageBox.Show("Сохранено!");
