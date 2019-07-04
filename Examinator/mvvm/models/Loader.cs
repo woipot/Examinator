@@ -20,7 +20,7 @@ namespace Examinator.mvvm.models
 
         private const string TestDirectoryName = "Tests";
         private const string ResultDirectoryName = "Results";
-        private static string DeffaultPass = "19voenkr";
+        private static string DefaultPass = "19voenkr";
 
         private readonly string _baseDir;
 
@@ -46,18 +46,15 @@ namespace Examinator.mvvm.models
 
         public static TestModel LoadFromFile(string filename)
         {
-            StreamReader sr = new StreamReader(filename, Encoding.Default);
+            var sr = new StreamReader(filename, Encoding.Default);
             var test = new TestModel();
-            bool questions_count_setted = false;
-            bool questions_time_setted = false;
+            var questionsCountSetted = false;
+            var questionsTimeSetted = false;
             
             string line;
             QuestionModel tmpuestion = null;
             while ((line = sr.ReadLine()) != null)
             {
-                //var line_copy = "awdfesgrd";
-                //var kek = line_copy.Split('=');
-
                 line = line.Trim();
                 if (string.IsNullOrEmpty(line)) continue;
                 var first = line.First();
@@ -115,10 +112,10 @@ namespace Examinator.mvvm.models
                                     {
                                         var time = Int32.Parse(data);
                                         test.MinutsToTest = time;
-                                        questions_time_setted = true; 
+                                        questionsTimeSetted = true; 
                                     } catch (FormatException) {
                                         test.MinutsToTest = 0;
-                                        questions_time_setted = true;
+                                        questionsTimeSetted = true;
                                     }
                                     break;
                                 case "вопросы":
@@ -127,11 +124,11 @@ namespace Examinator.mvvm.models
                                     {
                                         var count = Int32.Parse(data);
                                         test.QuestionsInTest = count;
-                                        questions_count_setted = true;
+                                        questionsCountSetted = true;
                                     }
                                     catch (FormatException) {
                                         test.QuestionsInTest = 0;
-                                        questions_count_setted = true;
+                                        questionsCountSetted = true;
                                     }
                                     break;
                                 case "можно пропускать":
@@ -150,17 +147,15 @@ namespace Examinator.mvvm.models
                                     }
                                     //test.Skipable = 
                                     break;
-                                default:
-                                    break;
                                 }
                             }
                         }
                         break;
                 }
             }
-            if (!questions_count_setted)
+            if (!questionsCountSetted)
                 test.QuestionsInTest = 0;
-            if (!questions_time_setted)
+            if (!questionsTimeSetted)
                 test.MinutsToTest = 0;
 
             var check = test.CheckToCorrect();
@@ -277,7 +272,7 @@ namespace Examinator.mvvm.models
         private static void EncryptToFile(string input, string outputFile)
         {
             var ue = new UnicodeEncoding();
-            var key = ue.GetBytes(DeffaultPass);
+            var key = ue.GetBytes(DefaultPass);
 
             var cryptFile = outputFile;
             var fsCrypt = new FileStream(cryptFile, FileMode.Create);
@@ -331,7 +326,7 @@ namespace Examinator.mvvm.models
         private static string DecryptFile(string inputFile)
         {
             var ue = new UnicodeEncoding();
-            var key = ue.GetBytes(DeffaultPass);
+            var key = ue.GetBytes(DefaultPass);
 
             var fsCrypt = new FileStream(inputFile, FileMode.Open);
 
