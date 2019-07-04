@@ -11,7 +11,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" Margin="10">
-            <Button VerticalAlignment="Center" HorizontalAlignment="Right" Click="ButtonBase_OnClick" Content="Очистить таблицу результатов"/>
+            <Button x:Name="ClearButton" VerticalAlignment="Center" HorizontalAlignment="Right" Click="ButtonBase_OnClick" Content="Очистить таблицу результатов"/>
         </StackPanel>
         <ScrollViewer Grid.Row="1">
             <DataGrid x:Name="DateGrid" AutoGenerateColumns="False" IsReadOnly="True" CanUserDeleteRows="False" CanUserAddRows="False">

@@ -7,6 +7,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Windows;
 using Examinator.mvvm.models;
+using Examinator.mvvm.viewmodels;
 
 namespace Examinator.Views
 {
@@ -23,6 +24,13 @@ namespace Examinator.Views
             InitializeComponent();
             LoadResults();
             DateGrid.ItemsSource = _results;
+
+            var mainWindow = (MainVm)Application.Current.MainWindow.DataContext;
+
+            if (!mainWindow.TeacherMode)
+            {
+                ClearButton.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void LoadResults()

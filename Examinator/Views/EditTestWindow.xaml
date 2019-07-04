@@ -24,9 +24,10 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ScrollViewer>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto"> 
             <StackPanel Orientation="Vertical">
-                <Border Padding="5" Margin="15,10,15,15" BorderBrush="#FFABADB3" BorderThickness="1" >
+                <StackPanel HorizontalAlignment="Left" Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ScrollViewer}}">
+                <Border Padding="5" Margin="30,10,30,15" BorderBrush="#FFABADB3" BorderThickness="1" >
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -100,6 +101,7 @@
 
                     </Grid>
                 </Border>
+                </StackPanel>
 
                 <ListView ItemsSource="{Binding Questions}">
                     <ListView.ItemContainerStyle>
@@ -117,22 +119,24 @@
 
                                     <Expander Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="AliceBlue" Margin="0,2,0,2">
                                         <Expander.Header>
-                                            <DockPanel VerticalAlignment="Stretch" Height="Auto">
-                                                <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
+                                            <UniformGrid Columns="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
+                                                <DockPanel>
                                                     <Label Content="Текст вопроса:" Margin="10,0"/>
-                                                    <TextBox DockPanel.Dock="Left" MinWidth="300" Text="{Binding QuestionText}"/>
-                                                    
-                                                    <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" Margin="5, 0" Foreground="Beige"  Padding="5">
-                                                        <Button.Background>
-                                                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                                                                <GradientStop Color="#99FF0000" Offset="0"/>
-                                                                <GradientStop Color="#99830D0D" Offset="1"/>
-                                                            </LinearGradientBrush>
-                                                        </Button.Background>
-                                                    </Button>
-                                                    <Button DockPanel.Dock="Right" Content="Создать копию"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}" Margin="5, 0"  Padding="5"/>
+                                                    <TextBox TextWrapping="WrapWithOverflow" DockPanel.Dock="Top" MinWidth="100" Text="{Binding QuestionText}"/>
                                                 </DockPanel>
-                                            </DockPanel>
+
+                                                <StackPanel Orientation="Horizontal">
+                                                <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" Margin="5, 0" Foreground="Beige"  Padding="5">
+                                                    <Button.Background>
+                                                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                                            <GradientStop Color="#99FF0000" Offset="0"/>
+                                                            <GradientStop Color="#99830D0D" Offset="1"/>
+                                                        </LinearGradientBrush>
+                                                    </Button.Background>
+                                                </Button>
+                                                <Button DockPanel.Dock="Right" Content="Создать копию"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}" Margin="5, 0"  Padding="5"/>
+                                                </StackPanel>
+                                            </UniformGrid>
                                         </Expander.Header>
                                         <StackPanel Orientation="Vertical">
                                             <ListView ItemsSource="{Binding Answers}">
