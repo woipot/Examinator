@@ -21,7 +21,7 @@ namespace Examinator.Views
             StudentName = NameTextBox.Text;
             Group = GroupTextBox.Text;
 
-            if (string.IsNullOrEmpty(StudentName) && string.IsNullOrEmpty(Group))
+            if (string.IsNullOrEmpty(StudentName) || string.IsNullOrEmpty(Group))
             {
                 MessageBox.Show("Вы должны заполнить информацию", "Ошибка");
             }

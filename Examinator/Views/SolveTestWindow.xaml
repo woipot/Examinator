@@ -18,6 +18,7 @@
         <converters:CollectionToBoolConverter x:Key="CollectionToBoolConverter" />
         <converters:BoolToHidenConverter x:Key="VisibilityConverter"/>
         <converters:SelectionConverter x:Key="SelectionConverter"/>
+        <converters:WidthConverter x:Key="WidthConverter"/>
     </Window.Resources>
 
     <Grid>
@@ -102,7 +103,7 @@
                             <Border Margin="10" Padding="5">
                                 <ScrollViewer VerticalScrollBarVisibility="Visible" HorizontalScrollBarVisibility="Disabled">
                                     <StackPanel>
-                                        <TextBlock Text="{Binding SelectedQuestion.QuestionText}" FontSize="14" FontWeight="DemiBold" Margin="10,5"></TextBlock>
+                                        <TextBlock Text="{Binding SelectedQuestion.QuestionText}" FontSize="14" FontWeight="DemiBold" Margin="10,5" TextWrapping="Wrap" ></TextBlock>
                                         <ListBox Padding="15,20,20,15" Margin="5" ItemsSource="{Binding SelectedQuestion.Answers}" SelectionMode="Single">
                                             <ListBox.ItemsPanel>
                                                 <ItemsPanelTemplate>
@@ -121,7 +122,7 @@
                                                                 </MultiBinding>
                                                             </CheckBox.IsChecked>
                                                         </CheckBox>
-                                                        <TextBlock Text="{Binding AnswerText}" TextWrapping="Wrap" VerticalAlignment="Center" MaxWidth="{Binding Width, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}" Margin="5,0,0,0" ScrollViewer.CanContentScroll="False"/>
+                                                        <TextBlock Text="{Binding AnswerText}" TextWrapping="Wrap" VerticalAlignment="Center" MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ScrollViewer}, Converter={StaticResource WidthConverter}}" Margin="5,0,0,0" ScrollViewer.CanContentScroll="False"/>
 
                                                     </StackPanel>
                                                 </DataTemplate>
