@@ -224,7 +224,12 @@ namespace Examinator.mvvm.viewmodels
             //double results = CalculateResults(Questions);
             double results = SmartCalculateResults(Questions);
 
-            var correctPercent = results==0? 0: results/ _questionsCount * 100;
+            double? correctPercent = results==0? 0: results/ _questionsCount * 100;
+
+            if (_answered < Questions.Count)
+            {
+                correctPercent = null;
+            }
 
             //try
             //{

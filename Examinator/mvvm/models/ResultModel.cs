@@ -31,6 +31,6 @@ namespace Examinator.mvvm.models
 
         public int TotalAnswers { get; set; }
 
-        public double Perent { get; internal set; }
+        public double? Perent { get; internal set; }
     }
 }

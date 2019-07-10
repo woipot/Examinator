@@ -12,10 +12,20 @@ namespace Examinator.mvvm.viewmodels
 {
     class ResultsViewModel : BindableBase
     {
-       public String Result => $"{PercentResult}";
+       public String Result
+       {
+           get
+           {
+               if (ResultModel.Perent != null)
+                {
+                    return $"{PercentResult}%";
+                }
+                return $"{PercentResult}";
+           }
+       }
 
         public String PercentResult =>
-            $"{ResultModel.Perent:N2}%";
+            $"{ResultModel.Perent:N2}";
 
         public String TotalTime => (ResultModel.FinishTime - ResultModel.StartTime).ToString(@"mm") + " мин. " +
                                    (ResultModel.FinishTime - ResultModel.StartTime).ToString(@"ss") + " сек.";
