@@ -6,6 +6,7 @@
         mc:Ignorable="d"
         xmlns:models="clr-namespace:Examinator.mvvm.models"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:converters="clr-namespace:Examinator.converters"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
@@ -19,94 +20,98 @@
         <models:RedactorModel/>
     </Window.DataContext>
 
+    <Window.Resources>
+        <converters:WidthConverter x:Key="WidthConverter"/>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <ScrollViewer HorizontalScrollBarVisibility="Auto"> 
+        <ScrollViewer HorizontalScrollBarVisibility="Hidden" x:Name="MainScroll"> 
             <StackPanel Orientation="Vertical">
                 <StackPanel HorizontalAlignment="Left" Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ScrollViewer}}">
-                <Border Padding="5" Margin="30,10,30,15" BorderBrush="#FFABADB3" BorderThickness="1" >
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
+                    <Border Padding="5" Margin="30,10,30,15" BorderBrush="#FFABADB3" BorderThickness="1" >
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
 
-                        <DockPanel Margin="10" Grid.Column="0" Grid.Row="0">
-                            <Label DockPanel.Dock="Left" Content="Название теста:"/>
-                            <TextBox Text="{Binding TestModel.TestName}" MinWidth="40" TextAlignment="Center"/>
-                        </DockPanel>
+                            <DockPanel Margin="10" Grid.Column="0" Grid.Row="0">
+                                <Label DockPanel.Dock="Left" Content="Название теста:"/>
+                                <TextBox Text="{Binding TestModel.TestName}" MinWidth="40" TextAlignment="Center"/>
+                            </DockPanel>
 
-                        <DockPanel Margin="10" Grid.Column="0" Grid.Row="1">
-                            <Label  DockPanel.Dock="Left" Content="Автор:"/>
-                            <TextBox Text="{Binding TestModel.Author}" MinWidth="40" TextAlignment="Center"/>
-                        </DockPanel>
+                            <DockPanel Margin="10" Grid.Column="0" Grid.Row="1">
+                                <Label  DockPanel.Dock="Left" Content="Автор:"/>
+                                <TextBox Text="{Binding TestModel.Author}" MinWidth="40" TextAlignment="Center"/>
+                            </DockPanel>
 
-                        <DockPanel Margin="10" Grid.Column="1" Grid.Row="0">
-                            <Label DockPanel.Dock="Left" Content="Дата последнего изменения:"/>
-                            <Label Content="{Binding TestModel.CreatedDate}"/>
-                        </DockPanel>
+                            <DockPanel Margin="10" Grid.Column="1" Grid.Row="0">
+                                <Label DockPanel.Dock="Left" Content="Дата последнего изменения:"/>
+                                <Label Content="{Binding TestModel.CreatedDate}"/>
+                            </DockPanel>
 
-                        <DockPanel Margin="10"  Grid.Column="1" Grid.Row="1">
-                            <DockPanel.ToolTip>
-                                <ToolTip>
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content="Если данное поле выбрано, при прохождении теста," />
-                                        <Label Content="будет возможность отвечать на вопросы в любом порядке," />
-                                        <Label Content="а суммарное время теста будет высчитано на основе:" />
-                                        <Label Content="Кол-во вопросов в тесте * время на один вопрос" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </DockPanel.ToolTip>
-                            <Label DockPanel.Dock="Left" Content="Можно пропускать вопросы:"/>
-                            <CheckBox IsChecked="{Binding TestModel.Skipable}" VerticalAlignment="Center"/>
-                        </DockPanel>
+                            <DockPanel Margin="10"  Grid.Column="1" Grid.Row="1">
+                                <DockPanel.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel Orientation="Vertical">
+                                            <Label Content="Если данное поле выбрано, при прохождении теста," />
+                                            <Label Content="будет возможность отвечать на вопросы в любом порядке," />
+                                            <Label Content="а суммарное время теста будет высчитано на основе:" />
+                                            <Label Content="Кол-во вопросов в тесте * время на один вопрос" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </DockPanel.ToolTip>
+                                <Label DockPanel.Dock="Left" Content="Можно пропускать вопросы:"/>
+                                <CheckBox IsChecked="{Binding TestModel.Skipable}" VerticalAlignment="Center"/>
+                            </DockPanel>
 
-                        <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" Margin="10,0,0,0">
-                            <StackPanel.ToolTip>
-                                <ToolTip>
-                                    <StackPanel Orientation="Vertical">
-                                        <Label Content="Кол-во вопросов, которые будут случайно выбраны" />
-                                        <Label Content="из общего списка вопросов, если это значение больше общего" />
-                                        <Label Content="кол-ва вопросов, будет задействованы все вопросы" />
-                                    </StackPanel>
-                                </ToolTip>
-                            </StackPanel.ToolTip>
-                            <Label Content="Вопросов в одном тесте:"/>
-                            <xctk:IntegerUpDown MinWidth="100" FormatString="N0" Value="{Binding QuestionsInTestCount}" Increment="1" Minimum="1"/>
-                        </StackPanel>
+                            <StackPanel Grid.Column="0" Grid.Row="2" Orientation="Horizontal" Margin="10,0,0,0">
+                                <StackPanel.ToolTip>
+                                    <ToolTip>
+                                        <StackPanel Orientation="Vertical">
+                                            <Label Content="Кол-во вопросов, которые будут случайно выбраны" />
+                                            <Label Content="из общего списка вопросов, если это значение больше общего" />
+                                            <Label Content="кол-ва вопросов, будет задействованы все вопросы" />
+                                        </StackPanel>
+                                    </ToolTip>
+                                </StackPanel.ToolTip>
+                                <Label Content="Вопросов в одном тесте:"/>
+                                <xctk:IntegerUpDown MinWidth="100" FormatString="N0" Value="{Binding QuestionsInTestCount}" Increment="1" Minimum="1"/>
+                            </StackPanel>
 
-                        <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" Margin="10,0,0,10">
-                            <Label Content="Всего возможных вопросов в тесте: "/>
-                            <Label Content="{Binding Questions.Count}"/>
-                        </StackPanel>
+                            <StackPanel Grid.Column="0" Grid.Row="3" Orientation="Horizontal" Margin="10,0,0,10">
+                                <Label Content="Всего возможных вопросов в тесте: "/>
+                                <Label Content="{Binding Questions.Count}"/>
+                            </StackPanel>
 
-                        <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" >
-                            <Label Content="Секунд на один вопрос:" Margin="10,0,0,1"/>
-                            <xctk:IntegerUpDown MinWidth="100" FormatString="N0" Value="{Binding MinutToTest}" Increment="1" Minimum="10"/>
-                        </StackPanel>
+                            <StackPanel Grid.Column="1" Grid.Row="2" Orientation="Horizontal" >
+                                <Label Content="Секунд на один вопрос:" Margin="10,0,0,1"/>
+                                <xctk:IntegerUpDown MinWidth="100" FormatString="N0" Value="{Binding MinutToTest}" Increment="1" Minimum="10"/>
+                            </StackPanel>
 
-                        <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" Margin="10,0,0,10">
-                            <Label Content="Общее время теста: "/>
-                            <Label Content="{Binding FullTime}"/>
-                        </StackPanel>
-
-                    </Grid>
-                </Border>
+                            <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal" Margin="10,0,0,10">
+                                <Label Content="Общее время теста: "/>
+                                <Label Content="{Binding FullTime}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
                 </StackPanel>
 
-                <ListView ItemsSource="{Binding Questions}">
+                <ListView ItemsSource="{Binding Questions}" HorizontalContentAlignment="Stretch">
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem">
                             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                            <Setter Property="MaxWidth" Value="{Binding ActualWidth, ElementName=MainScroll}" />
                         </Style>
                     </ListView.ItemContainerStyle>
                     <ListView.ItemTemplate>
@@ -119,30 +124,37 @@
 
                                     <Expander Grid.Column="0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="AliceBlue" Margin="0,2,0,2">
                                         <Expander.Header>
-                                            <UniformGrid Columns="2" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
-                                                <DockPanel>
+                                            <Grid HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="Auto">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+
+                                                <DockPanel Grid.Column="0">
                                                     <Label Content="Текст вопроса:" Margin="10,0"/>
-                                                    <TextBox TextWrapping="WrapWithOverflow" DockPanel.Dock="Top" MinWidth="100" Text="{Binding QuestionText}"/>
+                                                    <TextBox TextWrapping="Wrap" DockPanel.Dock="Top" MinWidth="100" Text="{Binding QuestionText}"/>
                                                 </DockPanel>
 
-                                                <StackPanel Orientation="Horizontal">
-                                                <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" Margin="5, 0" Foreground="Beige"  Padding="5">
-                                                    <Button.Background>
-                                                        <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
-                                                            <GradientStop Color="#99FF0000" Offset="0"/>
-                                                            <GradientStop Color="#99830D0D" Offset="1"/>
-                                                        </LinearGradientBrush>
-                                                    </Button.Background>
-                                                </Button>
+                                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                                    <Button DockPanel.Dock="Right" Content="Удалить вопрос" Command="{Binding RelativeSource={RelativeSource AncestorType = ListView}, Path=DataContext.TestModel.DeleteCommand}" CommandParameter="{Binding}" Margin="5, 0" Foreground="Beige"  Padding="5">
+                                                        <Button.Background>
+                                                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                                                <GradientStop Color="#99FF0000" Offset="0"/>
+                                                                <GradientStop Color="#99830D0D" Offset="1"/>
+                                                            </LinearGradientBrush>
+                                                        </Button.Background>
+                                                    </Button>
                                                 <Button DockPanel.Dock="Right" Content="Создать копию"  Command="{Binding RelativeSource={RelativeSource AncestorType = ScrollViewer}, Path=DataContext.CopyCommand}" CommandParameter="{Binding}" Margin="5, 0"  Padding="5"/>
                                                 </StackPanel>
-                                            </UniformGrid>
+                                            </Grid>
                                         </Expander.Header>
+
                                         <StackPanel Orientation="Vertical">
-                                            <ListView ItemsSource="{Binding Answers}">
+                                            <ListView ItemsSource="{Binding Answers}" x:Name="AnswersScroll">
                                                 <ListView.ItemContainerStyle>
                                                     <Style TargetType="ListViewItem">
                                                         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+                                                        <Setter Property="MaxWidth" Value="{Binding ActualWidth, ElementName=AnswersScroll}" />
                                                     </Style>
                                                 </ListView.ItemContainerStyle>
                                                 <ListView.ItemTemplate>
@@ -163,7 +175,7 @@
                                                                 </Button.Background>
                                                             </Button>
                                                             <CheckBox Margin="20,0" Grid.Column="1" IsChecked="{Binding IsRight, UpdateSourceTrigger=LostFocus}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                                            <TextBox MinWidth="40"  Grid.Column="2" Text="{Binding AnswerText, UpdateSourceTrigger=LostFocus}"  Margin="5,0"/>
+                                                            <TextBox TextWrapping="Wrap" MinWidth="40"  Grid.Column="2" Text="{Binding AnswerText, UpdateSourceTrigger=LostFocus}"  Margin="5,0"/>
                                                             <Label Grid.Column="0" Margin="20,0" Content = "Ответ:"/>
                                                         </Grid>
                                                     </DataTemplate>
@@ -172,6 +184,7 @@
                                             <Button Command="{Binding AddEmptyCommand}" HorizontalAlignment="Left" Content="Добавить ответ" Margin="20,10" Padding="5"/>
                                         </StackPanel>
                                     </Expander>
+
                                 </Grid>
                             </Border>
                         </DataTemplate>
